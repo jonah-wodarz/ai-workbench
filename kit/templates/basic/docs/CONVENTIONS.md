@@ -15,7 +15,7 @@ How every document in `docs/` is structured and written. This file is binding: i
 | `doc` | `docs/<area>/` | One topic | A second topic; history; debate |
 | `registry` | `docs/` | `GLOSSARY` | Behaviour or numbers owned elsewhere |
 | `index` | `docs/` | `MAP` (generated), other lists of links | Content; discussion |
-| `ideas` | `docs/` | `parking-lot`: one line per idea | Discussion, decisions |
+| `ideas` | `docs/` | `parking-lot`: one line per in-scope idea; *Out of scope* section for ideas ruled out | Discussion, decisions |
 
 `docs/archive/` holds superseded point-in-time documents. Nothing in it is current.
 

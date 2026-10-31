@@ -2,6 +2,14 @@
 
 All notable changes to doc-kit. Versions follow [SemVer](https://semver.org/).
 
+## 0.1.1 — Separate in-scope ideas from ruled-out ones
+The parking lot mixed ideas waiting for their layer with ideas rejected for the project; the first graduate, the second never should.
+
+- **Changed**
+  - `kit/templates/*/docs/parking-lot.md` — added an *Out of scope* section (one line + reason; never graduates).
+  - `kit/templates/*/docs/CONVENTIONS.md` — parking-lot rules describe both lists.
+  - `kit/tools/doclint.py` — version 0.1.1 (no behaviour change).
+
 ## 0.1.0 — Initial kit, generalized from Wayfarer's doclint
 Wayfarer's lint proved that mechanical doc rules work best as a deterministic check; this release makes it reusable across projects via config.
 

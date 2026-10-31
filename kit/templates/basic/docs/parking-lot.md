@@ -8,3 +8,6 @@ Ideas captured so they are not lost, one line each, filed under the area they be
 
 ## <Area>
 - **<Idea>** — <one line>
+
+## Out of scope
+Ideas consciously ruled out, one line each with the reason. These never come back unless the scope changes.
