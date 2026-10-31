@@ -1,0 +1,3 @@
+# Retired FACTS: one regex per line, optional "=> hint".
+# Retired NAMES live in docs/GLOSSARY.md (Retired names table), not here.
+# Errors in files with front matter, warnings elsewhere.
