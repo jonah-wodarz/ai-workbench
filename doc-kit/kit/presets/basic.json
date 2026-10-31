@@ -1,0 +1,39 @@
+{
+  "_comment": "doc-kit preset 'basic': any multi-file docs project. Copy to tools/doclint.json and adapt. Keys: CONFIG.md.",
+  "root": "..",
+  "docs_dir": "docs",
+  "skip_dirs": ["archive", "templates"],
+  "codes": {"file": null, "inline": {}},
+  "types": {
+    "doc": {"required": ["title", "type", "status", "updated"]},
+    "registry": {"required": ["title", "type", "updated"]},
+    "index": {"required": ["title", "type", "updated"]},
+    "ideas": {"required": ["title", "type", "updated"]},
+    "playbook": {"required": ["title", "type", "status", "updated", "runs"]},
+    "runlog": {"required": ["title", "type", "updated"]}
+  },
+  "enums": {"status": ["draft", "current", "deprecated"]},
+  "date_fields": ["updated", "last_run"],
+  "unique_id_exempt_types": [],
+  "prose": {
+    "types": ["doc", "registry", "index", "ideas", "playbook"],
+    "checks": ["heading_emoji", "heading_date", "changelog_heading", "star", "strikethrough", "first_person"],
+    "patterns": []
+  },
+  "word_budget": {"doc": 1500, "playbook": 1200},
+  "stale_terms": {
+    "file": "tools/stale-terms.txt",
+    "retired_names": {"file": "GLOSSARY.md", "heading": "## Retired names", "use_column": 1, "pattern_column": 2},
+    "exempt": {"exclude": ["GLOSSARY.md", "CONVENTIONS.md"], "include": []}
+  },
+  "expect_front_matter": {"include": [""], "exclude_regex": null},
+  "map": {
+    "source": "files",
+    "columns": [["Title", "title"], ["Type", "type"], ["Status", "status"], ["Updated", "updated"], ["File", "link"]],
+    "sort": ["type", "title"]
+  },
+  "plugins": ["style"],
+  "plugin_config": {
+    "style": {"types": ["doc"], "max_sentence_words": 30, "max_bold_per_100_words": 4}
+  }
+}
