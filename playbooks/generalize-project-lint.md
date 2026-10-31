@@ -42,4 +42,4 @@ last_run: 2026-10-31
 
 ## See also
 - Run log: [`runs/generalize-project-lint.md`](runs/generalize-project-lint.md)
-- Result of the first run: [`../doc-kit/`](../doc-kit/)
+- Result of the first run: [doc-kit](../skills/doc-kit/SKILL.md)

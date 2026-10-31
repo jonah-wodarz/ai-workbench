@@ -3,7 +3,6 @@
   "root": "..",
   "docs_dir": ".",
   "skip_dirs": [
-    "doc-kit",
     "skills",
     "tools"
   ],
