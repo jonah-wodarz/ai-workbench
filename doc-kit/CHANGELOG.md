@@ -2,6 +2,15 @@
 
 All notable changes to doc-kit. Versions follow [SemVer](https://semver.org/).
 
+## 0.2.1 — Fewer false positives, filtered index
+Found while linting the first playbook library: quoting a word as an example tripped the first-person check, and the index listed run logs next to playbooks.
+
+- **Fixed**
+  - `kit/tools/doclint.py` — `check_body`: first-person check ignores inline code spans.
+- **Added**
+  - `kit/tools/doclint.py` — `build_map`: `map.types` limits a files-sourced index to the listed doc types.
+  - `tests/test_doclint.py` — tests for both.
+
 ## 0.2.0 — Playbooks and run logs as doc types
 Supports the `playbook` skill: workflows worked out by trial and error get a checked home next to the other docs.
 

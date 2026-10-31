@@ -356,6 +356,26 @@ class Playbooks(unittest.TestCase):
         self.assertIn("missing 'runs'", out)
         self.assertIn("'last_run' must be YYYY-MM-DD", out)
 
+    def test_first_person_inside_inline_code_is_ignored(self):
+        root = self.project("basic")
+        self.edit(root, "docs/playbooks/deploy.md", "## Gotchas", "The pattern `my` and `I think` are examples.\n\n## Gotchas")
+        self.assertEqual(self.lint(root)[0], 0)
+        self.edit(root, "docs/playbooks/deploy.md", "are examples.", "are examples, my friend.")
+        self.assertIn("first person", self.lint(root)[1])
+
+    def test_map_types_filter(self):
+        root = self.project("basic")
+        cfg_path = os.path.join(root, "tools", "doclint.json")
+        with open(cfg_path, encoding="utf-8") as f:
+            cfg = json.load(f)
+        cfg["map"]["types"] = ["playbook"]
+        with open(cfg_path, "w", encoding="utf-8") as f:
+            json.dump(cfg, f)
+        out = subprocess.run([sys.executable, "tools/doclint.py", "--map"], cwd=root, stdout=subprocess.PIPE,
+                             universal_newlines=True).stdout
+        self.assertIn("playbooks/deploy.md", out)
+        self.assertNotIn("runs/deploy.md", out)
+
     def test_run_log_allows_first_person(self):
         root = self.project("basic")
         self.edit(root, "docs/playbooks/runs/deploy.md", "<attempt>", "I tried my first idea")
