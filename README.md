@@ -40,3 +40,7 @@ The skills use the open `SKILL.md` format, which several agents read (Claude, Cl
 ## Credits
 
 `interrogate` adapts the round-based questioning of [`grilling`](https://github.com/mattpocock/skills) by Matt Pocock (MIT). Several revisions follow ideas from his `writing-for-agents` and `wayfinder` skills.
+
+## License
+
+[MIT](LICENSE). Third-party ideas credited above remain under their own licenses.
