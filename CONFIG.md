@@ -46,7 +46,7 @@ Every `.md` under `root` is scanned (hidden folders excluded). Files without fro
 | `sections.<name>` | `{heading, allowed_status, exempt, message}`. `heading` is the lower-cased `## ` line. `allowed_status` errors if the section appears with another status; `exempt` skips prose/ID checks inside it |
 | `tags.rule` / `tags.question` | `{types, values}`: each rule/question line must end with exactly one tag. `rule.section_only` maps a section heading to the only tag allowed there (and only there) |
 | `prose.types` | Types the prose checks apply to |
-| `prose.checks` | Any of `heading_emoji`, `heading_date`, `changelog_heading`, `star`, `strikethrough`, `first_person` |
+| `prose.checks` | Any of `heading_emoji`, `heading_date`, `changelog_heading`, `star`, `strikethrough`, `first_person` (inline code is ignored) |
 | `prose.patterns` | `[{regex, level: warn|error, message}]` custom line checks |
 | `word_budget` | `{type: words}` warning threshold (exempt sections excluded) |
 
@@ -67,6 +67,7 @@ Every `.md` under `root` is scanned (hidden folders excluded). Files without fro
 | `map.source` | `codes` (one row per code, shows missing/unmigrated owners) or `files` (one row per file with front matter) |
 | `map.columns` | `[[header, field], ...]`; fields: `code`, `link` or any front-matter key |
 | `map.sort` | Fields to sort by |
+| `map.types` | Only these doc types appear (`source: files` only); default all |
 
 ## Plugins
 

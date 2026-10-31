@@ -19,7 +19,7 @@ import os
 import re
 import sys
 
-__version__ = "0.2.0"
+__version__ = "0.2.1"
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DEFAULT_CONFIG = os.path.join(HERE, "doclint.json")
@@ -29,6 +29,7 @@ DATE = re.compile(r"\b\d{4}-\d{2}-\d{2}\b")
 FIRST_PERSON = re.compile(r"\b(I'm|I've|I'd|I'll|[Mm]y|me)\b|\bI\s+[a-z]")
 FENCE = re.compile(r"^(```|~~~)")
 LINK = re.compile(r"\]\(([^)#\s]+)(?:#[^)]*)?\)")
+INLINE_CODE = re.compile(r"`[^`]*`")
 
 DEFAULTS = {
     "docs_dir": "docs",
@@ -496,7 +497,7 @@ def check_body(project, doc, report):
                 report.error(doc.path, n, "'★' is not used in specs")
             if "strikethrough" in checks and "~~" in line:
                 report.error(doc.path, n, "strikethrough; replace superseded text instead")
-            if "first_person" in checks and FIRST_PERSON.search(line):
+            if "first_person" in checks and FIRST_PERSON.search(INLINE_CODE.sub("", line)):
                 report.error(doc.path, n, "first person in spec text")
             for rx, level, msg in patterns:
                 if rx.search(line):
@@ -564,6 +565,8 @@ def build_map(project):
             project.load()
         for doc in project.files.values():
             if not doc.migrated or doc.rel.startswith(".."):
+                continue
+            if spec.get("types") and doc.fm.get("type") not in spec["types"]:
                 continue
             values = {"code": doc.fm.get("id", "—"), "link": doc.rel}
             for key in [f for _, f in columns] + list(sort_keys):
