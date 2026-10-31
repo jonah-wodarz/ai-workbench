@@ -7,43 +7,57 @@
   "code_path_prefixes": ["", "design/"],
   "id_scheme": {"code": "[A-Z]{3}", "rule": "R", "question": "Q", "decision_prefix": "D", "decision_digits": 3},
   "types": {
-    "spec":      {"required": ["id", "title", "type", "layer", "status", "updated"], "enums_always": ["layer"], "id_matches_path": true},
-    "data":      {"required": ["id", "title", "type", "status", "updated"], "id_matches_path": true},
+    "spec": {
+      "required": ["id", "title", "type", "layer", "status", "updated"],
+      "enums_always": ["layer"],
+      "id_matches_path": true
+    },
+    "data": {"required": ["id", "title", "type", "status", "updated"], "id_matches_path": true},
     "decisions": {"required": ["id", "title", "type", "updated"]},
-    "registry":  {"required": ["id", "title", "type", "updated"], "id_matches_path": true},
-    "vision":    {"required": ["id", "title", "type", "updated"], "id_matches_path": true},
-    "ideas":     {"required": ["id", "title", "type", "updated"], "id_matches_path": true}
+    "registry": {"required": ["id", "title", "type", "updated"], "id_matches_path": true},
+    "vision": {"required": ["id", "title", "type", "updated"], "id_matches_path": true},
+    "ideas": {"required": ["id", "title", "type", "updated"], "id_matches_path": true},
+    "playbook": {
+      "required": ["title", "type", "status", "updated", "runs"],
+      "enums": {"status": ["draft", "current", "deprecated"]}
+    },
+    "runlog": {"required": ["title", "type", "updated"]}
   },
-  "enums": {
-    "status": ["idea", "drafting", "settled", "locked", "deferred"],
-    "layer": ["L0", "L1", "L2", "L3", "L4"]
-  },
-  "date_fields": ["updated"],
+  "enums": {"status": ["idea", "drafting", "settled", "locked", "deferred"], "layer": ["L0", "L1", "L2", "L3", "L4"]},
+  "date_fields": ["updated", "last_run"],
   "depends_field": "depends_on",
   "unique_id_exempt_types": ["decisions"],
   "decision_log_types": ["decisions"],
   "mirror": {"types": ["spec", "data"], "from": "design/", "to": "decisions/"},
   "sections": {
-    "notes": {"heading": "## working notes", "allowed_status": ["idea", "drafting"], "exempt": true,
-              "message": "working notes are only allowed while status is idea or drafting"}
+    "notes": {
+      "heading": "## working notes",
+      "allowed_status": ["idea", "drafting"],
+      "exempt": true,
+      "message": "working notes are only allowed while status is idea or drafting"
+    }
   },
   "tags": {
-    "rule": {"types": ["spec"], "values": ["locked", "leaning", "placeholder"],
-             "section_only": {"## provisional rules": "leaning"}},
+    "rule": {
+      "types": ["spec"],
+      "values": ["locked", "leaning", "placeholder"],
+      "section_only": {"## provisional rules": "leaning"}
+    },
     "question": {"types": ["spec"], "values": ["blocking", "major", "minor", "deferred"]}
   },
   "prose": {
-    "types": ["spec", "data", "registry", "vision", "ideas"],
+    "types": ["spec", "data", "registry", "vision", "ideas", "playbook"],
     "checks": ["heading_emoji", "heading_date", "changelog_heading", "star", "strikethrough", "first_person"],
-    "patterns": [
-      {"regex": "\\bv\\d+\\+?(?!\\w|\\.\\d)", "level": "warn", "message": "release scheduling in spec text; keep timing out of specs until L3-L4"}
-    ]
+    "patterns": [{"regex": "\\bv\\d+\\+?(?!\\w|\\.\\d)", "level": "warn", "message": "release scheduling in spec text; keep timing out of specs until L3-L4"}]
   },
-  "word_budget": {"spec": 1500},
+  "word_budget": {"spec": 1500, "playbook": 1200},
   "stale_terms": {
     "file": "tools/stale-terms.txt",
     "retired_names": {"file": "GLOSSARY.md", "heading": "## Retired names", "use_column": 1, "pattern_column": 2},
-    "exempt": {"exclude": ["decisions/", "CONVENTIONS.md", "GLOSSARY.md", "planning/"], "include": ["planning/OPEN_QUESTIONS.md"]}
+    "exempt": {
+      "exclude": ["decisions/", "CONVENTIONS.md", "GLOSSARY.md", "planning/"],
+      "include": ["planning/OPEN_QUESTIONS.md"]
+    }
   },
   "refs": {
     "exempt": {"exclude": ["decisions/", "CONVENTIONS.md", "planning/"], "include": ["planning/OPEN_QUESTIONS.md"]}
@@ -55,5 +69,7 @@
     "sort": ["domain", "code"]
   },
   "plugins": ["style"],
-  "plugin_config": {"style": {"types": ["spec"], "max_sentence_words": 30, "max_bold_per_100_words": 4}}
+  "plugin_config": {
+    "style": {"types": ["spec"], "max_sentence_words": 30, "max_bold_per_100_words": 4}
+  }
 }

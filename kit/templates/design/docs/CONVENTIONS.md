@@ -20,6 +20,8 @@ How every document in `docs/` is structured and written. This file is binding: i
 | `registry` | `docs/` | `GLOSSARY`, `SYSTEM_MAP` | Numbers or mechanics owned elsewhere |
 | `vision` | `docs/design/` | `DESIGN_VISION`: L0/L1 pillars and intent | Mechanics, numbers |
 | `ideas` | `docs/design/` | `parking-lot`: one line per idea | Discussion, decisions |
+| `playbook` | `docs/playbooks/` | One repeatable workflow: steps with done-conditions, gotchas, verification. Status `draft` · `current` · `deprecated` | Run history, dead ends |
+| `runlog` | `docs/playbooks/runs/` | Dated runs of one playbook: what was tried, results, why | Current procedure |
 | research | `docs/research/` | Sourced external knowledge (no front matter needed) | Project decisions |
 | planning | `docs/planning/` | `OPEN_QUESTIONS` index, roadmaps, audits | Design content |
 

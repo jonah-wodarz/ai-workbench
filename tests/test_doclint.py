@@ -302,6 +302,66 @@ class BasicPreset(ProjectCase):
         self.assertIn("| Setup | doc | current | 2026-10-01 | [`guide/setup.md`](guide/setup.md) |", out)
 
 
+class Playbooks(unittest.TestCase):
+    """Playbook and run-log templates lint clean as real docs in both presets; statuses are per type."""
+
+    def project(self, preset):
+        root = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, root)
+        shutil.copytree(os.path.join(KIT, "tools"), os.path.join(root, "tools"))
+        shutil.copy(os.path.join(KIT, "presets", preset + ".json"), os.path.join(root, "tools", "doclint.json"))
+        tdir = os.path.join(KIT, "templates", preset, "docs", "templates")
+        for src, dst in (("playbook.md", "docs/playbooks/deploy.md"), ("run-log.md", "docs/playbooks/runs/deploy.md")):
+            with open(os.path.join(tdir, src), encoding="utf-8") as f:
+                text = f.read().replace("YYYY-MM-DD", "2026-10-31").replace("<file>", "deploy")
+            path = os.path.join(root, dst)
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            with open(path, "w", encoding="utf-8") as f:
+                f.write(text)
+        if preset == "design":
+            shutil.copy(os.path.join(KIT, "templates", "design", "docs", "CONVENTIONS.md"),
+                        os.path.join(root, "docs", "CONVENTIONS.md"))
+        return root
+
+    def lint(self, root):
+        p = subprocess.run([sys.executable, "tools/doclint.py"], cwd=root, stdout=subprocess.PIPE,
+                           stderr=subprocess.PIPE, universal_newlines=True)
+        self.assertNotIn("Traceback", p.stderr, p.stderr)
+        return p.returncode, p.stdout
+
+    def edit(self, root, rel, old, new):
+        path = os.path.join(root, rel)
+        with open(path, encoding="utf-8") as f:
+            text = f.read()
+        with open(path, "w", encoding="utf-8") as f:
+            f.write(text.replace(old, new))
+
+    def test_templates_clean_in_both_presets(self):
+        for preset in ("basic", "design"):
+            rc, out = self.lint(self.project(preset))
+            self.assertEqual(rc, 0, preset + "\n" + out)
+            self.assertIn("0 errors, 0 warnings", out)
+
+    def test_design_statuses_are_per_type(self):
+        root = self.project("design")
+        self.edit(root, "docs/playbooks/deploy.md", "status: draft", "status: settled")
+        rc, out = self.lint(root)
+        self.assertIn("unknown status 'settled'", out)
+
+    def test_playbook_needs_runs_and_valid_last_run(self):
+        root = self.project("basic")
+        self.edit(root, "docs/playbooks/deploy.md", "runs: 1\n", "")
+        self.edit(root, "docs/playbooks/deploy.md", "last_run: 2026-10-31", "last_run: yesterday")
+        out = self.lint(root)[1]
+        self.assertIn("missing 'runs'", out)
+        self.assertIn("'last_run' must be YYYY-MM-DD", out)
+
+    def test_run_log_allows_first_person(self):
+        root = self.project("basic")
+        self.edit(root, "docs/playbooks/runs/deploy.md", "<attempt>", "I tried my first idea")
+        self.assertEqual(self.lint(root)[0], 0)
+
+
 class Scaffold(unittest.TestCase):
     """A fresh project from each template set must lint clean once dates are filled in."""
 

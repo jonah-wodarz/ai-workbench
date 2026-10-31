@@ -19,7 +19,7 @@ import os
 import re
 import sys
 
-__version__ = "0.1.1"
+__version__ = "0.2.0"
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DEFAULT_CONFIG = os.path.join(HERE, "doclint.json")
@@ -407,7 +407,9 @@ def check_front_matter(project, doc, report):
     if code and code not in project.codes:
         report.error(doc.path, 1, "front matter: id '{}' is not in the code table".format(code))
     always = set(tcfg.get("enums_always", []))
-    for key, values in cfg["enums"].items():
+    enums = dict(cfg["enums"])
+    enums.update(tcfg.get("enums", {}))  # per-type values override the global ones
+    for key, values in enums.items():
         if key in fm or key in always:
             if fm.get(key) not in values:
                 report.error(doc.path, 1, "front matter: unknown {} '{}'".format(key, fm.get(key)))

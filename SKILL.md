@@ -16,7 +16,7 @@ Mechanical doc rules get a deterministic check; prose rules are kept for judgmen
 | `kit/tools/hooks/pre-commit` | Runs the lint before commits; errors block |
 | `kit/presets/basic.json` | Any docs project: front matter, links, glossary retired names, prose rules, generated map |
 | `kit/presets/design.json` | Design projects (design-capture): specs + decision history, IDs, tags, L0-L4, open-questions index |
-| `kit/templates/basic/`, `kit/templates/design/` | Entry files: README, PROJECT_STRUCTURE, CONVENTIONS, GLOSSARY, map, parking lot (+ spec/decisions/data templates for design) |
+| `kit/templates/basic/`, `kit/templates/design/` | Entry files: README, PROJECT_STRUCTURE, CONVENTIONS, GLOSSARY, map, parking lot; `docs/templates/` with playbook and run-log (+ spec/decisions/data for design) |
 | `CONFIG.md` | Every config key and plugin hook |
 | `examples/wayfarer/` | A real project's config + plugin, for reference |
 

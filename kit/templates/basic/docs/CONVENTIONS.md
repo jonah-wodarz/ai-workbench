@@ -15,6 +15,8 @@ How every document in `docs/` is structured and written. This file is binding: i
 | `doc` | `docs/<area>/` | One topic | A second topic; history; debate |
 | `registry` | `docs/` | `GLOSSARY` | Behaviour or numbers owned elsewhere |
 | `index` | `docs/` | `MAP` (generated), other lists of links | Content; discussion |
+| `playbook` | `docs/playbooks/` | One repeatable workflow: steps with done-conditions, gotchas, verification | Run history, dead ends |
+| `runlog` | `docs/playbooks/runs/` | Dated runs of one playbook: what was tried, results, why | Current procedure |
 | `ideas` | `docs/` | `parking-lot`: one line per in-scope idea; *Out of scope* section for ideas ruled out | Discussion, decisions |
 
 `docs/archive/` holds superseded point-in-time documents. Nothing in it is current.
@@ -24,8 +26,8 @@ How every document in `docs/` is structured and written. This file is binding: i
 ```yaml
 ---
 title: Setup guide
-type: doc                 # doc | registry | index | ideas
-status: current           # doc only: draft | current | deprecated
+type: doc                 # doc | registry | index | ideas | playbook | runlog
+status: current           # doc and playbook: draft | current | deprecated
 updated: 2026-10-31
 ---
 ```

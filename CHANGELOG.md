@@ -2,6 +2,18 @@
 
 All notable changes to doc-kit. Versions follow [SemVer](https://semver.org/).
 
+## 0.2.0 — Playbooks and run logs as doc types
+Supports the `playbook` skill: workflows worked out by trial and error get a checked home next to the other docs.
+
+- **Added**
+  - `kit/templates/*/docs/templates/playbook.md`, `run-log.md` — playbook (steps with done-conditions, gotchas, verify) and its run log (dated attempts table).
+  - Presets: types `playbook` (requires `runs`; prose rules apply; ~1,200-word budget) and `runlog` (exempt from prose rules); `last_run` date field.
+  - `tests/test_doclint.py` — `Playbooks`: templates lint clean in both presets, per-type statuses, required fields, first person allowed in run logs.
+- **Changed**
+  - `kit/tools/doclint.py` — `check_front_matter`: `types.<type>.enums` override the global enums, so a design project's playbooks use `draft · current · deprecated` while specs keep their lifecycle.
+  - Templates: CONVENTIONS doc-type tables and PROJECT_STRUCTURE list `playbooks/`.
+  - `CONFIG.md`, `SKILL.md` — document the above.
+
 ## 0.1.1 — Separate in-scope ideas from ruled-out ones
 The parking lot mixed ideas waiting for their layer with ideas rejected for the project; the first graduate, the second never should.
 

@@ -31,6 +31,7 @@ Every `.md` under `root` is scanned (hidden folders excluded). Files without fro
 | `types.<type>.required` | Keys that must be present and non-empty |
 | `types.<type>.enums_always` | Enum keys checked even when missing (reports `unknown <key> 'None'`) |
 | `types.<type>.id_matches_path` | The file's `id` must map to this file in the code table |
+| `types.<type>.enums` | Per-type enum values, overriding `enums` for that type (e.g. playbook statuses in a design project) |
 | `enums` | `{key: [allowed values]}`, checked whenever the key is present |
 | `date_fields` | Keys that must be `YYYY-MM-DD` |
 | `depends_field` | Key listing codes this doc depends on (unknown codes warn) |
