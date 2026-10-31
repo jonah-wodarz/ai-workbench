@@ -1,0 +1,126 @@
+{
+  "_comment": "Lint for this repo's playbook library. Skills and doc-kit are checked by their own means. Keys: doc-kit/CONFIG.md.",
+  "root": "..",
+  "docs_dir": ".",
+  "skip_dirs": [
+    "doc-kit",
+    "skills",
+    "tools"
+  ],
+  "codes": {
+    "file": null,
+    "inline": {}
+  },
+  "types": {
+    "playbook": {
+      "required": [
+        "title",
+        "type",
+        "status",
+        "updated",
+        "runs"
+      ]
+    },
+    "runlog": {
+      "required": [
+        "title",
+        "type",
+        "updated"
+      ]
+    },
+    "index": {
+      "required": [
+        "title",
+        "type",
+        "updated"
+      ]
+    }
+  },
+  "enums": {
+    "status": [
+      "draft",
+      "current",
+      "deprecated"
+    ]
+  },
+  "date_fields": [
+    "updated",
+    "last_run"
+  ],
+  "unique_id_exempt_types": [],
+  "prose": {
+    "types": [
+      "playbook",
+      "index"
+    ],
+    "checks": [
+      "heading_emoji",
+      "heading_date",
+      "changelog_heading",
+      "star",
+      "strikethrough",
+      "first_person"
+    ],
+    "patterns": []
+  },
+  "word_budget": {
+    "playbook": 1200
+  },
+  "stale_terms": {
+    "file": "tools/stale-terms.txt",
+    "retired_names": null,
+    "exempt": {
+      "exclude": [],
+      "include": []
+    }
+  },
+  "expect_front_matter": {
+    "include": [
+      "playbooks/"
+    ],
+    "exclude_regex": null
+  },
+  "map": {
+    "source": "files",
+    "columns": [
+      [
+        "Playbook",
+        "title"
+      ],
+      [
+        "Status",
+        "status"
+      ],
+      [
+        "Runs",
+        "runs"
+      ],
+      [
+        "Last run",
+        "last_run"
+      ],
+      [
+        "File",
+        "link"
+      ]
+    ],
+    "sort": [
+      "title"
+    ],
+    "types": [
+      "playbook"
+    ]
+  },
+  "plugins": [
+    "style"
+  ],
+  "plugin_config": {
+    "style": {
+      "types": [
+        "playbook"
+      ],
+      "max_sentence_words": 30,
+      "max_bold_per_100_words": 4
+    }
+  }
+}
