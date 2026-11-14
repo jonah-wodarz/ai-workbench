@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Explainer</title>
+<style>
+/*@@BASE_CSS_START*/
+/* shared base: one visual language for all handoff templates */
+:root{
+  --bg:#f3f5f9; --surface:#ffffff; --surface-2:#e9edf4; --ink:#161c29; --ink-2:#434d63; --muted:#667188;
+  --line:#d3d9e4; --line-2:#e4e8f0;
+  --accent:#1c5cab; --accent-ink:#ffffff; --accent-soft:#dde9f8;
+  --good:#17704a; --good-soft:#dcf1e6; --warn:#8f5200; --warn-soft:#fbebcb; --bad:#a93226; --bad-soft:#f8dfda;
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono","Cascadia Mono",Menlo,Consolas,monospace;
+  --r:6px; color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#10141c; --surface:#181e29; --surface-2:#222a38; --ink:#e7eaf1; --ink-2:#b4bccd; --muted:#8c97ad;
+  --line:#313b4d; --line-2:#262e3c;
+  --accent:#7db4ec; --accent-ink:#0b1626; --accent-soft:#1d2d44;
+  --good:#5cc79a; --good-soft:#15332a; --warn:#e8b25a; --warn-soft:#3a2d12; --bad:#f0907f; --bad-soft:#3d1f1a;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#10141c; --surface:#181e29; --surface-2:#222a38; --ink:#e7eaf1; --ink-2:#b4bccd; --muted:#8c97ad;
+  --line:#313b4d; --line-2:#262e3c;
+  --accent:#7db4ec; --accent-ink:#0b1626; --accent-soft:#1d2d44;
+  --good:#5cc79a; --good-soft:#15332a; --warn:#e8b25a; --warn-soft:#3a2d12; --bad:#f0907f; --bad-soft:#3d1f1a;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; color-scheme:dark}
+
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 var(--sans);overflow-x:hidden}
+.page{max-width:1120px;margin:0 auto;padding-block:20px 72px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{text-wrap:balance;margin:0}
+p{margin:0}
+code,.mono{font-family:var(--mono);font-size:.92em}
+code{background:var(--surface-2);padding:.05em .35em;border-radius:4px}
+strong.term{font-weight:650;color:var(--ink)}
+.num{font-variant-numeric:tabular-nums}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button,input,select,textarea{font:inherit;color:inherit}
+
+/* header */
+.hd{display:grid;gap:18px 32px;grid-template-columns:minmax(0,1fr);padding-bottom:20px;border-bottom:1px solid var(--line)}
+.hd-top{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.hd h1{font:600 clamp(1.5rem,4.2vw,2.1rem)/1.15 var(--serif);letter-spacing:-.01em}
+.bottom{font:400 clamp(1.05rem,2.6vw,1.3rem)/1.4 var(--serif);color:var(--ink);max-width:62ch;margin-top:10px}
+.ask{margin-top:14px;background:var(--accent-soft);border-radius:var(--r);padding:10px 14px;max-width:62ch;color:var(--ink)}
+.ask b{font-weight:650}
+.meta{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;margin:0;font-size:.85rem;align-content:start}
+.meta dt{color:var(--muted)} .meta dd{margin:0;overflow-wrap:anywhere}
+.meta .src{font-family:var(--mono);font-size:.82em}
+@media (min-width:820px){.hd{grid-template-columns:minmax(0,1fr) 270px}.hd-top{grid-column:1/-1}}
+
+/* controls */
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:var(--r);padding:6px 12px;cursor:pointer;min-height:34px;line-height:1.2}
+.btn:hover{border-color:var(--muted)}
+.btn.pri{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:600}
+.btn.pri:hover{filter:brightness(1.08)}
+.btn.ghost{background:transparent}
+.btn[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent)}
+.btn:disabled{opacity:.5;cursor:default}
+.chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:2px 10px;font-size:.82rem;line-height:1.5;color:var(--ink-2)}
+button.chip{cursor:pointer;min-height:30px}
+button.chip[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--ink)}
+.chip.mono{font-family:var(--mono);font-size:.78rem}
+.tag{display:inline-block;border-radius:4px;padding:0 6px;font-size:.75rem;font-weight:600;line-height:1.6;background:var(--surface-2);color:var(--ink-2)}
+.tag.good{background:var(--good-soft);color:var(--good)} .tag.warn{background:var(--warn-soft);color:var(--warn)}
+.tag.bad{background:var(--bad-soft);color:var(--bad)} .tag.info{background:var(--accent-soft);color:var(--accent)}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+select,input[type=search],input[type=text],textarea{border:1px solid var(--line);background:var(--surface);border-radius:var(--r);padding:6px 10px;min-height:34px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+
+/* answer block */
+.answer{margin-top:28px;padding:16px;display:grid;gap:10px}
+.answer h2{font:600 1.1rem var(--serif)}
+.answer p{color:var(--ink-2);font-size:.9rem}
+.answer textarea{width:100%;font:.84rem/1.5 var(--mono);resize:vertical;min-height:120px;background:var(--bg)}
+
+/* tooltip */
+.tip{position:fixed;z-index:50;pointer-events:none;background:var(--ink);color:var(--bg);padding:5px 9px;border-radius:5px;font-size:.8rem;max-width:260px;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+
+/* error */
+.fail{margin:24px 0;padding:16px;border:1px solid var(--bad);background:var(--bad-soft);color:var(--bad);border-radius:var(--r)}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media print{
+  :root:root:root{--bg:#fff;--surface:#fff;--surface-2:#eef0f4;--ink:#111;--ink-2:#333;--muted:#555;--line:#bbb;--line-2:#ddd;
+    --accent:#1c5cab;--accent-ink:#fff;--accent-soft:#e6eefa;--good:#17704a;--good-soft:#e3f3ea;--warn:#8f5200;--warn-soft:#fbeed4;--bad:#a93226;--bad-soft:#f9e4e0;color-scheme:light}
+  body{font-size:11pt}.page{max-width:none;padding-block:0}
+  .noprint,.btn,.answer textarea{display:none!important}
+  .answer{break-inside:avoid}
+}
+/*@@BASE_CSS_END*/
+/* explainer */
+.shell{display:grid;gap:20px 40px;margin-top:22px;grid-template-columns:minmax(0,1fr)}
+@media (min-width:960px){.shell{grid-template-columns:210px minmax(0,1fr)}}
+.toc{position:sticky;top:env(safe-area-inset-top,0px);z-index:6;background:var(--bg);align-self:start;padding:8px 0}
+@media (min-width:960px){.toc{top:12px}}
+.toc ol{list-style:none;margin:0;padding:0;display:flex;gap:6px;overflow-x:auto}
+@media (min-width:960px){.toc ol{flex-direction:column;gap:2px;overflow:visible}}
+.toc button{all:unset;box-sizing:border-box;cursor:pointer;display:flex;gap:10px;align-items:baseline;padding:7px 10px;border-radius:var(--r);color:var(--ink-2);font-size:.9rem;line-height:1.3;white-space:nowrap}
+@media (min-width:960px){.toc button{white-space:normal;width:100%}}
+.toc button:hover{background:var(--surface-2)}
+.toc button:focus-visible{outline:2px solid var(--accent)}
+.toc button[aria-current="step"]{background:var(--accent-soft);color:var(--ink);font-weight:600}
+.toc .n{font:600 .8rem var(--mono);min-width:1.4em;color:var(--muted)}
+.toc .seen .n::after{content:"\2713";margin-left:2px;color:var(--good)}
+.toc .lbl{display:none}
+@media (min-width:560px){.toc .lbl{display:inline}}
+.sb{display:flex;gap:12px;align-items:center;flex-wrap:wrap;font-size:.88rem;color:var(--ink-2)}
+.sb .pb{flex:1 1 120px;max-width:260px;height:6px;border-radius:3px;background:var(--line);overflow:hidden}.sb .pb i{display:block;height:100%;background:var(--accent);transition:width .2s}
+.sec{display:grid;gap:18px;margin-top:14px;min-width:0}
+.sec.off{display:none}
+.sec h2{font:600 clamp(1.4rem,3.6vw,1.9rem)/1.2 var(--serif)}
+.idea{font:400 clamp(1.15rem,2.8vw,1.4rem)/1.4 var(--serif);max-width:42ch}
+.prose{font-size:1.0625rem;line-height:1.7;max-width:66ch;color:var(--ink)}
+.co{border-radius:var(--r);padding:12px 16px;max-width:72ch;display:grid;gap:4px}
+.co b.t{font-size:.85rem;display:flex;gap:8px;align-items:center}
+.co b.t i{font:700 .75rem var(--mono);font-style:normal;border-radius:4px;padding:0 6px;background:var(--surface);min-width:1.6em;text-align:center}
+.co.definition{background:var(--accent-soft)}.co.definition b.t{color:var(--accent)}
+.co.pitfall{background:var(--warn-soft)}.co.pitfall b.t{color:var(--warn)}
+.co.example{background:var(--surface-2)}.co.example b.t{color:var(--ink-2)}
+.fig{display:grid;gap:8px;min-width:0}
+.fig h3{font:600 1rem var(--serif)}
+.fig figcaption,.dir{font-size:.85rem;color:var(--muted)}
+.fig{margin:0}
+.flow{list-style:none;margin:0;padding:0;display:grid;gap:0;grid-template-columns:minmax(0,1fr)}
+.flow li{position:relative;border:1px solid var(--line);background:var(--surface);border-radius:var(--r);padding:10px 12px;display:grid;gap:2px;align-content:start}
+.flow li b{font-weight:650}.flow li span{font-size:.85rem;color:var(--ink-2)}
+.flow li+li{margin-top:22px}
+.flow li+li::before{content:"\2193";position:absolute;top:-21px;left:50%;color:var(--muted);font-size:1.1rem;line-height:1}
+@media (min-width:760px){.flow{grid-auto-flow:column;grid-auto-columns:minmax(0,1fr)}.flow li+li{margin:0 0 0 26px}.flow li+li::before{content:"\2192";top:50%;left:-22px;transform:translateY(-50%)}}
+.loop{border:1.5px solid var(--muted);border-top:0;border-radius:0 0 10px 10px;padding:6px 12px;text-align:center;font-size:.85rem;color:var(--ink-2);margin:0 8%}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
+table.dt{border-collapse:collapse;width:100%;font-size:.92rem}
+.dt th,.dt td{padding:9px 12px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line-2)}
+.dt th{background:var(--surface-2);font-weight:650;white-space:nowrap}
+.dt td:first-child{font-weight:650}
+.dt td{min-width:110px}
+.dt tr:last-child td{border-bottom:0}
+.ly{display:grid;gap:6px}
+.ly>div{display:grid;grid-template-columns:minmax(110px,170px) minmax(0,1fr) auto;gap:4px 14px;align-items:center;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);overflow:hidden}
+.ly .lb{padding:10px 12px;font-weight:650;align-self:stretch;display:flex;align-items:center}
+.ly .nt{padding:8px 0;color:var(--ink-2);font-size:.92rem}
+.ly .tg{padding-right:12px}
+@media (max-width:620px){.ly>div{grid-template-columns:minmax(0,1fr)}.ly .nt,.ly .tg{padding:0 12px 10px}.ly .nt{padding-top:8px;padding-bottom:0}}
+.lg{display:flex;gap:14px;flex-wrap:wrap;font-size:.85rem;color:var(--ink-2)}
+.lg span{display:inline-flex;gap:6px;align-items:center}.lg i{width:12px;height:12px;border-radius:3px;display:inline-block}
+svg.ch{display:block;width:100%;height:auto;overflow:visible}
+.ch text{fill:var(--ink-2);font:12px var(--sans)}.ch .v{fill:var(--ink);font:600 12px var(--sans)}
+.ch .grid{stroke:var(--line-2);stroke-width:1}.ch .axis{stroke:var(--muted);stroke-width:1}
+.lst{margin:0;padding-left:1.3em;display:grid;gap:6px;max-width:66ch}
+.chk{border:1px solid var(--line);background:var(--surface);border-radius:var(--r);padding:14px 16px;display:grid;gap:10px;max-width:72ch}
+.chk h3{font:600 1rem var(--sans)}
+.chk label{display:flex;gap:10px;align-items:flex-start;padding:6px 8px;border-radius:var(--r);cursor:pointer}
+.chk label:hover{background:var(--surface-2)}
+.chk input{margin-top:4px;accent-color:var(--accent)}
+.chk .res{padding:8px 12px;border-radius:var(--r);font-size:.92rem}
+.chk .res.ok{background:var(--good-soft);color:var(--good)}.chk .res.no{background:var(--bad-soft);color:var(--bad)}
+.chk label.right{background:var(--good-soft)}
+.nav2{display:flex;justify-content:space-between;gap:10px;margin-top:10px}
+@media print{.sec.off{display:grid}.toc,.sb,.nav2,.noprint{display:none}.shell{display:block}.sec{margin-top:24px;break-inside:auto}}
+</style>
+</head>
+<body>
+<main class="page" id="app"></main>
+<script type="application/json" id="handoff-data">{"title":"Sample explainer","date":"2026-01-01","source":"sample","bottom_line":"One idea.","sections":[{"id":"s1","heading":"The idea","idea":"One idea per section.","body":["Short text."]}]}</script>
+<script>
+/*@@BASE_JS_START*/
+/* shared base: helpers used by every handoff template */
+const HF = (() => {
+  const SVGNS = "http://www.w3.org/2000/svg";
+  const PROPS = ["checked", "value", "disabled", "selected"];
+  function apply(el, a) {
+    if (!a) return el;
+    for (const [k, v] of Object.entries(a)) {
+      if (v == null || v === false) continue;
+      if (k === "class") el.setAttribute("class", v);
+      else if (k.startsWith("on") && typeof v === "function") el.addEventListener(k.slice(2), v);
+      else if (PROPS.includes(k)) el[k] = v;
+      else el.setAttribute(k, v === true ? "" : v);
+    }
+    return el;
+  }
+  function add(el, kids) {
+    for (const c of kids) {
+      if (c == null || c === false) continue;
+      if (Array.isArray(c)) add(el, c);
+      else el.append(c instanceof Node ? c : document.createTextNode(String(c)));
+    }
+    return el;
+  }
+  const h = (tag, a, ...kids) => add(apply(document.createElement(tag), a), kids);
+  const s = (tag, a, ...kids) => add(apply(document.createElementNS(SVGNS, tag), a), kids);
+  const $ = (sel, root = document) => root.querySelector(sel);
+  const clear = (el) => { while (el.firstChild) el.removeChild(el.firstChild); return el; };
+
+  /* inline markup: **term** and `code`; data is never parsed as HTML */
+  function md(text) {
+    return String(text ?? "").split(/(\*\*[^*]+\*\*|`[^`]+`)/).filter(Boolean).map((p) =>
+      p.startsWith("**") ? h("strong", { class: "term" }, p.slice(2, -2))
+      : p.startsWith("`") ? h("code", null, p.slice(1, -1)) : p);
+  }
+
+  const THEMES = ["auto", "light", "dark"];
+  function themeButton() {
+    let i = 0;
+    const b = h("button", { class: "btn ghost noprint", type: "button" }, "Theme: auto");
+    b.addEventListener("click", () => {
+      i = (i + 1) % 3;
+      const root = document.documentElement;
+      if (THEMES[i] === "auto") root.removeAttribute("data-theme"); else root.setAttribute("data-theme", THEMES[i]);
+      b.textContent = "Theme: " + THEMES[i];
+    });
+    return b;
+  }
+
+  function header(d, kind, defaultAsk) {
+    const dl = h("dl", { class: "meta" },
+      h("dt", null, "Date"), h("dd", { class: "num" }, d.date),
+      h("dt", null, "Source"), h("dd", { class: "src" }, d.source),
+      h("dt", null, "Format"), h("dd", null, kind));
+    return h("header", { class: "hd" },
+      h("div", { class: "hd-top" }, h("span", { class: "chip" }, kind), themeButton()),
+      h("div", null,
+        h("h1", null, d.title),
+        h("p", { class: "bottom" }, md(d.bottom_line)),
+        h("p", { class: "ask" }, h("b", null, "Your move. "), md(d.ask || defaultAsk))),
+      dl);
+  }
+
+  /* one copyable answer block per page; copyBtn() makes extra buttons wired to the same text */
+  function answerBlock(heading, hint) {
+    const ta = h("textarea", { readonly: true, rows: 6, "aria-label": heading, id: "answer-text" });
+    const note = h("span", { class: "sr", role: "status", "aria-live": "polite" });
+    const copyBtn = () => {
+      const btn = h("button", { class: "btn pri copy-btn", type: "button" }, "Copy answers");
+      btn.addEventListener("click", async () => {
+        let ok = false;
+        try { await navigator.clipboard.writeText(ta.value); ok = true; } catch (e) {
+          ta.focus(); ta.select();
+          try { ok = document.execCommand("copy"); } catch (e2) { ok = false; }
+        }
+        btn.textContent = ok ? "Copied" : "Selected, press Ctrl/Cmd+C";
+        note.textContent = btn.textContent;
+        setTimeout(() => { btn.textContent = "Copy answers"; }, 2200);
+      });
+      return btn;
+    };
+    const el = h("section", { class: "answer panel", "aria-labelledby": "answer-h" },
+      h("h2", { id: "answer-h" }, heading), h("p", null, hint), ta, h("div", { class: "row" }, copyBtn(), note));
+    return { el, copyBtn, set(text) { ta.value = text; ta.rows = Math.min(18, Math.max(5, text.split("\n").length + 1)); } };
+  }
+
+  /* hover and focus tooltip */
+  let tipEl = null;
+  function tip(el, textFn) {
+    const show = (e) => {
+      if (!tipEl) { tipEl = h("div", { class: "tip", role: "tooltip" }); document.body.append(tipEl); }
+      tipEl.textContent = typeof textFn === "function" ? textFn() : textFn;
+      tipEl.hidden = false;
+      const r = e.type === "focus" ? el.getBoundingClientRect() : { left: e.clientX, bottom: e.clientY + 10, top: e.clientY };
+      const w = tipEl.offsetWidth, x = Math.min(Math.max(8, r.left + 8), window.innerWidth - w - 8);
+      tipEl.style.left = x + "px"; tipEl.style.top = Math.min(r.bottom + 6, window.innerHeight - 40) + "px";
+    };
+    const hide = () => { if (tipEl) tipEl.hidden = true; };
+    el.addEventListener("mousemove", show); el.addEventListener("mouseenter", show);
+    el.addEventListener("mouseleave", hide); el.addEventListener("focus", show); el.addEventListener("blur", hide);
+  }
+
+  function boot(render) {
+    const root = document.getElementById("app");
+    try {
+      const data = JSON.parse(document.getElementById("handoff-data").textContent);
+      document.title = data.title || document.title;
+      render(root, data);
+    } catch (err) {
+      clear(root).append(h("div", { class: "fail", role: "alert" }, "This page could not render its data: " + err.message));
+      console.error(err);
+    }
+  }
+  return { h, s, $, clear, md, header, answerBlock, tip, boot };
+})();
+/*@@BASE_JS_END*/
+HF.boot((root, d) => {
+  const { h, s } = HF;
+  const N = d.sections.length, state = { cur: 0, all: false }, seen = new Set([0]), picked = {}, checked = {};
+  const secEls = [], tocEls = [], charts = [];
+  const ans = HF.answerBlock("Self-check results", "Copy this into the chat to say what you got right and what to revisit.");
+  const hasCheck = d.sections.some((x) => (x.check || []).length);
+
+  /* ---- charts ---- */
+  const niceStep = (x) => { const p = Math.pow(10, Math.floor(Math.log10(x))), f = x / p; return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 5 ? 5 : 10) * p; };
+  const fmt = (v, u) => (Number.isInteger(v) ? String(v) : String(Math.round(v * 100) / 100)) + (u ? " " + u : "");
+  const cut = (t, n) => (t.length > n ? t.slice(0, Math.max(1, n - 1)) + "…" : t);
+  function drawChart(host, c, W) {
+    const S = c.series, all = S.flatMap((x) => x.values), col = (i) => `var(--s${i + 1})`;
+    const lab = c.kind === "bar" ? Math.min(170, Math.max(60, Math.max(...c.labels.map((x) => x.length)) * 6.6)) : 0;
+    let svg, H;
+    if (c.kind === "bar") {
+      const bh = 14, rowH = S.length * (bh + 2) + 12, t = 6, b = 24, l = Math.min(lab, W * 0.4), r = 50, pw = W - l - r;
+      const step = niceStep(Math.max(...all) / 4), max = Math.ceil(Math.max(...all) / step) * step; H = t + c.labels.length * rowH + b;
+      svg = s("svg", { class: "ch", viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": c.title || "Bar chart" });
+      for (let v = 0; v <= max + 1e-9; v += step) { const x = l + pw * v / max;
+        svg.append(s("line", { class: v ? "grid" : "axis", x1: x, x2: x, y1: t, y2: H - b }), s("text", { x, y: H - 8, "text-anchor": "middle" }, fmt(v))); }
+      c.labels.forEach((lb, i) => { const y0 = t + i * rowH + 4;
+        svg.append(s("text", { x: l - 8, y: y0 + (S.length * (bh + 2)) / 2 + 3, "text-anchor": "end" }, cut(lb, Math.floor(l / 6.4))));
+        S.forEach((x, k) => { const v = x.values[i], w = Math.max(v > 0 ? 2 : 0, pw * v / max), y = y0 + k * (bh + 2);
+          const g = s("g", { tabindex: 0, "aria-label": `${lb}, ${x.name}: ${fmt(v, c.unit)}` }, s("rect", { x: l, y, width: w, height: bh, rx: 2, fill: col(k) }),
+            s("text", { class: "v", x: l + w + 5, y: y + bh - 3 }, fmt(v)));
+          HF.tip(g, () => `${lb}${S.length > 1 ? ", " + x.name : ""}: ${fmt(v, c.unit)}`); svg.append(g); }); });
+    } else {
+      const l = 40, r = S.length > 1 ? 74 : 20, t = 12, b = 30, pw = W - l - r, ph = 190; H = t + ph + b;
+      const lo = Math.min(...all) >= 0 ? 0 : Math.floor(Math.min(...all)), step = niceStep((Math.max(...all) - lo) / 4 || 1), max = lo + Math.ceil((Math.max(...all) - lo) / step) * step;
+      const X = (i) => l + pw * i / (c.labels.length - 1), Y = (v) => t + ph - ph * (v - lo) / (max - lo);
+      svg = s("svg", { class: "ch", viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": c.title || "Line chart" });
+      for (let v = lo; v <= max + 1e-9; v += step) svg.append(s("line", { class: v === lo ? "axis" : "grid", x1: l, x2: l + pw, y1: Y(v), y2: Y(v) }), s("text", { x: l - 8, y: Y(v) + 4, "text-anchor": "end" }, fmt(v)));
+      const skip = Math.ceil(c.labels.length * 56 / pw);
+      c.labels.forEach((lb, i) => { if (i % skip === 0) svg.append(s("text", { x: X(i), y: H - 8, "text-anchor": "middle" }, cut(lb, Math.max(4, Math.floor(pw / c.labels.length * skip / 6.4))))); });
+      S.forEach((x, k) => { svg.append(s("path", { d: x.values.map((v, i) => (i ? "L" : "M") + X(i) + " " + Y(v)).join(""), fill: "none", stroke: col(k), "stroke-width": 2 }));
+        x.values.forEach((v, i) => { const g = s("g", { tabindex: 0, "aria-label": `${c.labels[i]}, ${x.name}: ${fmt(v, c.unit)}` },
+          s("circle", { cx: X(i), cy: Y(v), r: 4, fill: col(k), stroke: "var(--bg)", "stroke-width": 2 })); HF.tip(g, () => `${c.labels[i]}${S.length > 1 ? ", " + x.name : ""}: ${fmt(v, c.unit)}`); svg.append(g); });
+        if (S.length > 1) svg.append(s("text", { x: X(x.values.length - 1) + 9, y: Y(x.values[x.values.length - 1]) + 4 }, cut(x.name, 10))); });
+    }
+    HF.clear(host).append(svg);
+  }
+  function chartBlock(c) {
+    const host = h("div"), W0 = Math.min(720, Math.max(280, root.clientWidth));
+    charts.push({ host, c });
+    return h("figure", { class: "fig" }, c.title ? h("h3", null, c.title) : null,
+      c.series.length > 1 ? h("div", { class: "lg" }, c.series.map((x, i) => h("span", null, h("i", { style: `background:var(--s${i + 1})` }), x.name))) : null,
+      host, c.caption ? h("figcaption", null, c.caption) : null);
+  }
+  const redraw = () => { const W = Math.min(720, Math.max(280, root.querySelector(".shell").clientWidth - (window.innerWidth >= 960 ? 250 : 0))); charts.forEach(({ host, c }) => drawChart(host, c, W)); };
+
+  /* ---- blocks ---- */
+  const GLYPH = { definition: ["=", "Definition"], pitfall: ["!", "Pitfall"], example: ["e.g.", "Example"] };
+  const blocks = {
+    callout: (b) => h("aside", { class: "co " + b.kind }, h("b", { class: "t" }, h("i", null, GLYPH[b.kind][0]), b.title || GLYPH[b.kind][1]), h("div", null, HF.md(b.text))),
+    flow: (b) => h("figure", { class: "fig" }, h("ol", { class: "flow" }, b.steps.map((x) => h("li", null, h("b", null, x.label), x.note ? h("span", null, HF.md(x.note)) : null))),
+      b.loop ? h("div", { class: "loop" }, "↺ " + b.loop) : null, b.caption ? h("figcaption", null, b.caption) : null),
+    table: (b) => h("figure", { class: "fig" }, h("div", { class: "tw" }, h("table", { class: "dt" }, h("thead", null, h("tr", null, b.columns.map((x) => h("th", null, x)))),
+      h("tbody", null, b.rows.map((r) => h("tr", null, r.map((x) => h("td", null, HF.md(x)))))))), b.caption ? h("figcaption", null, b.caption) : null),
+    chart: chartBlock,
+    layers: (b) => h("figure", { class: "fig" }, b.title ? h("h3", null, b.title) : null, b.direction ? h("p", { class: "dir" }, "↓ " + b.direction) : null,
+      h("div", { class: "ly" }, b.layers.map((x, i) => h("div", null, h("span", { class: "lb", style: `background:color-mix(in srgb,var(--accent) ${8 + Math.round(26 * i / Math.max(1, b.layers.length - 1))}%,var(--surface))` }, x.label),
+        h("span", { class: "nt" }, HF.md(x.note)), x.tag ? h("span", { class: "tg" }, h("span", { class: "chip mono" }, x.tag)) : null))), b.caption ? h("figcaption", null, b.caption) : null),
+    list: (b) => h("div", { class: "fig" }, b.title ? h("h3", null, b.title) : null, h(b.ordered ? "ol" : "ul", { class: "lst" }, b.items.map((x) => h("li", null, HF.md(x))))),
+  };
+
+  /* ---- self-check ---- */
+  const qid = (si, qi) => d.sections[si].id + "-q" + (qi + 1);
+  function check(si, qi, q) {
+    const id = qid(si, qi), res = h("div", { role: "status", "aria-live": "polite" });
+    const btn = h("button", { class: "btn", type: "button", id: "cb-" + id }, "Reveal answer");
+    const labels = q.options.map((o, k) => h("label", null, h("input", { type: "radio", name: "q-" + id, value: k, onchange: () => { picked[id] = k; btn.textContent = "Check answer"; } }), h("span", null, HF.md(o))));
+    btn.addEventListener("click", () => {
+      checked[id] = true; const p = picked[id];
+      labels.forEach((l, k) => l.classList.toggle("right", k === q.answer));
+      HF.clear(res).append(h("p", { class: "res " + (p === q.answer ? "ok" : "no") }, h("b", null, p === undefined ? "Answer: " + q.options[q.answer] + ". " : p === q.answer ? "Correct. " : "Not quite. The answer is: " + q.options[q.answer] + ". "), HF.md(q.explain)));
+      update();
+    });
+    return h("section", { class: "chk", "aria-label": "Self-check " + (qi + 1) }, h("h3", null, HF.md(q.q)), h("div", { role: "radiogroup" }, labels), h("div", { class: "row" }, btn), res);
+  }
+
+  function section(x, i) {
+    const el = h("section", { class: "sec" + (i ? " off" : ""), id: "s-" + x.id, "aria-labelledby": "h-" + x.id },
+      h("h2", { id: "h-" + x.id }, h("span", { class: "mono", style: "color:var(--muted);font-size:.6em;margin-right:.5em" }, String(i + 1) + "/" + N), x.heading),
+      h("p", { class: "idea" }, HF.md(x.idea)), (x.body || []).map((p) => h("p", { class: "prose" }, HF.md(p))),
+      (x.blocks || []).map((b) => blocks[b.type](b)), (x.check || []).map((q, qi) => check(i, qi, q)));
+    secEls.push(el); return el;
+  }
+
+  /* ---- stepper ---- */
+  const bar = h("i"), stepTxt = h("span", { role: "status", "aria-live": "polite" });
+  const prev = h("button", { class: "btn", type: "button", id: "prev", onclick: () => go(state.cur - 1) }, "Previous");
+  const next = h("button", { class: "btn pri", type: "button", id: "next", onclick: () => go(state.cur + 1) }, "Next");
+  const allBtn = h("button", { class: "btn ghost noprint", type: "button", id: "all", "aria-pressed": "false", onclick: () => { state.all = !state.all; allBtn.setAttribute("aria-pressed", state.all); allBtn.textContent = state.all ? "Show one at a time" : "Show all sections"; render(); } }, "Show all sections");
+  function go(i) { state.cur = Math.max(0, Math.min(N - 1, i)); seen.add(state.cur); render(); if (!state.all) window.scrollTo({ top: root.querySelector(".shell").offsetTop - 12 }); }
+  function render() {
+    secEls.forEach((el, i) => el.classList.toggle("off", !state.all && i !== state.cur));
+    tocEls.forEach((b, i) => { b.parentNode.className = seen.has(i) ? "seen" : ""; i === state.cur ? b.setAttribute("aria-current", "step") : b.removeAttribute("aria-current"); });
+    stepTxt.textContent = state.all ? N + " sections" : "Step " + (state.cur + 1) + " of " + N + ": " + d.sections[state.cur].heading;
+    bar.style.width = (100 * seen.size / N) + "%";
+    if (hasCheck) ans.el.hidden = !(state.all || state.cur === N - 1);
+    prev.disabled = state.cur === 0 || state.all; next.disabled = state.cur === N - 1 || state.all; update();
+    redraw();
+  }
+  function text() {
+    const L = ["Self-check: " + d.title + " (" + d.date + ")"]; let ok = 0, tot = 0;
+    d.sections.forEach((sec, si) => (sec.check || []).forEach((q, qi) => { const id = qid(si, qi); tot++;
+      const st = !checked[id] ? "not checked" : picked[id] === q.answer ? (ok++, "correct") : picked[id] === undefined ? "revealed without answering" : "missed";
+      L.push(id + " (" + sec.heading + "): " + st); }));
+    L.splice(1, 0, ok + " of " + tot + " correct");
+    return L.join("\n");
+  }
+  function update() { if (hasCheck) ans.set(text()); }
+
+  const toc = h("nav", { class: "toc noprint", "aria-label": "Sections" }, h("ol", null, d.sections.map((x, i) => { const b = h("button", { type: "button", title: x.heading, onclick: () => go(i) },
+    h("span", { class: "n" }, String(i + 1)), h("span", { class: "lbl" }, x.heading)); tocEls.push(b); return h("li", null, b); })));
+  root.append(HF.header(d, "Explainer", "Read the sections in order, one idea each. The self-checks are optional."),
+    h("div", { class: "shell" }, toc, h("div", { style: "min-width:0" }, h("div", { class: "sb noprint" }, stepTxt, h("span", { class: "pb", "aria-hidden": "true" }, bar), allBtn),
+      ...d.sections.map(section), h("div", { class: "nav2 noprint" }, prev, next), hasCheck ? ans.el : null)));
+  let rw = window.innerWidth; window.addEventListener("resize", () => { if (window.innerWidth !== rw) { rw = window.innerWidth; redraw(); } });
+  render();
+});
+</script>
+</body>
+</html>

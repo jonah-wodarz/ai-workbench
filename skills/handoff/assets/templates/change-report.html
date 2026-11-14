@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Change report</title>
+<style>
+/*@@BASE_CSS_START*/
+/* shared base: one visual language for all handoff templates */
+:root{
+  --bg:#f3f5f9; --surface:#ffffff; --surface-2:#e9edf4; --ink:#161c29; --ink-2:#434d63; --muted:#667188;
+  --line:#d3d9e4; --line-2:#e4e8f0;
+  --accent:#1c5cab; --accent-ink:#ffffff; --accent-soft:#dde9f8;
+  --good:#17704a; --good-soft:#dcf1e6; --warn:#8f5200; --warn-soft:#fbebcb; --bad:#a93226; --bad-soft:#f8dfda;
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono","Cascadia Mono",Menlo,Consolas,monospace;
+  --r:6px; color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#10141c; --surface:#181e29; --surface-2:#222a38; --ink:#e7eaf1; --ink-2:#b4bccd; --muted:#8c97ad;
+  --line:#313b4d; --line-2:#262e3c;
+  --accent:#7db4ec; --accent-ink:#0b1626; --accent-soft:#1d2d44;
+  --good:#5cc79a; --good-soft:#15332a; --warn:#e8b25a; --warn-soft:#3a2d12; --bad:#f0907f; --bad-soft:#3d1f1a;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#10141c; --surface:#181e29; --surface-2:#222a38; --ink:#e7eaf1; --ink-2:#b4bccd; --muted:#8c97ad;
+  --line:#313b4d; --line-2:#262e3c;
+  --accent:#7db4ec; --accent-ink:#0b1626; --accent-soft:#1d2d44;
+  --good:#5cc79a; --good-soft:#15332a; --warn:#e8b25a; --warn-soft:#3a2d12; --bad:#f0907f; --bad-soft:#3d1f1a;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; color-scheme:dark}
+
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 var(--sans);overflow-x:hidden}
+.page{max-width:1120px;margin:0 auto;padding-block:20px 72px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{text-wrap:balance;margin:0}
+p{margin:0}
+code,.mono{font-family:var(--mono);font-size:.92em}
+code{background:var(--surface-2);padding:.05em .35em;border-radius:4px}
+strong.term{font-weight:650;color:var(--ink)}
+.num{font-variant-numeric:tabular-nums}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button,input,select,textarea{font:inherit;color:inherit}
+
+/* header */
+.hd{display:grid;gap:18px 32px;grid-template-columns:minmax(0,1fr);padding-bottom:20px;border-bottom:1px solid var(--line)}
+.hd-top{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.hd h1{font:600 clamp(1.5rem,4.2vw,2.1rem)/1.15 var(--serif);letter-spacing:-.01em}
+.bottom{font:400 clamp(1.05rem,2.6vw,1.3rem)/1.4 var(--serif);color:var(--ink);max-width:62ch;margin-top:10px}
+.ask{margin-top:14px;background:var(--accent-soft);border-radius:var(--r);padding:10px 14px;max-width:62ch;color:var(--ink)}
+.ask b{font-weight:650}
+.meta{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;margin:0;font-size:.85rem;align-content:start}
+.meta dt{color:var(--muted)} .meta dd{margin:0;overflow-wrap:anywhere}
+.meta .src{font-family:var(--mono);font-size:.82em}
+@media (min-width:820px){.hd{grid-template-columns:minmax(0,1fr) 270px}.hd-top{grid-column:1/-1}}
+
+/* controls */
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:var(--r);padding:6px 12px;cursor:pointer;min-height:34px;line-height:1.2}
+.btn:hover{border-color:var(--muted)}
+.btn.pri{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:600}
+.btn.pri:hover{filter:brightness(1.08)}
+.btn.ghost{background:transparent}
+.btn[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent)}
+.btn:disabled{opacity:.5;cursor:default}
+.chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:2px 10px;font-size:.82rem;line-height:1.5;color:var(--ink-2)}
+button.chip{cursor:pointer;min-height:30px}
+button.chip[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--ink)}
+.chip.mono{font-family:var(--mono);font-size:.78rem}
+.tag{display:inline-block;border-radius:4px;padding:0 6px;font-size:.75rem;font-weight:600;line-height:1.6;background:var(--surface-2);color:var(--ink-2)}
+.tag.good{background:var(--good-soft);color:var(--good)} .tag.warn{background:var(--warn-soft);color:var(--warn)}
+.tag.bad{background:var(--bad-soft);color:var(--bad)} .tag.info{background:var(--accent-soft);color:var(--accent)}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+select,input[type=search],input[type=text],textarea{border:1px solid var(--line);background:var(--surface);border-radius:var(--r);padding:6px 10px;min-height:34px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+
+/* answer block */
+.answer{margin-top:28px;padding:16px;display:grid;gap:10px}
+.answer h2{font:600 1.1rem var(--serif)}
+.answer p{color:var(--ink-2);font-size:.9rem}
+.answer textarea{width:100%;font:.84rem/1.5 var(--mono);resize:vertical;min-height:120px;background:var(--bg)}
+
+/* tooltip */
+.tip{position:fixed;z-index:50;pointer-events:none;background:var(--ink);color:var(--bg);padding:5px 9px;border-radius:5px;font-size:.8rem;max-width:260px;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+
+/* error */
+.fail{margin:24px 0;padding:16px;border:1px solid var(--bad);background:var(--bad-soft);color:var(--bad);border-radius:var(--r)}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media print{
+  :root:root:root{--bg:#fff;--surface:#fff;--surface-2:#eef0f4;--ink:#111;--ink-2:#333;--muted:#555;--line:#bbb;--line-2:#ddd;
+    --accent:#1c5cab;--accent-ink:#fff;--accent-soft:#e6eefa;--good:#17704a;--good-soft:#e3f3ea;--warn:#8f5200;--warn-soft:#fbeed4;--bad:#a93226;--bad-soft:#f9e4e0;color-scheme:light}
+  body{font-size:11pt}.page{max-width:none;padding-block:0}
+  .noprint,.btn,.answer textarea{display:none!important}
+  .answer{break-inside:avoid}
+}
+/*@@BASE_CSS_END*/
+/* change-report */
+:root{--k-added:var(--good);--k-changed:var(--s1);--k-removed:var(--bad);--k-reversed:var(--warn);--k-conflict:var(--ink)}
+.cp{margin-top:18px;color:var(--ink-2);font-size:.9rem}
+.cp b{color:var(--ink)}
+.stack{display:flex;gap:2px;height:12px;margin-top:12px;border-radius:3px;overflow:hidden;background:var(--line-2)}
+.stack i{display:block;min-width:6px}
+.fil{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:14px}
+.fil .sp{flex:1}
+.kd{display:inline-grid;place-items:center;width:18px;height:18px;border-radius:4px;font:700 .8rem/1 var(--mono);color:var(--bg)}
+.k-added .kd,.kd.k-added{background:var(--k-added)}.k-changed .kd,.kd.k-changed{background:var(--k-changed);color:#fff}
+.k-removed .kd,.kd.k-removed{background:var(--k-removed)}.k-reversed .kd,.kd.k-reversed{background:var(--k-reversed)}
+.k-conflict .kd,.kd.k-conflict{background:var(--k-conflict)}
+.kd.k-added,.kd.k-removed,.kd.k-reversed{color:var(--surface)}
+.rp{font-size:.88rem;color:var(--ink-2);display:flex;gap:10px;align-items:center}
+.pb{width:110px;height:6px;border-radius:3px;background:var(--line);overflow:hidden}.pb i{display:block;height:100%;background:var(--accent);width:0;transition:width .2s}
+.grp{margin-top:18px;padding:0}
+.grp>summary{list-style:none;cursor:pointer;display:flex;gap:10px;align-items:center;padding:12px 16px;font:600 1.05rem var(--serif)}
+.grp>summary::-webkit-details-marker{display:none}
+.grp>summary::before{content:"\25B8";color:var(--muted);font-size:.9em;transition:transform .15s}
+.grp[open]>summary::before{transform:rotate(90deg)}
+.grp>summary .cnt{margin-left:auto;font:400 .82rem var(--sans);color:var(--muted)}
+.it{border-top:1px solid var(--line-2)}
+.it>summary{list-style:none;cursor:pointer;display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;padding:12px 16px}
+.it>summary::-webkit-details-marker{display:none}
+.it .ttl{font-weight:600;flex:1 1 240px;min-width:0}
+.it.rev .ttl{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--line)}
+.kn{display:inline-flex;gap:6px;align-items:center;font-size:.8rem;font-weight:650;min-width:92px}
+.rvw{display:inline-flex;gap:6px;align-items:center;font-size:.85rem;cursor:pointer;padding:4px 6px}
+.rvw input{width:16px;height:16px;accent-color:var(--accent)}
+.bd{padding:0 16px 16px;display:grid;gap:10px}
+.why{color:var(--ink-2);max-width:70ch}
+.df{display:grid;gap:10px;grid-template-columns:minmax(0,1fr)}
+@media (min-width:760px){.df.two{grid-template-columns:1fr 1fr}}
+.pn{border:1px solid var(--line);border-radius:var(--r);background:var(--bg);padding:10px 12px;font-size:.92rem;line-height:1.6;min-width:0;overflow-wrap:anywhere}
+.pn h4{margin:0 0 4px;font:600 .75rem var(--sans);color:var(--muted)}
+.pn del{background:var(--bad-soft);color:var(--bad);text-decoration:line-through;border-radius:3px;padding:0 2px}
+.pn ins{background:var(--good-soft);color:var(--good);text-decoration:underline;text-underline-offset:2px;font-weight:600;border-radius:3px;padding:0 2px}
+.none{padding:24px;color:var(--muted);text-align:center}
+@media print{.grp,.it{break-inside:avoid}.fil{display:none}}
+</style>
+</head>
+<body>
+<main class="page" id="app"></main>
+<script type="application/json" id="handoff-data">{"title":"Sample report","date":"2026-01-01","source":"sample","checkpoint":"Start of sample","bottom_line":"One thing changed.","areas":[{"id":"a","label":"Area A"}],"items":[{"id":"C1","area":"a","kind":"changed","title":"A rule changed","before":"The old rule says one thing.","after":"The new rule says another thing.","review":true}]}</script>
+<script>
+/*@@BASE_JS_START*/
+/* shared base: helpers used by every handoff template */
+const HF = (() => {
+  const SVGNS = "http://www.w3.org/2000/svg";
+  const PROPS = ["checked", "value", "disabled", "selected"];
+  function apply(el, a) {
+    if (!a) return el;
+    for (const [k, v] of Object.entries(a)) {
+      if (v == null || v === false) continue;
+      if (k === "class") el.setAttribute("class", v);
+      else if (k.startsWith("on") && typeof v === "function") el.addEventListener(k.slice(2), v);
+      else if (PROPS.includes(k)) el[k] = v;
+      else el.setAttribute(k, v === true ? "" : v);
+    }
+    return el;
+  }
+  function add(el, kids) {
+    for (const c of kids) {
+      if (c == null || c === false) continue;
+      if (Array.isArray(c)) add(el, c);
+      else el.append(c instanceof Node ? c : document.createTextNode(String(c)));
+    }
+    return el;
+  }
+  const h = (tag, a, ...kids) => add(apply(document.createElement(tag), a), kids);
+  const s = (tag, a, ...kids) => add(apply(document.createElementNS(SVGNS, tag), a), kids);
+  const $ = (sel, root = document) => root.querySelector(sel);
+  const clear = (el) => { while (el.firstChild) el.removeChild(el.firstChild); return el; };
+
+  /* inline markup: **term** and `code`; data is never parsed as HTML */
+  function md(text) {
+    return String(text ?? "").split(/(\*\*[^*]+\*\*|`[^`]+`)/).filter(Boolean).map((p) =>
+      p.startsWith("**") ? h("strong", { class: "term" }, p.slice(2, -2))
+      : p.startsWith("`") ? h("code", null, p.slice(1, -1)) : p);
+  }
+
+  const THEMES = ["auto", "light", "dark"];
+  function themeButton() {
+    let i = 0;
+    const b = h("button", { class: "btn ghost noprint", type: "button" }, "Theme: auto");
+    b.addEventListener("click", () => {
+      i = (i + 1) % 3;
+      const root = document.documentElement;
+      if (THEMES[i] === "auto") root.removeAttribute("data-theme"); else root.setAttribute("data-theme", THEMES[i]);
+      b.textContent = "Theme: " + THEMES[i];
+    });
+    return b;
+  }
+
+  function header(d, kind, defaultAsk) {
+    const dl = h("dl", { class: "meta" },
+      h("dt", null, "Date"), h("dd", { class: "num" }, d.date),
+      h("dt", null, "Source"), h("dd", { class: "src" }, d.source),
+      h("dt", null, "Format"), h("dd", null, kind));
+    return h("header", { class: "hd" },
+      h("div", { class: "hd-top" }, h("span", { class: "chip" }, kind), themeButton()),
+      h("div", null,
+        h("h1", null, d.title),
+        h("p", { class: "bottom" }, md(d.bottom_line)),
+        h("p", { class: "ask" }, h("b", null, "Your move. "), md(d.ask || defaultAsk))),
+      dl);
+  }
+
+  /* one copyable answer block per page; copyBtn() makes extra buttons wired to the same text */
+  function answerBlock(heading, hint) {
+    const ta = h("textarea", { readonly: true, rows: 6, "aria-label": heading, id: "answer-text" });
+    const note = h("span", { class: "sr", role: "status", "aria-live": "polite" });
+    const copyBtn = () => {
+      const btn = h("button", { class: "btn pri copy-btn", type: "button" }, "Copy answers");
+      btn.addEventListener("click", async () => {
+        let ok = false;
+        try { await navigator.clipboard.writeText(ta.value); ok = true; } catch (e) {
+          ta.focus(); ta.select();
+          try { ok = document.execCommand("copy"); } catch (e2) { ok = false; }
+        }
+        btn.textContent = ok ? "Copied" : "Selected, press Ctrl/Cmd+C";
+        note.textContent = btn.textContent;
+        setTimeout(() => { btn.textContent = "Copy answers"; }, 2200);
+      });
+      return btn;
+    };
+    const el = h("section", { class: "answer panel", "aria-labelledby": "answer-h" },
+      h("h2", { id: "answer-h" }, heading), h("p", null, hint), ta, h("div", { class: "row" }, copyBtn(), note));
+    return { el, copyBtn, set(text) { ta.value = text; ta.rows = Math.min(18, Math.max(5, text.split("\n").length + 1)); } };
+  }
+
+  /* hover and focus tooltip */
+  let tipEl = null;
+  function tip(el, textFn) {
+    const show = (e) => {
+      if (!tipEl) { tipEl = h("div", { class: "tip", role: "tooltip" }); document.body.append(tipEl); }
+      tipEl.textContent = typeof textFn === "function" ? textFn() : textFn;
+      tipEl.hidden = false;
+      const r = e.type === "focus" ? el.getBoundingClientRect() : { left: e.clientX, bottom: e.clientY + 10, top: e.clientY };
+      const w = tipEl.offsetWidth, x = Math.min(Math.max(8, r.left + 8), window.innerWidth - w - 8);
+      tipEl.style.left = x + "px"; tipEl.style.top = Math.min(r.bottom + 6, window.innerHeight - 40) + "px";
+    };
+    const hide = () => { if (tipEl) tipEl.hidden = true; };
+    el.addEventListener("mousemove", show); el.addEventListener("mouseenter", show);
+    el.addEventListener("mouseleave", hide); el.addEventListener("focus", show); el.addEventListener("blur", hide);
+  }
+
+  function boot(render) {
+    const root = document.getElementById("app");
+    try {
+      const data = JSON.parse(document.getElementById("handoff-data").textContent);
+      document.title = data.title || document.title;
+      render(root, data);
+    } catch (err) {
+      clear(root).append(h("div", { class: "fail", role: "alert" }, "This page could not render its data: " + err.message));
+      console.error(err);
+    }
+  }
+  return { h, s, $, clear, md, header, answerBlock, tip, boot };
+})();
+/*@@BASE_JS_END*/
+HF.boot((root, d) => {
+  const { h } = HF;
+  const KINDS = { added: ["+", "Added"], changed: ["~", "Changed"], removed: ["−", "Removed"], reversed: ["⇄", "Reversed"], conflict: ["!", "Conflict"] };
+  const rev = new Set(), kinds = new Set();
+  const f = { needs: false, area: "" };
+  const ans = HF.answerBlock("Answer block", "Paste this into the chat to report what is reviewed and what is still open.");
+
+  /* word-level diff: LCS over words, punctuation split off */
+  const toks = (t) => [...String(t).matchAll(/(\s*)([\w'’\-\/]+|[^\w\s])/g)].map((m) => ({ w: m[2], sp: m[1].length > 0 }));
+  function diff(a, b) {
+    const A = toks(a), B = toks(b), n = A.length, m = B.length;
+    const L = Array.from({ length: n + 1 }, () => new Uint16Array(m + 1));
+    for (let i = n - 1; i >= 0; i--) for (let j = m - 1; j >= 0; j--) L[i][j] = A[i].w === B[j].w ? L[i + 1][j + 1] + 1 : Math.max(L[i + 1][j], L[i][j + 1]);
+    let i = 0, j = 0;
+    while (i < n || j < m) {
+      if (i < n && j < m && A[i].w === B[j].w) { A[i].op = B[j].op = "="; i++; j++; }
+      else if (j >= m || (i < n && L[i + 1][j] >= L[i][j + 1])) A[i++].op = "-"; else B[j++].op = "+";
+    }
+    return [A, B];
+  }
+  function render(tokens, mark) {
+    const out = []; let run = null;
+    const flush = () => { if (run) { out.push(h(mark === "-" ? "del" : "ins", null, run.txt)); run = null; } };
+    tokens.forEach((t, k) => {
+      const sp = k > 0 && t.sp ? " " : "";
+      if (t.op === mark) { if (run) run.txt += sp + t.w; else { if (sp) out.push(sp); run = { txt: t.w }; } }
+      else { flush(); out.push(sp + t.w); }
+    });
+    flush(); return out;
+  }
+  const pane = (label, content) => h("div", { class: "pn" }, h("h4", null, label), h("div", null, content));
+
+  function body(x) {
+    const bl = x.before_label || "Before", al = x.after_label || "After";
+    let panes;
+    if (x.before != null && x.after != null) { const [A, B] = diff(x.before, x.after); panes = [pane(bl, render(A, "-")), pane(al, render(B, "+"))]; }
+    else if (x.after != null) panes = [pane(al, x.after)]; else panes = [pane(bl, x.before)];
+    return h("div", { class: "bd" }, x.why ? h("p", { class: "why" }, HF.md(x.why)) : null, h("div", { class: "df" + (panes.length > 1 ? " two" : "") }, panes));
+  }
+
+  const itemEls = {}, groupEls = {}, counts = {};
+  function item(x) {
+    const cb = h("input", { type: "checkbox", id: "rv-" + x.id, "aria-label": "Mark " + x.id + " as reviewed", onchange: (e) => {
+      e.target.checked ? rev.add(x.id) : rev.delete(x.id); el.classList.toggle("rev", e.target.checked); if (e.target.checked) el.open = false; update(); } });
+    cb.addEventListener("click", (e) => e.stopPropagation());
+    const lab = h("label", { class: "rvw", for: cb.id }, cb, "Reviewed");
+    lab.addEventListener("click", (e) => e.stopPropagation());
+    const [g, name] = KINDS[x.kind];
+    const el = h("details", { class: "it k-" + x.kind, open: true, id: "i-" + x.id },
+      h("summary", null, h("span", { class: "kn" }, h("span", { class: "kd k-" + x.kind, "aria-hidden": "true" }, g), name),
+        h("span", { class: "ttl" }, x.title), x.ref ? h("span", { class: "chip mono" }, x.ref) : null,
+        x.review ? h("span", { class: "tag warn" }, "Needs review") : null, lab),
+      body(x));
+    itemEls[x.id] = el; return el;
+  }
+
+  function group(a) {
+    const its = d.items.filter((x) => x.area === a.id);
+    const cnt = h("span", { class: "cnt" });
+    const el = h("details", { class: "grp panel", open: true }, h("summary", null, a.label, cnt), its.map(item));
+    groupEls[a.id] = { el, cnt, its }; return el;
+  }
+
+  const stack = h("div", { class: "stack", role: "img", "aria-label": "Share of changes by kind" });
+  const chips = {}, rp = h("span", { class: "rp", role: "status", "aria-live": "polite" }), pb = h("i"), none = h("p", { class: "none", hidden: true }, "No change matches the filters.");
+  Object.keys(KINDS).forEach((k) => { const n = d.items.filter((x) => x.kind === k).length; counts[k] = n; if (!n) return;
+    stack.append(h("i", { style: `flex:${n};background:var(--k-${k})`, title: KINDS[k][1] + " " + n }));
+    chips[k] = h("button", { class: "chip k-" + k, type: "button", "aria-pressed": "false", onclick: () => { kinds.has(k) ? kinds.delete(k) : kinds.add(k);
+      chips[k].setAttribute("aria-pressed", kinds.has(k)); update(); } }, h("span", { class: "kd k-" + k, "aria-hidden": "true" }, KINDS[k][0]), KINDS[k][1] + " " + n); });
+  const needsN = d.items.filter((x) => x.review).length;
+  const needsChip = h("button", { class: "chip", type: "button", "aria-pressed": "false", onclick: () => { f.needs = !f.needs; needsChip.setAttribute("aria-pressed", f.needs); update(); } }, "Needs review " + needsN);
+  const areaSel = h("select", { id: "f-area", "aria-label": "Filter by area", onchange: (e) => { f.area = e.target.value; update(); } },
+    h("option", { value: "" }, "All areas"), d.areas.map((a) => h("option", { value: a.id }, a.label)));
+  const setAll = (v) => () => { Object.values(groupEls).forEach((g) => { g.el.open = v; }); };
+
+  function text() {
+    const r = d.items.filter((x) => rev.has(x.id)), o = d.items.filter((x) => !rev.has(x.id));
+    const L = ["Review state: " + d.title + " (" + d.date + "), since " + d.checkpoint,
+      "Reviewed " + r.length + " of " + d.items.length + (r.length ? ": " + r.map((x) => x.id).join(", ") : "")];
+    if (o.length) { L.push("Still to review (" + o.length + "):"); o.forEach((x) => L.push("- " + x.id + " [" + x.kind + (x.review ? ", needs review" : "") + "] " + x.title)); }
+    return L.join("\n");
+  }
+  function update() {
+    const show = (x) => (!kinds.size || kinds.has(x.kind)) && (!f.needs || x.review) && (!f.area || x.area === f.area);
+    let any = false;
+    Object.values(groupEls).forEach((g) => { let n = 0; g.its.forEach((x) => { const v = show(x); itemEls[x.id].hidden = !v; if (v) n++; });
+      g.el.hidden = n === 0; any = any || n > 0; const done = g.its.filter((x) => rev.has(x.id)).length; g.cnt.textContent = n + " shown, " + done + " of " + g.its.length + " reviewed"; });
+    none.hidden = any;
+    rp.textContent = rev.size + " of " + d.items.length + " reviewed"; pb.style.width = (100 * rev.size / d.items.length) + "%";
+    ans.set(text());
+  }
+
+  root.append(HF.header(d, "Change report", "Review the flagged changes first, tick each item you have checked, then copy the review state into the chat."),
+    h("p", { class: "cp" }, "Changes since ", h("b", null, d.checkpoint), ": ", h("b", { class: "num" }, d.items.length), " in ", d.areas.length, " areas."),
+    stack,
+    h("div", { class: "fil noprint" }, Object.values(chips), needsChip, areaSel, h("span", { class: "sp" }),
+      h("button", { class: "btn ghost", type: "button", onclick: setAll(true) }, "Expand all"), h("button", { class: "btn ghost", type: "button", onclick: setAll(false) }, "Collapse all")),
+    h("div", { class: "fil" }, rp, h("span", { class: "pb", "aria-hidden": "true" }, pb), ans.copyBtn()),
+    ...d.areas.map(group), none, ans.el);
+  update();
+});
+</script>
+</body>
+</html>

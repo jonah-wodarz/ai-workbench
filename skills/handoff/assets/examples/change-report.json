@@ -1,0 +1,14 @@
+{
+  "title": "Config changes",
+  "date": "2026-11-14",
+  "source": "git diff v1.2..HEAD -- config/",
+  "checkpoint": "release v1.2",
+  "bottom_line": "One setting was reversed and one pair of settings now conflicts.",
+  "areas": [{"id": "net", "label": "Networking"}, {"id": "auth", "label": "Authentication"}],
+  "items": [
+    {"id": "C1", "area": "net", "kind": "changed", "title": "Request timeout raised", "before": "Requests time out after 10 seconds.", "after": "Requests time out after 30 seconds."},
+    {"id": "C2", "area": "net", "kind": "added", "title": "Retry on 503", "after": "A request that returns 503 is retried twice."},
+    {"id": "C3", "area": "auth", "kind": "reversed", "review": true, "title": "Sessions no longer expire on idle", "before": "A session ends after 15 idle minutes.", "after": "A session lasts until the user signs out."},
+    {"id": "C4", "area": "auth", "kind": "conflict", "review": true, "title": "Session limit contradicts the audit rule", "before_label": "Setting", "after_label": "Audit rule", "before": "Sessions never expire.", "after": "Every session must end within 12 hours."}
+  ]
+}
