@@ -1,0 +1,81 @@
+{
+  "max_skills": 2,
+  "skills": {
+    "interrogate": [
+      "\\binterrogate me\\b",
+      "\\bgrill me\\b",
+      "stress-?test (this|my) (plan|idea|decision)",
+      "figure out what i want to say",
+      "frag mich aus",
+      "befrag mich"
+    ],
+    "fair-practice-questions": [
+      "practice (questions|exam)",
+      "mock exam",
+      "\\bquiz me\\b",
+      "\\bflash ?cards?\\b",
+      "multiple[- ]choice",
+      "übungsaufgaben",
+      "probeklausur",
+      "\\bMC-?Fragen\\b",
+      "karteikarten"
+    ],
+    "playbook": [
+      "playbook",
+      "do it like last time",
+      "how did we do this before",
+      "run log",
+      "wie beim letzten mal"
+    ],
+    "setup-retro": [
+      "\\bretro\\b",
+      "review my (skills|setup)",
+      "audit (my )?(skills|setup)",
+      "why did the skill not fire",
+      "which skills overlap",
+      "setup aufräumen"
+    ],
+    "report-style": [
+      "\\b(write|draft) (a |the )?(report|write-?up|readme|review)\\b",
+      "summari[sz]e what you did",
+      "final summary",
+      "fass zusammen",
+      "schreib einen bericht"
+    ],
+    "doc-kit": [
+      "doc-?kit",
+      "doclint",
+      "docs? lint",
+      "lint (the |my )?docs",
+      "pre-commit hook.*docs"
+    ],
+    "structured-project-docs": [
+      "docs? (tree|structure|layout)",
+      "(split|reorgani[sz]e|restructure) (the |this |my )?(docs?|notes|specs?)",
+      "file tree",
+      "ordnerstruktur",
+      "dokumentation aufteilen"
+    ],
+    "layered-design-facilitation": [
+      "\\blayers? of abstraction\\b",
+      "\\btop-down\\b",
+      "(brainstorm|ideate)",
+      "design session",
+      "let'?s (design|think through)",
+      "\\bpark (this|that|it)\\b"
+    ],
+    "design-capture": [
+      "(record|capture|write down|log) (this|these|that|the) (decisions?|ideas?|answers?)",
+      "\\bwe decided\\b",
+      "update the (spec|docs?|decision)",
+      "halt das fest",
+      "entscheidung(en)? festhalten"
+    ],
+    "handoff": [
+      "handoff page",
+      "visual summary",
+      "checkpoint report",
+      "decision brief"
+    ]
+  }
+}
