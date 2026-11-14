@@ -1,0 +1,67 @@
+{
+ "description": "A benchmark result that needs a decision, written for a team lead who may stop after the first lines.",
+ "prompt": "Use the report-style skill. Write docs/summary.md: a short report on the results in results.csv for my team lead. Context is in NOTES.md. The reader may stop after the first lines.",
+ "fixture": {
+  "dir": "loadtest"
+ },
+ "assertions": [
+  {
+   "id": "file",
+   "desc": "docs/summary.md exists.",
+   "check": "file_exists",
+   "path": "docs/summary.md"
+  },
+  {
+   "id": "bluf",
+   "desc": "The first three lines give the result and the decision needed (which policy to ship), before any support.",
+   "check": "llm",
+   "negative": false
+  },
+  {
+   "id": "table",
+   "desc": "The three policies are compared in a Markdown table with at least 3 data rows.",
+   "check": "regex",
+   "target": "file:docs/summary.md",
+   "pattern": "^\\|.*\\|[ \\t]*\\n\\|[\\s:|-]+\\|[ \\t]*\\n(\\|.*\\|[ \\t]*\\n){3}",
+   "expect": true,
+   "flags": "m"
+  },
+  {
+   "id": "defines-p95",
+   "desc": "p95 is defined by what it does where it first appears.",
+   "check": "regex",
+   "target": "file:docs/summary.md",
+   "pattern": "p95[^\\n]{0,60}(\\(|—|:|, the |means|is the|which)",
+   "expect": true,
+   "flags": "i"
+  },
+  {
+   "id": "short-sentences",
+   "desc": "At least 85% of the sentences have at most 25 words.",
+   "check": "py",
+   "fn": "sentence_length",
+   "target": "file:docs/summary.md"
+  },
+  {
+   "id": "one-term",
+   "desc": "Each concept has one term throughout (for example the same word for the cache policies, for the delay measure and for memory use).",
+   "check": "llm",
+   "negative": false
+  },
+  {
+   "id": "no-narration",
+   "desc": "The report does not narrate the work chronologically.",
+   "check": "regex",
+   "target": "file:docs/summary.md",
+   "pattern": "\\b(first|then|next),? (I|we)\\b|\\bI (ran|looked|opened|read)\\b",
+   "expect": false,
+   "flags": "i"
+  },
+  {
+   "id": "takeaway",
+   "desc": "After the table, one sentence states its takeaway without repeating the table's rows.",
+   "check": "llm",
+   "negative": false
+  }
+ ]
+}

@@ -1,0 +1,442 @@
+{
+ "skills": {
+  "design-capture": {
+   "should": [
+    {
+     "q": "ok so for the stamina system I think sprinting should drain faster than swimming, bows can't be fired while sprinting anymore, and rename 'hunting bow' to 'shortbow' everywhere. also maybe a grapple hook someday. can you get all that into the design docs"
+    },
+    {
+     "q": "Here are my answers to your questions from last time: 1) yes, arrows are consumed on impact, 2) heavy armour slows the draw, 3) no crafting during combat. Please update the specs in docs/design accordingly."
+    },
+    {
+     "q": "I changed my mind on permadeath - death now costs your inventory but not the character. Put that in the design docs and fix whatever else it affects."
+    },
+    {
+     "q": "Brain dump: faction reputation should decay over time but only for the minor factions, and vendor prices must depend on rep somehow. Add it to docs/design/factions.md, I'll refine later."
+    },
+    {
+     "q": "Hier meine Entscheidungen zum Crafting-System: Rezepte werden durch Ausprobieren entdeckt, nicht gekauft, und Werkbänke gibt es in drei Stufen. Trag das bitte in die Design-Docs ein."
+    },
+    {
+     "q": "Can you record these decisions in the project docs? We settled that quests never expire, the map starts fully fogged and companions can't die."
+    },
+    {
+     "q": "we talked about this yesterday: fall damage is out, climbing speed depends on gear weight, and the whole hunger thing goes to later. document it in the design tree please"
+    },
+    {
+     "q": "Answers to your open questions in ARC-Q2 and ARC-Q3: no to both, bow durability is its own system. Update the spec and whatever else changes."
+    }
+   ],
+   "near_miss": [
+    {
+     "q": "What's a good way to think about balancing a stamina system in a survival game? Just brainstorming, nothing needs writing down.",
+     "instead": "layered-design-facilitation"
+    },
+    {
+     "q": "The doc linter complains about broken links in docs/design/combat.md, can you fix those?",
+     "instead": "doc-kit"
+    },
+    {
+     "q": "Give my supervisor a one-page overview of the design decisions in docs/design so far.",
+     "instead": "report-style"
+    }
+   ]
+  },
+  "layered-design-facilitation": {
+   "should": [
+    {
+     "q": "I'm starting to design a cozy farming sim with a twist: the crops react to the player's mood. No idea where to begin, help me think it through."
+    },
+    {
+     "q": "Let's brainstorm the progression for my mod. All I know is players should feel weak at the start and powerful by the end."
+    },
+    {
+     "q": "I want to design the economy of a multiplayer extraction shooter from scratch. Where do we even start?"
+    },
+    {
+     "q": "My thesis topic on LLM harnesses is still very fuzzy. Can we explore possible directions together and narrow it down?"
+    },
+    {
+     "q": "Ich möchte ein Kampfsystem für mein Spiel entwerfen, habe aber erst eine vage Idee. Lass uns das gemeinsam durchdenken."
+    },
+    {
+     "q": "My idea is a roguelike where death is the main resource. Let's flesh out what the game is actually about before I touch any code."
+    },
+    {
+     "q": "brainstorm with me: what systems would a space trading game need and how should they interact?"
+    },
+    {
+     "q": "Every time I design my crafting system I get lost in details. Can you guide me through it in a sensible order?"
+    }
+   ],
+   "near_miss": [
+    {
+     "q": "Write a Python function that computes damage with armor reduction: dmg * (1 - armor / (armor + 100)).",
+     "instead": null
+    },
+    {
+     "q": "Explain how event sourcing works and when it is a good idea.",
+     "instead": null
+    },
+    {
+     "q": "Record these decisions in docs/design/crafting.md: recipes are discovered, not bought, and benches have three tiers.",
+     "instead": "design-capture"
+    }
+   ]
+  },
+  "structured-project-docs": {
+   "should": [
+    {
+     "q": "My notes folder is a mess: one 4000-word notes.md with meeting minutes, API docs and todo lists mixed together. Can you reorganize it into something sane?"
+    },
+    {
+     "q": "Set up the documentation structure for my new repo. It will have architecture docs, ADRs and some how-tos."
+    },
+    {
+     "q": "docs/overview.md has grown to 3000 words and covers install, config and troubleshooting. Split it up."
+    },
+    {
+     "q": "Where should research notes go versus design specs in my project folder? The layout is ad hoc and I keep losing stuff."
+    },
+    {
+     "q": "Mein docs-Ordner ist ein Chaos. Kannst du eine sinnvolle Ordnerstruktur für die Projektdokumentation vorschlagen und umsetzen?"
+    },
+    {
+     "q": "I'm starting a new Cowork project for my bachelor thesis with literature notes, drafts and experiment logs. How should I organize the files?"
+    },
+    {
+     "q": "Restructure the wiki folder into small topic files with an index. Right now everything is in one giant README."
+    },
+    {
+     "q": "Create a docs folder layout for my side project. I want it navigable, not one big monolith."
+    }
+   ],
+   "near_miss": [
+    {
+     "q": "Write a README for my CLI tool that renames photos by EXIF date.",
+     "instead": "report-style"
+    },
+    {
+     "q": "Add a check that fails the build when docs contain broken links.",
+     "instead": "doc-kit"
+    },
+    {
+     "q": "Create one Docs artifact with my resume, nothing else.",
+     "instead": null
+    }
+   ]
+  },
+  "doc-kit": {
+   "should": [
+    {
+     "q": "Set up doclint in my docs repo with a pre-commit hook."
+    },
+    {
+     "q": "I want a linter for my Markdown design docs that checks front matter, broken links and retired names. Can you set that up?"
+    },
+    {
+     "q": "Add a pre-commit hook so my docs get checked before every commit."
+    },
+    {
+     "q": "Run the docs lint and tell me what is failing."
+    },
+    {
+     "q": "Can you migrate my existing doc tree onto checked conventions, with a config file for the checker?"
+    },
+    {
+     "q": "Richte mir ein neues Doku-Projekt ein, mit Lint und Vorlagen für die Einstiegsdateien."
+    },
+    {
+     "q": "I need a new check in doclint that flags first person in specs. How do I extend it?"
+    },
+    {
+     "q": "Bootstrap a design docs project with a glossary, a conventions file, a system map and an automatic checker."
+    }
+   ],
+   "near_miss": [
+    {
+     "q": "How should I organize my docs folder? It's grown organically and I can't find anything.",
+     "instead": "structured-project-docs"
+    },
+    {
+     "q": "Run ruff on src/ and fix the warnings.",
+     "instead": null
+    },
+    {
+     "q": "Check this paragraph for spelling and grammar mistakes.",
+     "instead": null
+    }
+   ]
+  },
+  "fair-practice-questions": {
+   "should": [
+    {
+     "q": "Make me 10 multiple choice questions on TCP congestion control for my networks exam."
+    },
+    {
+     "q": "Erstelle mir eine Probeklausur zu Datenbanken mit Normalformen und Transaktionen."
+    },
+    {
+     "q": "quiz me on the OSI model"
+    },
+    {
+     "q": "Can you write practice questions for my algorithms exam? A mix of MC and 'name the three conditions' style."
+    },
+    {
+     "q": "I need a mock exam for IT security, around 12 questions with an answer key."
+    },
+    {
+     "q": "Gib mir bitte 8 MC-Fragen zu Kryptographie, symmetrisch vs. asymmetrisch."
+    },
+    {
+     "q": "Turn my notes on B-trees (nodes hold up to m children, all leaves share a depth, splits propagate upwards) into a quiz I can use to test myself."
+    },
+    {
+     "q": "Build me a self-test about hash tables as a small quiz page I can reuse before the exam."
+    }
+   ],
+   "near_miss": [
+    {
+     "q": "Explain how B-trees work. I don't get why the height stays small.",
+     "instead": null
+    },
+    {
+     "q": "Write a user survey with 5 multiple choice questions about how students use our campus app.",
+     "instead": null
+    },
+    {
+     "q": "Here are my exam answers from last week; tell me where I lost points.",
+     "instead": null
+    }
+   ]
+  },
+  "interrogate": {
+   "should": [
+    {
+     "q": "Grill me on my plan to switch my thesis topic. I need to figure out whether it makes sense."
+    },
+    {
+     "q": "Interrogate me about this project idea until it is actually decided: a mod that reworks progression."
+    },
+    {
+     "q": "I need to write an email to my professor but I don't know what I actually want to say. Help me figure it out."
+    },
+    {
+     "q": "Frag mich aus, ich muss mich zwischen zwei Praktikumsangeboten entscheiden."
+    },
+    {
+     "q": "Stress-test my plan: I want to move all my notes to Markdown in git and drop OneNote."
+    },
+    {
+     "q": "Ask me questions until my architecture for the lab project is fully decided."
+    },
+    {
+     "q": "Can you question me about what I want from this skill redesign before we start? I only have a vague idea."
+    },
+    {
+     "q": "Hilf mir herauszufinden, was ich in meiner Bewerbung eigentlich sagen will. Stell mir Fragen."
+    }
+   ],
+   "near_miss": [
+    {
+     "q": "Quiz me on TCP so I can practice for the exam.",
+     "instead": "fair-practice-questions"
+    },
+    {
+     "q": "Give me feedback on this plan: learn Rust in March, build a CLI in April, apply for internships in May.",
+     "instead": null
+    },
+    {
+     "q": "Which questions should I ask in a job interview at a startup?",
+     "instead": null
+    }
+   ]
+  },
+  "playbook": {
+   "should": [
+    {
+     "q": "I need my LaTeX thesis template building on the university cluster. It will be a lot of trial and error and I'll redo it every semester. Can you figure it out and keep notes so next time is easy?"
+    },
+    {
+     "q": "Document how you got this working so I can repeat it next semester."
+    },
+    {
+     "q": "How did we set up the Docker environment for the networking lab last time?"
+    },
+    {
+     "q": "Let's figure out how to export my Moodle quizzes to Markdown. It will take some fiddling and I'd do it every term, so write down the steps once it works."
+    },
+    {
+     "q": "Wir müssen herausfinden, wie man das Ubuntu-VM-Image für das Security-Praktikum aufsetzt. Das mache ich jedes Semester wieder, halte die Schritte fest."
+    },
+    {
+     "q": "Getting CI to cache the Gradle build is fiddly. Work it out and write a repeatable guide, including what you tried."
+    },
+    {
+     "q": "I want a repeatable procedure for publishing my notes to GitLab Pages. We'll have to experiment, so keep a log of the attempts."
+    },
+    {
+     "q": "Set up my Cyberpunk modpack testing workflow. It needs research and I'll repeat it for each update, so make the next run easier."
+    }
+   ],
+   "near_miss": [
+    {
+     "q": "Give me a one-off bash command that renames all .jpeg files in this folder to .jpg.",
+     "instead": null
+    },
+    {
+     "q": "Turn this idea into a proper Claude skill for me: it formats my meeting notes.",
+     "instead": null
+    },
+    {
+     "q": "Summarize the folder structure of this repo.",
+     "instead": null
+    }
+   ]
+  },
+  "report-style": {
+   "should": [
+    {
+     "q": "Write a short report on the results of our load tests for the team."
+    },
+    {
+     "q": "Summarize what you just did in this refactor for me."
+    },
+    {
+     "q": "Schreib mir einen Bericht über die Ergebnisse meines Praktikumsversuchs, für meinen Betreuer."
+    },
+    {
+     "q": "Draft the README for this repo. It's a CLI tool that renames photos by EXIF date."
+    },
+    {
+     "q": "Write up the review of the three candidate databases we looked at, comparing latency, cost and ops effort."
+    },
+    {
+     "q": "Can you write a proposal document for adopting trunk-based development in our student project?"
+    },
+    {
+     "q": "I need a one-pager for my supervisor on where the thesis stands."
+    },
+    {
+     "q": "Create a write-up of the security lab findings: 4 vulnerabilities, severity and fix for each."
+    }
+   ],
+   "near_miss": [
+    {
+     "q": "Quick question: what's the difference between a mutex and a semaphore?",
+     "instead": null
+    },
+    {
+     "q": "Fix the typo in line 12 of README.md.",
+     "instead": null
+    },
+    {
+     "q": "Reply to my landlord's email and tell him I can't make it on Friday.",
+     "instead": null
+    }
+   ]
+  },
+  "setup-retro": {
+   "should": [
+    {
+     "q": "Review my Claude setup: which of my skills are actually worth keeping?"
+    },
+    {
+     "q": "Audit my skills and instructions. I feel like some of them add friction."
+    },
+    {
+     "q": "Do a retro on my setup. The friction log has a few entries by now."
+    },
+    {
+     "q": "Mach bitte mal eine Bestandsaufnahme meiner Skills und Einstellungen: Was kann weg, was muss besser werden?"
+    },
+    {
+     "q": "Clean up my skills. Some overlap and I suspect a few never trigger."
+    },
+    {
+     "q": "Which skills should I merge, delete or sharpen? Look at my corrections from the last months."
+    },
+    {
+     "q": "I want to review my Claude Code and Cowork setup: preferences, plugins, skills."
+    },
+    {
+     "q": "Check whether any of my playbooks are ready to become skills and whether my instructions have gone stale."
+    }
+   ],
+   "near_miss": [
+    {
+     "q": "Help me write a new skill that formats my meeting notes.",
+     "instead": null
+    },
+    {
+     "q": "How do I install a plugin in Claude Code?",
+     "instead": null
+    },
+    {
+     "q": "Review my pull request for code quality and naming.",
+     "instead": null
+    }
+   ]
+  },
+  "handoff": {
+   "should": [
+    {
+     "q": "Give me a handoff page for what we decided today so I can review it tomorrow."
+    },
+    {
+     "q": "Show me the state of this project visually instead of a wall of text."
+    },
+    {
+     "q": "I have six open decisions on the caching design. Put them on a page where I can pick options and copy my answers back."
+    },
+    {
+     "q": "Make a visual summary of what changed in the spec since last week, with before and after."
+    },
+    {
+     "q": "Erklär mir das Zwei-Phasen-Commit-Protokoll visuell, Schritt für Schritt, als interaktive Seite."
+    },
+    {
+     "q": "Build a checkpoint page for this session: what changed, what needs my decision."
+    },
+    {
+     "q": "Can you turn this dependency list into a map I can click through to see what depends on what?"
+    },
+    {
+     "q": "Explain how our build pipeline works as a visual explainer with diagrams, not Markdown."
+    }
+   ],
+   "near_miss": [
+    {
+     "q": "Summarize the last commit in two sentences.",
+     "instead": null
+    },
+    {
+     "q": "Write a short report on the load test results for the team.",
+     "instead": "report-style"
+    },
+    {
+     "q": "What does a two-phase commit do? Short answer please.",
+     "instead": null
+    }
+   ]
+  }
+ },
+ "unrelated": [
+  "What is the time complexity of heapsort and why?",
+  "Write a Rust function that reverses a singly linked list.",
+  "Translate to German: Where is the nearest train station?",
+  "My parser crashes with TypeError: 'NoneType' object is not subscriptable. Here is the line: tok = tokens[i].value. What is wrong?",
+  "Give me a simple recipe for lentil soup for four people.",
+  "What does the TCP three-way handshake do?",
+  "What is the difference between a subnet and a VLAN?",
+  "Calculate the compound interest on 2000 euros at 5% over 10 years.",
+  "Refactor this to a list comprehension: result = []\nfor x in xs:\n    if x > 0:\n        result.append(x * 2)",
+  "Suggest three names for a hiking club in Munich."
+ ],
+ "explicit": {
+  "teach": {
+   "q": "/teach Rust ownership and borrowing",
+   "marker": "MISSION"
+  }
+ }
+}

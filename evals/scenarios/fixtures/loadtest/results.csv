@@ -1,0 +1,4 @@
+policy,hit_rate_pct,p95_latency_ms,memory_mb
+lru,81.4,42,512
+lfu,84.9,47,640
+arc,86.2,44,768

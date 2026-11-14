@@ -1,0 +1,70 @@
+{
+ "description": "The chat summary after multi-step work.",
+ "prompt": "Use the report-style skill. Fix the failing tests in this folder (run them with python3 test_calc.py), then summarize the work for me.",
+ "fixture": {
+  "dir": "calcbug"
+ },
+ "assertions": [
+  {
+   "id": "tests-pass",
+   "desc": "python3 test_calc.py passes.",
+   "check": "cmd",
+   "cmd": "python3 test_calc.py"
+  },
+  {
+   "id": "outcome-first",
+   "desc": "The first lines state the outcome (what works now or what was found), not the steps taken.",
+   "check": "llm",
+   "negative": false
+  },
+  {
+   "id": "no-narration",
+   "desc": "The summary does not narrate steps chronologically ('First I', 'Then I', 'I ran').",
+   "check": "regex",
+   "target": "final",
+   "pattern": "\\b(first|then|next|after that),? (I|we)\\b|\\bI (first|then|ran|looked|opened|read)\\b",
+   "expect": false,
+   "flags": "i"
+  },
+  {
+   "id": "next-steps",
+   "desc": "The summary ends with next steps.",
+   "check": "regex",
+   "target": "final",
+   "pattern": "next steps?",
+   "expect": true,
+   "flags": "i"
+  },
+  {
+   "id": "table",
+   "desc": "The details appear as a Markdown table.",
+   "check": "regex",
+   "target": "final",
+   "pattern": "^\\|.*\\|",
+   "expect": true,
+   "flags": "m"
+  },
+  {
+   "id": "short-sentences",
+   "desc": "At least 85% of the sentences have at most 25 words.",
+   "check": "py",
+   "fn": "sentence_length",
+   "target": "final"
+  },
+  {
+   "id": "one-term",
+   "desc": "Each concept has one term throughout (for example 'bug' is not also called 'defect' or 'issue', 'test' not also 'check').",
+   "check": "llm",
+   "negative": false
+  },
+  {
+   "id": "no-empty-decisions",
+   "desc": "No empty 'Decisions needed: none' filler.",
+   "check": "regex",
+   "target": "final",
+   "pattern": "decisions? needed:?\\s*\\**\\s*(none|n/a|-)",
+   "expect": false,
+   "flags": "i"
+  }
+ ]
+}

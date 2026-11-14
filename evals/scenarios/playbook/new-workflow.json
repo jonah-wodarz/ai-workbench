@@ -1,0 +1,79 @@
+{
+ "description": "A recurring task with three planted failures (OUT_DIR, missing folder, Latin-1 encoding).",
+ "prompt": "Use the playbook skill. Convert data/export.csv into a Markdown table with tools/convert.py; the result should end up in out/. I have to do this every month with a fresh export, and last time I lost an hour to errors.",
+ "fixture": {
+  "dir": "convert-task"
+ },
+ "max_turns": 20,
+ "assertions": [
+  {
+   "id": "announces",
+   "desc": "The assistant announces the playbook in one line ('Keeping a playbook for this').",
+   "check": "regex",
+   "target": "all_text",
+   "pattern": "keeping a playbook",
+   "expect": true,
+   "flags": "i"
+  },
+  {
+   "id": "runlog-attempts",
+   "desc": "The run log records the attempts, including the encoding and OUT_DIR failures.",
+   "check": "regex",
+   "target": "runlog",
+   "pattern": "(?=[\\s\\S]*(encoding|UnicodeDecodeError))(?=[\\s\\S]*OUT_DIR)",
+   "expect": true,
+   "flags": "i"
+  },
+  {
+   "id": "done-when",
+   "desc": "The playbook has at least 2 steps ending in 'Done when'.",
+   "check": "count",
+   "target": "playbook",
+   "pattern": "Done when",
+   "min": 2,
+   "flags": "i"
+  },
+  {
+   "id": "gotchas",
+   "desc": "The playbook's gotchas cover both the encoding and the OUT_DIR failures.",
+   "check": "regex",
+   "target": "playbook",
+   "pattern": "Gotchas[\\s\\S]*(?=[\\s\\S]*(encoding|latin))(?=[\\s\\S]*OUT_DIR)",
+   "expect": true,
+   "flags": "i"
+  },
+  {
+   "id": "generalized",
+   "desc": "The playbook uses placeholders instead of this run's file name.",
+   "check": "regex",
+   "target": "playbook",
+   "pattern": "<[a-z_-]+>",
+   "expect": true,
+   "flags": "i"
+  },
+  {
+   "id": "front-matter",
+   "desc": "Front matter has runs: 1 and status: draft.",
+   "check": "regex",
+   "target": "playbook",
+   "pattern": "^---[\\s\\S]*?runs:\\s*1[\\s\\S]*?---",
+   "expect": true,
+   "flags": "i"
+  },
+  {
+   "id": "report-line",
+   "desc": "The reply ends with 'Playbook updated: <name> (run 1).'",
+   "check": "regex",
+   "target": "final",
+   "pattern": "Playbook updated:[^\\n]*\\(run 1\\)",
+   "expect": true,
+   "flags": "i"
+  },
+  {
+   "id": "output-exists",
+   "desc": "out/export.md was produced.",
+   "check": "file_exists",
+   "path": "out/export.md"
+  }
+ ]
+}

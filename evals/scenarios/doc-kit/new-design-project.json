@@ -1,0 +1,77 @@
+{
+ "description": "Scaffold a design docs project after the tree is approved.",
+ "prompt": "Use the doc-kit skill. Set up a design docs project for my game Hollowreach in this folder, with the design preset. Owner is Jonah. Systems: Archery (code ARC) and Stamina (code STA), each with a spec file. The tree you would propose is approved, so go ahead and create it, and run the lint until it is clean.",
+ "max_turns": 30,
+ "assertions": [
+  {
+   "id": "core-files",
+   "desc": "README.md, docs/CONVENTIONS.md, docs/SYSTEM_MAP.md, docs/GLOSSARY.md, tools/doclint.py, tools/doclint.json and tools/hooks/pre-commit exist.",
+   "check": "py",
+   "fn": "files_all",
+   "paths": [
+    "README.md",
+    "docs/CONVENTIONS.md",
+    "docs/SYSTEM_MAP.md",
+    "docs/GLOSSARY.md",
+    "tools/doclint.py",
+    "tools/doclint.json",
+    "tools/hooks/pre-commit"
+   ]
+  },
+  {
+   "id": "preset-copied",
+   "desc": "tools/doclint.json equals the design preset.",
+   "check": "py",
+   "fn": "equals_preset"
+  },
+  {
+   "id": "no-placeholders",
+   "desc": "No YYYY-MM-DD, <OWNER>, <Project name> or <generated table> placeholder is left outside docs/templates.",
+   "check": "py",
+   "fn": "no_placeholders",
+   "pattern": "YYYY-MM-DD|<OWNER>|<Project name>|<generated table>"
+  },
+  {
+   "id": "lint-clean",
+   "desc": "python3 tools/doclint.py ends with exit 0.",
+   "check": "cmd",
+   "cmd": "python3 tools/doclint.py"
+  },
+  {
+   "id": "codes-registered",
+   "desc": "ARC and STA are in the code table of CONVENTIONS.md.",
+   "check": "regex",
+   "target": "file:docs/CONVENTIONS.md",
+   "pattern": "(?=[\\s\\S]*\\|\\s*`?ARC`?\\s*\\|)(?=[\\s\\S]*\\|\\s*`?STA`?\\s*\\|)",
+   "expect": true,
+   "flags": ""
+  },
+  {
+   "id": "spec-files",
+   "desc": "Both specs exist with matching front matter ids.",
+   "check": "regex",
+   "target": "file:docs/design/*",
+   "pattern": "(?=[\\s\\S]*id:\\s*ARC)(?=[\\s\\S]*id:\\s*STA)",
+   "expect": true,
+   "flags": "i"
+  },
+  {
+   "id": "map-generated",
+   "desc": "The system map lists ARC and STA in a generated table.",
+   "check": "regex",
+   "target": "file:docs/SYSTEM_MAP.md",
+   "pattern": "(?=[\\s\\S]*\\|\\s*`ARC`)(?=[\\s\\S]*\\|\\s*`STA`)",
+   "expect": true,
+   "flags": ""
+  },
+  {
+   "id": "owner-filled",
+   "desc": "The owner placeholder in CONVENTIONS.md is replaced by Jonah.",
+   "check": "regex",
+   "target": "file:docs/CONVENTIONS.md",
+   "pattern": "Jonah",
+   "expect": true,
+   "flags": "i"
+  }
+ ]
+}

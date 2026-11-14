@@ -1,0 +1,4 @@
+results/*/raw/
+results/*/.lock
+__pycache__/
+results/sanity*/
