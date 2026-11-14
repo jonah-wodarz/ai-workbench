@@ -1,6 +1,18 @@
 # Documentation Conventions
 
-How every document in `docs/` is structured and written. This file is binding: if a doc and this file disagree, this file wins and the doc gets fixed. `tools/doclint.py` checks the mechanical parts. Changes to this file need <OWNER>'s explicit approval.
+How every document in `docs/` is structured and written. This file is binding: when a doc and this file disagree, the doc gets fixed. **Instruction-writing rule:** a rule that must always hold is enforced by `tools/doclint.py` and marked (lint) here, pointing to the check; the other rules are short and say what to do. Changes need <OWNER>'s explicit approval.
+
+## Skills in use
+
+Skills are loaded by name at the start of the session; this table is what triggers them.
+
+| When | Skill |
+|---|---|
+| Start of a design session, or the talk drifts between layers | `layered-design-facilitation` |
+| A message contains decisions, ideas or answers to record | `design-capture` |
+| Creating, moving or splitting files | `structured-project-docs` |
+| Setting up or running the lint | `doc-kit` |
+| A recurring workflow needs figuring out | `playbook` |
 
 ## 1. Principles
 
@@ -39,28 +51,22 @@ Every `spec` and `data` file has a decision-history file at the **same relative 
 | L3 Parameters | How much? | The spec's *Parameters*, `minor` questions |
 | L4 Implementation | How, in code? | `architecture/`, code |
 
-Never let content settle two layers below where a system is. Ideas from another system or a deeper layer go to the parking lot.
+Content settles at most one layer below where a system is. Above L3, quantities are **orderings** ("A above B") or **tiers** (low / mid / high, or named); a number that must be kept is tagged `placeholder` (lint: warns below L3).
+
+- **Park** — file an out-of-layer or other-system idea in the parking lot.
+- **Probe** — a bounded descent to a lower layer that answers one named open question of the layer above. Findings sit under *Provisional rules*, cite that question, and are reported back up.
+- **Ascend** — a lower-layer finding that breaks an upper-layer rule reopens that rule.
 
 ## 4. Front matter
 
-```yaml
----
-id: ARC                    # system code, section 5
-title: Archery
-type: spec                 # spec | data | decisions | registry | vision | ideas
-domain: combat
-layer: L2                  # spec only: deepest layer reached
-status: drafting           # spec/data: idea | drafting | settled | locked | deferred
-updated: YYYY-MM-DD
-depends_on: [CHA]          # spec/data: system codes
----
-```
+Keys as in `docs/templates/spec.md` (lint: keys, values, dates). `layer` is the deepest layer reached; `depends_on` lists system codes; `id` is the code from section 5.
 
 | `status` | Meaning |
 |---|---|
 | `idea` | Intent only. Working notes allowed |
 | `drafting` | Rules forming. Working notes allowed |
 | `settled` | L2 decided. Changes require a decision entry |
+| `validated` | Rules confirmed by a probe, a prototype or the implementation |
 | `locked` | Frozen on purpose. Reopening requires a decision entry that says so |
 | `deferred` | Out of current scope |
 
@@ -89,48 +95,44 @@ A new system gets its code here before its file is created.
 
 Sections in this order; omit a section only if it would be empty, except *Rules*. Template: `docs/templates/spec.md`. Budget: about 1,500 words excluding working notes; above that, split the system.
 
-**Rule tags** — every rule ends with exactly one: `locked` (decided), `leaning` (preferred, not final; only under *Provisional rules*, citing its open question), `placeholder` (a number that only ranks things). Anything undecided is an open question, not a rule.
+**Rule tags** (lint) — one per rule, at the end: `locked` (decided), `leaning` (preferred, not final; only under *Provisional rules*, citing its open question), `placeholder` (a number that must be kept for now), `conflicting` (contradicts another rule and is knowingly left open; each cites the other's ID and an open question tracks it). Other undecided content is an open question, not a rule.
 
-**Question tags** — every open question ends with exactly one: `blocking` (gates the next status or layer; listed in `planning/OPEN_QUESTIONS.md`), `major` (changes a rule here or elsewhere), `minor` (tuning, L3), `deferred` (waits on something). Resolved questions are deleted; the answer becomes a rule and, if it changes anything, a decision entry.
+**Question tags** (lint) — one per question, at the end: `blocking` (gates the next status or layer; listed in `planning/OPEN_QUESTIONS.md`), `major` (changes a rule here or elsewhere), `minor` (tuning, L3), `deferred` (waits on something), `needs-build` (closable only by building or playing; leaves the discussion queue and is listed under *Needs build* in `planning/OPEN_QUESTIONS.md` for the next probe). Resolved questions are deleted; the answer becomes a rule and, if pivotal, a decision entry. **Question size:** one question asks for one decision, answerable in a sentence or by choosing among named options; a larger question is split, framing question first.
 
 ## 7. Decision history
 
-```markdown
-### D-ARC-006 — Precision scales velocity per draw stage
-YYYY-MM-DD · accepted · supersedes D-ARC-003 · rules ARC-R7, ARC-R8
-**Decision:** …
-**Why:** …
-**Rejected:** option — reason; option — reason.
-```
+Entry format: `docs/templates/decisions.md` (lint: heading ID, file code). Optional field: `supersedes D-ARC-003`.
 
-Entries are immutable; the only permitted edit is appending `· superseded by D-…`. Newest at the bottom. A cross-system decision lives in the history of the spec that owns the resulting rule.
+Entries are immutable; the only edit is appending `· superseded by D-…`. Newest at the bottom. A cross-system decision lives in the history of the spec that owns the resulting rule.
+
+**Pivotal decisions only:** an entry exists when a decision (1) reverses or supersedes a recorded rule, (2) chooses among seriously considered alternatives, (3) has a reason not inferable from the spec's intent, or (4) is hard to reverse. Other rules are written into the spec; git keeps their history.
 
 ## 8. Load-bearing files
 
-- **`GLOSSARY.md`** — naming authority. Check before naming anything; update in the same change. One row per term: **Term · Means · Owner · Not to be confused with**. No numbers or rules. Retired names only in its *Retired names* table (read by the lint).
-- **`design/DESIGN_VISION.md`** — L0 and L1 only. No mechanics, numbers or rule IDs. Pillars carry IDs (`VIS-P1`).
+- **`GLOSSARY.md`** — naming authority. Check before naming anything; update in the same change. One row per term: **Term · Means · Owner · Not to be confused with**. Numbers and rules live with their owners. Retired names go in its *Retired names* table (read by the lint).
+- **`design/DESIGN_VISION.md`** — L0 and L1 only; mechanics, numbers and rule IDs live in specs. Pillars carry IDs (`VIS-P1`).
 - **`SYSTEM_MAP.md`** — generated by `python tools/doclint.py --map`. Only the introduction is hand-written.
-- **`planning/OPEN_QUESTIONS.md`** — an index: ID · question · link, one line each. Never discusses; resolved entries are deleted.
+- **`planning/OPEN_QUESTIONS.md`** — an index: ID · question · link, one line each; discussion stays in the spec, resolved entries are deleted.
 - **`design/parking-lot.md`** — in-scope ideas not yet ready: one line per idea, under its system and target layer; deleted when the system absorbs it. Its *Out of scope* section holds ideas ruled out, with the reason; they never graduate.
 - **`tools/stale-terms.txt`** — retired facts, one regex per line.
 
 ## 9. Writing rules
 
-1. Present tense, current state. No "now", "previously", "revised", dates or verdicts in rule text.
-2. Replace superseded text; never strike it through.
-3. Headings are labels. No emoji, dates or verdicts in headings.
-4. Bold only defined terms at first use and IDs. No decorative markers.
-5. Status lives in tags and front matter, never as emoji in prose.
-6. No first person.
+1. Present tense, current state; dates, verdicts and words like "now", "previously" or "revised" belong in decision history.
+2. Replace superseded text. (lint)
+3. Headings are topic labels. (lint: emoji, dates)
+4. Bold marks defined terms at first use and IDs. (lint: bold density, ★)
+5. Status lives in tags and front matter. (lint: emoji)
+6. Use impersonal wording. (lint)
 7. One owner per fact; one claim per rule.
 8. A term new to the reader is defined by what it does the first time it appears.
 9. Specs state what a system does, not when it ships. Scheduling waits for L3–L4 and then gets one home in planning.
 
-**Working notes** are exempt from these rules and the lint while a system is `idea` or `drafting`. When it settles, they are distilled into rules and decision entries and the section is deleted.
+**Working notes** are exempt from these rules and the lint while a system is `idea` or `drafting`. When it settles, they are distilled into rules and pivotal decision entries and the section is deleted.
 
 ## 10. Workflows
 
-**Capturing a ruling:** edit the rule in its owner → add a decision entry if something changed, was added or rejected → search the tree for the old fact and fix or delete it → update `updated:` → run the lint.
+**Capturing a ruling:** search for recorded rules it conflicts with and settle them first (supersede, keep, or tag both `conflicting`) → edit the rule in its owner → add a decision entry if the ruling is pivotal → search the tree for the old fact and fix or delete it → update `updated:` → run the lint.
 
 **Renaming a term:** rename everywhere outside `decisions/` and `archive/` → update the glossary row and add the old name to *Retired names* → decision entry → lint.
 

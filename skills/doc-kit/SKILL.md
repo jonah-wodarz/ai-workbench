@@ -15,7 +15,7 @@ Mechanical doc rules get a deterministic check; prose rules are kept for judgmen
 | `kit/tools/doclint_plugins/style.py` | Optional style warnings (sentence length, bold density, emoji) |
 | `kit/tools/hooks/pre-commit` | Runs the lint before commits; errors block |
 | `kit/presets/basic.json` | Any docs project: front matter, links, glossary retired names, prose rules, generated map |
-| `kit/presets/design.json` | Design projects (design-capture): specs + decision history, IDs, tags, L0-L4, open-questions index |
+| `kit/presets/design.json` | Design projects (design-capture): specs + decision history, IDs, tags, L0-L4, open-questions index, early-quantity warning |
 | `kit/templates/basic/`, `kit/templates/design/` | Entry files: README, PROJECT_STRUCTURE, CONVENTIONS, GLOSSARY, map, parking lot; `docs/templates/` with playbook and run-log (+ spec/decisions/data for design) |
 | `CONFIG.md` | Every config key and plugin hook |
 | `examples/wayfarer/` | A real project's config + plugin, for reference |
@@ -43,6 +43,7 @@ If the project is on the user's linked computer, write files there with the devi
 ## Extending
 
 - A new project rule that is a pattern on one line → `prose.patterns` in the config.
+- Numbers in rules above L3 → `early_quantity` (enabled in the design preset; keys in `CONFIG.md`).
 - A new retired name → the glossary's *Retired names* table. A retired fact → `tools/stale-terms.txt`.
 - Anything config can't express → a plugin in `tools/doclint_plugins/` (hooks in `CONFIG.md`). Keep project-specific plugins in the project.
 

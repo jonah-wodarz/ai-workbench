@@ -23,7 +23,7 @@
     },
     "runlog": {"required": ["title", "type", "updated"]}
   },
-  "enums": {"status": ["idea", "drafting", "settled", "locked", "deferred"], "layer": ["L0", "L1", "L2", "L3", "L4"]},
+  "enums": {"status": ["idea", "drafting", "settled", "validated", "locked", "deferred"], "layer": ["L0", "L1", "L2", "L3", "L4"]},
   "date_fields": ["updated", "last_run"],
   "depends_field": "depends_on",
   "unique_id_exempt_types": ["decisions"],
@@ -40,16 +40,17 @@
   "tags": {
     "rule": {
       "types": ["spec"],
-      "values": ["locked", "leaning", "placeholder"],
+      "values": ["locked", "leaning", "placeholder", "conflicting"],
       "section_only": {"## provisional rules": "leaning"}
     },
-    "question": {"types": ["spec"], "values": ["blocking", "major", "minor", "deferred"]}
+    "question": {"types": ["spec"], "values": ["blocking", "major", "minor", "deferred", "needs-build"]}
   },
   "prose": {
     "types": ["spec", "data", "registry", "vision", "ideas", "playbook"],
     "checks": ["heading_emoji", "heading_date", "changelog_heading", "star", "strikethrough", "first_person"],
     "patterns": [{"regex": "\\bv\\d+\\+?(?!\\w|\\.\\d)", "level": "warn", "message": "release scheduling in spec text; keep timing out of specs until L3-L4"}]
   },
+  "early_quantity": {"types": ["spec"], "below_layer": "L3"},
   "word_budget": {"spec": 1500, "playbook": 1200},
   "stale_terms": {
     "file": "tools/stale-terms.txt",

@@ -17,7 +17,7 @@ The skills use the open `SKILL.md` format, which several agents read (Claude, Cl
 | Skill | Use it to |
 |---|---|
 | [`interrogate`](skills/interrogate/SKILL.md) | Get questioned in rounds until a plan is decided or a message's core is clear |
-| [`layered-design-facilitation`](skills/layered-design-facilitation/SKILL.md) | Run open-ended design top-down through layers L0–L4, parking premature detail |
+| [`layered-design-facilitation`](skills/layered-design-facilitation/SKILL.md) | Run open-ended design through layers L0–L4, top-down by default, with deliberate moves between layers (park, probe, ascend) |
 | [`design-capture`](skills/design-capture/SKILL.md) | Turn design talk into specs + decision history that stay consistent |
 | [`structured-project-docs`](skills/structured-project-docs/SKILL.md) | Keep project docs a navigable tree of small single-topic files |
 | [`report-style`](skills/report-style/SKILL.md) | Write deliverables bottom-line-first with consistent terms and fitting visuals |

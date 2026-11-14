@@ -48,7 +48,17 @@ Every `.md` under `root` is scanned (hidden folders excluded). Files without fro
 | `prose.types` | Types the prose checks apply to |
 | `prose.checks` | Any of `heading_emoji`, `heading_date`, `changelog_heading`, `star`, `strikethrough`, `first_person` (inline code is ignored) |
 | `prose.patterns` | `[{regex, level: warn|error, message}]` custom line checks |
+| `early_quantity` | `{types, below_layer, pattern, exempt_tag}`: a rule line (one carrying a rule ID) that contains a quantity gets a warning when the document's front-matter `layer` is below `below_layer` (ordered as `enums.layer`) and the line does not end with `exempt_tag`. Off when the key is absent. See below |
 | `word_budget` | `{type: words}` warning threshold (exempt sections excluded) |
+
+**`early_quantity`** keeps numbers out of rules above L3 (state an ordering or a tier, or tag the rule `placeholder`). Inline code, link targets and section references are ignored.
+
+| Key | Meaning | Default |
+|---|---|---|
+| `types` | Doc types checked | `["spec"]` |
+| `below_layer` | Layer value (from `enums.layer`) from which quantities are allowed; documents on an earlier layer are checked. Required | none |
+| `pattern` | Regex for a quantity | A decimal number, or a number followed by `%` or a unit (`s`, `min`, `h`, `m`, `km`, `kg`, `hp`, `x` and similar). Rule IDs, dates, version numbers and bare integers do not match |
+| `exempt_tag` | Closing rule tag that exempts the line | `placeholder` |
 
 ## Cross-file
 

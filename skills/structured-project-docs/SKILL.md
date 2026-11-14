@@ -34,7 +34,7 @@ For any project beyond a handful of files, set up these entry points (templates 
 |---|---|
 | `README.md` | What this is + a short *Start here* list of links |
 | `PROJECT_STRUCTURE.md` | The folder tree, plus a **"Where does X go?"** list that answers placement before it becomes a question |
-| `docs/CONVENTIONS.md` | Binding rules: doc types, front matter, writing rules, workflows. **Changes need the user's explicit approval** |
+| `docs/CONVENTIONS.md` | Binding rules: doc types, front matter, writing rules, workflows. Opens with a *Skills in use* table (when → skill): the pointer that loads the right skill by name. **Changes need the user's explicit approval** |
 | `docs/GLOSSARY.md` | Naming authority. Row: **Term · Means · Owner · Not to be confused with**. Retired names in their own table |
 | `docs/MAP.md` (or `SYSTEM_MAP.md`) | Index of docs with type and status, **generated** from front matter |
 | `docs/parking-lot.md` | One line per idea not yet placed; a separate *Out of scope* section for ideas ruled out |
@@ -44,7 +44,7 @@ For any project beyond a handful of files, set up these entry points (templates 
 ```
 docs/
 ├── <area>/      # one folder per topic area (design/<domain>/ in design projects)
-├── decisions/   # decision records or per-spec decision history
+├── decisions/   # decision records or per-spec decision history (pivotal decisions)
 ├── playbooks/   # repeatable workflow guides; runs/ holds their run logs
 ├── research/    # sourced external knowledge
 ├── planning/    # open-question index, roadmaps, audits
@@ -72,6 +72,15 @@ Define the project's doc types in CONVENTIONS as a table with a **Never contains
 6. **No author voice.** Claude's own proposals and corrections stay in chat, decision history or run logs.
 7. **One term per concept**, checked against the glossary before naming anything. A term new to the reader is defined by what it does the first time it appears.
 8. **One owner per fact.** Everywhere else links to it.
+
+## Writing rules for instruction files
+
+Conventions files, `CLAUDE.md` or `AGENTS.md`, and skills are read as instructions, often in every session. Sort each rule by how strictly it has to hold:
+
+1. **A rule that must always hold is enforced by a script** (lint, hook, test). The file points to the check and leaves the wording to it.
+2. **A rule that should usually hold stays as prose**, as short as its impact allows. A rule with little impact is cut.
+3. **Rules say what to do.** State the wanted action ("write the current state") in place of a prohibition ("don't write history").
+4. **An always-read file holds what the tree cannot show and the lint cannot check.** Folder overviews and anything a reader can derive from the files stay out.
 
 ## Enforcement
 

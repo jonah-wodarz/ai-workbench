@@ -252,6 +252,94 @@ class DesignPreset(ProjectCase):
         self.assertTrue(out.startswith("doclint "))
 
 
+class EarlyQuantity(ProjectCase):
+    """Rules below L3 state orderings or tiers; quantities need the `placeholder` tag."""
+    ANCHOR = "- **ARC-R2** The crossbow loads. `placeholder`\n"
+
+    def setUp(self):
+        super().setUp()
+        self.write("docs/CONVENTIONS.md", DESIGN_CONVENTIONS)
+        self.write("docs/GLOSSARY.md", GLOSSARY)
+        self.write("docs/decisions/combat/archery.md", HISTORY)
+
+    def lint_rules(self, rules, layer="L2"):
+        text = SPEC.replace(self.ANCHOR, rules).replace("layer: L2", "layer: " + layer)
+        self.write("docs/design/combat/archery.md", text)
+        return self.lint()[1]
+
+    def test_fires_on_quantity_in_l2_rule(self):
+        out = self.lint_rules("- **ARC-R2** Damage rises by 12%. `locked`\n- **ARC-R3** A draw takes 1.5 s. `locked`\n")
+        self.assertFinding(out, "WARN", "archery.md:15", "quantity in a rule below L3")
+        self.assertFinding(out, "WARN", "archery.md:16", "tag it `placeholder`")
+        self.assertEqual(out.count("quantity in a rule"), 2, out)
+
+    def test_fires_on_decimal_and_unit(self):
+        out = self.lint_rules("- **ARC-R2** Range is 2.5 tiles. `locked`\n- **ARC-R3** A volley lasts 3 seconds. `locked`\n")
+        self.assertEqual(out.count("quantity in a rule"), 2, out)
+
+    def test_is_a_warning_not_an_error(self):
+        self.write("docs/design/combat/archery.md", SPEC.replace(self.ANCHOR, "- **ARC-R2** Costs 12%. `locked`\n"))
+        rc, out = self.lint()
+        self.assertEqual(rc, 0, out)
+
+    def test_silent_when_tagged_placeholder(self):
+        self.assertNoFindings(self.lint_rules("- **ARC-R2** Damage rises by 12%. `placeholder`\n"))
+
+    def test_silent_in_l3_doc(self):
+        self.assertNoFindings(self.lint_rules("- **ARC-R2** Damage rises by 12%. `locked`\n", layer="L3"))
+
+    def test_silent_on_non_rule_lines(self):
+        out = self.lint_rules(self.ANCHOR + "\nThe draw takes 1.5 s and deals 12% more.\n"
+                              "- **ARC-Q2** Is 12% too much? `minor`\n")
+        self.assertNotIn("quantity in a rule", out)
+
+    def test_silent_on_ids_dates_and_structural_integers(self):
+        out = self.lint_rules("- **ARC-R2** Two shield types and 3 phases; extends ARC-R1 and D-ARC-001, "
+                              "decided 2026-11-14, see section 3.2 and v0.3.0. `locked`\n")
+        self.assertNotIn("quantity in a rule", out)
+
+    def test_silent_inside_inline_code(self):
+        out = self.lint_rules("- **ARC-R2** The config key `draw_time: 1.5 s` is named in code. `locked`\n")
+        self.assertNotIn("quantity in a rule", out)
+
+    def test_silent_when_not_configured(self):
+        path = os.path.join(self.root, "tools", "doclint.json")
+        with open(path, encoding="utf-8") as f:
+            cfg = json.load(f)
+        del cfg["early_quantity"]
+        self.write("tools/doclint.json", json.dumps(cfg))
+        self.assertNoFindings(self.lint_rules("- **ARC-R2** Damage rises by 12%. `locked`\n"))
+
+    def test_threshold_and_pattern_are_configurable(self):
+        path = os.path.join(self.root, "tools", "doclint.json")
+        with open(path, encoding="utf-8") as f:
+            cfg = json.load(f)
+        cfg["early_quantity"] = {"below_layer": "L2", "pattern": r"\bten\b"}
+        self.write("tools/doclint.json", json.dumps(cfg))
+        rules = "- **ARC-R2** Costs 12%. `locked`\n- **ARC-R3** Deals ten damage. `locked`\n"
+        self.assertNoFindings(self.lint_rules(rules, layer="L2"))
+        out = self.lint_rules(rules, layer="L1")
+        self.assertFinding(out, "WARN", "archery.md:16", "quantity in a rule below L2")
+        self.assertEqual(out.count("quantity in a rule"), 1, out)
+
+
+class VocabularyTags(ProjectCase):
+    """`conflicting`, `needs-build` and `validated` are accepted by the design preset."""
+
+    def test_new_tags_and_status_are_valid(self):
+        self.write("docs/CONVENTIONS.md", DESIGN_CONVENTIONS)
+        self.write("docs/GLOSSARY.md", GLOSSARY)
+        self.write("docs/decisions/combat/archery.md", HISTORY)
+        text = SPEC.replace("status: settled", "status: validated") \
+                   .replace(EarlyQuantity.ANCHOR, "- **ARC-R2** Reload is slower than draw (ARC-R3, ARC-Q2). `conflicting`\n"
+                            "- **ARC-R3** Reload is faster than draw (ARC-R2, ARC-Q2). `conflicting`\n") \
+                   + "- **ARC-Q2** Which rule holds? `needs-build`\n"
+        self.write("docs/design/combat/archery.md", text)
+        rc, out = self.lint()
+        self.assertEqual(rc, 0, out)
+        self.assertNoFindings(out)
+
+
 class StylePlugin(ProjectCase):
     preset = "design"
 

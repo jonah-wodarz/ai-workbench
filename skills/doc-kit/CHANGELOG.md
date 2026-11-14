@@ -2,6 +2,24 @@
 
 All notable changes to doc-kit. Versions follow [SemVer](https://semver.org/).
 
+## 0.3.0 — Probe, ascend and early-quantity lint
+Layers gain probe and ascend, and human-side failures (early numbers, oversized questions, late-found conflicts, overlong histories) get mechanisms instead of instructions.
+
+- **Added**
+  - `kit/tools/doclint.py` — `early_quantity`: config-driven check (warning) for a quantity in a rule line of a document below a configured layer; `QUANTITY` is the default pattern. Off when not configured.
+  - `kit/presets/design.json` — enables `early_quantity` for `spec` below `L3`.
+  - `kit/templates/*/docs/CONVENTIONS.md` — *Skills in use* table and the instruction-writing rule.
+  - `kit/templates/design/docs/CONVENTIONS.md` — moves (park, probe, ascend), orderings and tiers, question size, pivotal-decisions-only rule.
+  - `kit/templates/design/docs/planning/OPEN_QUESTIONS.md` — *Needs build* section.
+  - `tests/test_doclint.py` — `EarlyQuantity` (fires, tag/layer/line/inline-code/config exemptions, configurable) and `VocabularyTags` (new tags and status lint clean).
+- **Changed**
+  - `kit/presets/design.json` — rule tag `conflicting`, question tag `needs-build`, system status `validated`.
+  - `kit/templates/design/docs/CONVENTIONS.md` — vocabulary for the new tags and status; `placeholder` means a number that must be kept; lint-enforced rules shortened to `(lint)` pointers and rules phrased positively; the front matter example and the decision entry example point to the templates; decision entries are for pivotal decisions.
+  - `kit/templates/basic/docs/CONVENTIONS.md` — lint-enforced writing rules shortened to `(lint)` pointers.
+  - `kit/templates/design/docs/templates/decisions.md` — pivotal-decisions line; optional `supersedes` field.
+  - `kit/tools/doclint.py` — version 0.3.0.
+  - `CONFIG.md`, `SKILL.md` — document `early_quantity`.
+
 ## 0.2.1 — Fewer false positives, filtered index
 Found while linting the first playbook library: quoting a word as an example tripped the first-person check, and the index listed run logs next to playbooks.
 

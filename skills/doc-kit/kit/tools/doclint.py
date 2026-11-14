@@ -19,7 +19,7 @@ import os
 import re
 import sys
 
-__version__ = "0.2.1"
+__version__ = "0.3.0"
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DEFAULT_CONFIG = os.path.join(HERE, "doclint.json")
@@ -30,6 +30,13 @@ FIRST_PERSON = re.compile(r"\b(I'm|I've|I'd|I'll|[Mm]y|me)\b|\bI\s+[a-z]")
 FENCE = re.compile(r"^(```|~~~)")
 LINK = re.compile(r"\]\(([^)#\s]+)(?:#[^)]*)?\)")
 INLINE_CODE = re.compile(r"`[^`]*`")
+LINK_TARGET = re.compile(r"\]\([^)]*\)")
+SECTION_REF = re.compile(r"(?i)(?:§|\b(?:sections?|chapters?)\b)\s*\d+(?:\.\d+)*")
+# A quantity: a decimal number, or a number followed by a percent sign or a unit.
+# Rule IDs (ARC-R7), dates, version numbers and bare integers do not match.
+QUANTITY = (r"(?i)(?<![\w.§-])(?:\d+\.\d+(?!\d|\.\d)"
+            r"|\d+(?:\.\d+)?(?:\s?%|\s?(?:ms|s|secs?|seconds?|min|minutes?|h|hrs?|hours?|days?"
+            r"|m|km|cm|mm|meters?|metres?|kg|g|hp|hz|px|pts?|points?|x)\b))")
 
 DEFAULTS = {
     "docs_dir": "docs",
@@ -48,6 +55,7 @@ DEFAULTS = {
     "prose": {"types": [], "checks": [], "patterns": []},
     "word_budget": {},
     "mirror": {},
+    "early_quantity": None,
     "decision_log_types": [],
     "history_line": r"^\s*-\s+\d{4}-\d{2}-\d{2}\s+—",
     "stale_terms": {"file": None, "retired_names": None,
@@ -457,6 +465,24 @@ def check_decision_log(project, doc, report):
         seen.setdefault(did, n)
 
 
+def early_quantity(cfg, doc):
+    """Return (regex, exempt tag, message) if the early-quantity check applies to doc, else None.
+
+    Applies to the configured types whose front-matter layer is below `below_layer`
+    (ordered as `enums.layer`). Not configured means off.
+    """
+    spec = cfg.get("early_quantity")
+    if not spec or doc.fm.get("type") not in spec.get("types", ["spec"]):
+        return None
+    layers = cfg["enums"].get("layer", [])
+    layer, limit = doc.fm.get("layer"), spec["below_layer"]
+    if layer not in layers or limit not in layers or layers.index(layer) >= layers.index(limit):
+        return None
+    tag = spec.get("exempt_tag", "placeholder")
+    msg = "quantity in a rule below {}: state an ordering or tier, or tag it `{}`".format(limit, tag)
+    return re.compile(spec.get("pattern", QUANTITY)), tag, msg
+
+
 def check_body(project, doc, report):
     """Section, prose, rule and question checks. Returns [(line, question_id, tag)] for indexing."""
     cfg = project.cfg
@@ -476,6 +502,7 @@ def check_body(project, doc, report):
     section_tag = {k.lower(): v for k, v in rule_tags.get("section_only", {}).items()}  # heading -> tag
     tag_section = {v: k for k, v in section_tag.items()}
     seen_rules, seen_questions, tagged_questions = {}, {}, []
+    early = early_quantity(cfg, doc)
     words = 0
     for n, line, fence, section in doc.walk():
         if line.startswith("## "):
@@ -510,6 +537,9 @@ def check_body(project, doc, report):
             if rid in seen_rules:
                 report.error(doc.path, n, "duplicate rule id {} (first at line {})".format(rid, seen_rules[rid]))
             seen_rules.setdefault(rid, n)
+            if early and closing_tag(line, [early[1]]) is None and early[0].search(
+                    SECTION_REF.sub("", LINK_TARGET.sub("]", INLINE_CODE.sub("", line[m.end():])))):
+                report.warn(doc.path, n, early[2])
             if rule_tag_on:
                 values = rule_tags["values"]
                 tag = closing_tag(line, values)
