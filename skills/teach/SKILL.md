@@ -5,6 +5,8 @@ disable-model-invocation: true
 argument-hint: "What would you like to learn about?"
 ---
 
+<!-- Based on the `teach` skill by Matt Pocock, MIT licence (see LICENSE). Local change: quiz rule delegated to fair-practice-questions. -->
+
 The user has asked you to teach them something. This is a stateful request - they intend to learn the topic over multiple sessions.
 
 ## Teaching Workspace
@@ -107,7 +109,7 @@ For skill acquisition, difficulty is the tool. Effortful retrieval is what build
 
 Each of these should be based on a **feedback loop**, where the user receives feedback on their performance. This feedback loop should be as tight as possible, giving feedback immediately - and ideally automatically.
 
-For quizzes, each answer should be exactly the same number of words (and characters, if possible). Vary which position holds the correct answer across questions. Don't give the user any clues about the answer through formatting or order.
+For quizzes and any other graded exercise (sorting, matching, flash cards), build items with the `fair-practice-questions` skill: comparable options, plausible distractors, varied key positions, and no answers leaking from the lesson text.
 
 ## Acquiring Wisdom
 
