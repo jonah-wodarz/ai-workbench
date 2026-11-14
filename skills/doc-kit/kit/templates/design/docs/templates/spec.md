@@ -15,6 +15,10 @@ depends_on: []
 ## Intent
 <2–4 sentences. What this system is for and which vision pillar it serves.>
 
+## Interface
+<What other systems may rely on: terms, values, events, guarantees. One line each. Delete if nothing is offered.>
+- **XXX-I1** <One item, present tense.>
+
 ## Rules
 ### <Label>
 - **XXX-R1** <One claim, present tense.> `locked`

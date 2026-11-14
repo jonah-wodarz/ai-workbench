@@ -22,7 +22,7 @@ Every `.md` under `root` is scanned (hidden folders excluded). Files without fro
 | `codes.pattern` | Regex with two groups (code, path) applied per line of that file |
 | `codes.inline` | `{code: docs-relative path}` merged with the table |
 | `code_path_prefixes` | Prefixes tried when resolving a code's path (e.g. `["", "design/"]`) |
-| `id_scheme` | `code` regex, `rule`/`question` letters, `decision_prefix`, `decision_digits`. Default: `ARC-R7`, `ARC-Q2`, `D-ARC-006` |
+| `id_scheme` | `code` regex, `rule`/`question`/`interface` letters, `decision_prefix`, `decision_digits`. Default: `ARC-R7`, `ARC-Q2`, `ARC-I1`, `D-ARC-006`. The interface letter is read only when `coupling` is configured |
 
 ## Front matter and types
 
@@ -49,6 +49,7 @@ Every `.md` under `root` is scanned (hidden folders excluded). Files without fro
 | `prose.checks` | Any of `heading_emoji`, `heading_date`, `changelog_heading`, `star`, `strikethrough`, `first_person` (inline code is ignored) |
 | `prose.patterns` | `[{regex, level: warn|error, message}]` custom line checks |
 | `early_quantity` | `{types, below_layer, pattern, exempt_tag}`: a rule line (one carrying a rule ID) that contains a quantity gets a warning when the document's front-matter `layer` is below `below_layer` (ordered as `enums.layer`) and the line does not end with `exempt_tag`. Off when the key is absent. See below |
+| `coupling` | `{types, max_fan_out, parameter_section}`: foreign rule references, interface items, fan-out and cycles (warnings). Off when the key is absent. See below |
 | `word_budget` | `{type: words}` warning threshold (exempt sections excluded) |
 
 **`early_quantity`** keeps numbers out of rules above L3 (state an ordering or a tier, or tag the rule `placeholder`). Inline code, link targets and section references are ignored.
@@ -59,6 +60,23 @@ Every `.md` under `root` is scanned (hidden folders excluded). Files without fro
 | `below_layer` | Layer value (from `enums.layer`) from which quantities are allowed; documents on an earlier layer are checked. Required | none |
 | `pattern` | Regex for a quantity | A decimal number, or a number followed by `%` or a unit (`s`, `min`, `h`, `m`, `km`, `kg`, `hp`, `x` and similar). Rule IDs, dates, version numbers and bare integers do not match |
 | `exempt_tag` | Closing rule tag that exempts the line | `placeholder` |
+
+**`coupling`** keeps systems loosely coupled: a spec depends on another system's interface, not on its rules. Also `--coupling` (report mode). Warnings unless noted; existing dependencies are made visible, not blocked.
+
+| Key | Meaning | Default |
+|---|---|---|
+| `types` | Doc types checked; also the nodes of the dependency graph | `["spec"]` |
+| `max_fan_out` | Warn when a document lists more than this many distinct codes in `depends_field`; `null` turns the check off | `5` |
+| `parameter_section` | Lower-cased heading of the parameters section | `"## parameters"` |
+
+| Check | Fires on |
+|---|---|
+| Foreign rule reference | A rule line, or a non-blank line in `parameter_section`, citing a rule ID whose code differs from the document's `id`. Open-question lines, exempt sections (working notes), history lines, fences, inline code and link targets are skipped. Question and interface citations are fine |
+| Interface item IDs | `<CODE>-I<n>` list lines (`- **ARC-I1** ...`). A duplicate ID within a document or a code that differs from the file's `id` is an **error**, as for rule IDs. A cited interface item that the target spec does not define is a warning (cited rule and question IDs that do not exist stay errors) |
+| Fan-out | Dependency count above `max_fan_out`, on line 1 of the file |
+| Cycle | One warning per cycle, on the file of its smallest code, with the path (`ARC -> CHA -> ARC`). Edges to codes without a document of a configured type are ignored. In a dense graph every edge on a cycle is covered by the shortest cycle through it, so not every elementary cycle is listed |
+
+`python tools/doclint.py --coupling` prints, per system in code order, the fan-out, fan-in, foreign rule references made and interface items defined, then the cycles. Plain text; exit code 2 when `coupling` is not configured.
 
 ## Cross-file
 

@@ -2,6 +2,24 @@
 
 All notable changes to doc-kit. Versions follow [SemVer](https://semver.org/).
 
+## 0.4.0 — Coupling
+Specs depend on interfaces, not on each other's rules; the lint makes coupling visible.
+
+- **Added**
+  - `kit/tools/doclint.py` — `coupling`: config-driven checks, all off when the key is absent.
+    - `scan_coupling`, `check_coupling`: warning for a rule or parameter line citing a rule ID of another system (message names the fix); interface item IDs `<CODE>-I<n>` (duplicate or foreign code is an error, as for rules); warning for fan-out above `max_fan_out`.
+    - `find_cycles`, `check_cycles`: one warning per dependency cycle with its path (no cycle check existed before).
+    - `check_refs`: a cited interface item that the target spec does not define is a warning.
+    - `coupling_report`, `--coupling`: per-system fan-out, fan-in, foreign rule references, interface items, and the cycles; plain text, sorted by code.
+  - `kit/templates/design/docs/templates/spec.md` — *Interface* section between *Intent* and *Rules*.
+  - `tests/test_doclint.py` — `Coupling`: each check fires and is exempt where documented, 2-cycle and 3-cycle, dense-graph cycle search, `--coupling` output, off without the key, template shape, Wayfarer example config untouched.
+- **Changed**
+  - `kit/presets/design.json` — enables `coupling` for `spec` with `max_fan_out` 5.
+  - `kit/templates/design/docs/CONVENTIONS.md` — *Interface* paragraph in section 6, interface item row in the ID table (+61 words).
+  - `kit/tools/doclint.py` — version 0.4.0; `id_scheme.interface` (default `I`) is read only when `coupling` is configured.
+  - `CONFIG.md`, `SKILL.md` — document `coupling` and `--coupling`.
+  - `tools/doclint.py` — synced with the kit copy.
+
 ## 0.3.0 — Probe, ascend and early-quantity lint
 Layers gain probe and ascend, and human-side failures (early numbers, oversized questions, late-found conflicts, overlong histories) get mechanisms instead of instructions.
 

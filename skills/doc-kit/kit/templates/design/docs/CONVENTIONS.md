@@ -74,6 +74,7 @@ Keys as in `docs/templates/spec.md` (lint: keys, values, dates). `layer` is the 
 
 | Item | Format | Example |
 |---|---|---|
+| Interface item | `<CODE>-I<n>` | `ARC-I1` |
 | Rule | `<CODE>-R<n>` | `ARC-R7` |
 | Open question | `<CODE>-Q<n>` | `ARC-Q2` |
 | Decision | `D-<CODE>-<nnn>` | `D-ARC-006` |
@@ -94,6 +95,8 @@ A new system gets its code here before its file is created.
 ## 6. Spec structure
 
 Sections in this order; omit a section only if it would be empty, except *Rules*. Template: `docs/templates/spec.md`. Budget: about 1,500 words excluding working notes; above that, split the system.
+
+**Interface** — one line per **interface item**: what other systems may rely on. A rule or parameter that refers to another system cites its code or one of its interface items, never its rule ID. Keep `depends_on` short (five systems at most) and free of cycles. (lint: foreign rule IDs, fan-out, cycles, interface IDs)
 
 **Rule tags** (lint) — one per rule, at the end: `locked` (decided), `leaning` (preferred, not final; only under *Provisional rules*, citing its open question), `placeholder` (a number that must be kept for now), `conflicting` (contradicts another rule and is knowingly left open; each cites the other's ID and an open question tracks it). Other undecided content is an open question, not a rule.
 

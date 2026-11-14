@@ -323,6 +323,190 @@ class EarlyQuantity(ProjectCase):
         self.assertEqual(out.count("quantity in a rule"), 1, out)
 
 
+class Coupling(ProjectCase):
+    """Foreign rule references, interface items, fan-out and cycles (all warnings except ID integrity)."""
+    CODES = ["ARC", "CHA", "SHD", "DMI"]
+
+    def setUp(self):
+        super().setUp()
+        table = "# Conventions\n| Code | File |\n|---|---|\n" + "".join(
+            "| `{}` | design/combat/{}.md |\n".format(c, c.lower()) for c in self.CODES) + "| `GLO` | GLOSSARY.md |\n"
+        self.write("docs/CONVENTIONS.md", table)
+        self.write("docs/GLOSSARY.md", GLOSSARY)
+        self.write("docs/planning/OPEN_QUESTIONS.md", "# Open questions\n")
+
+    def spec(self, code, deps=(), body=None, status="settled", kind="spec", extra=""):
+        body = body if body is not None else "- **{0}-R1** The system works. `locked`\n".format(code)
+        text = ("---\nid: {0}\ntitle: {0} system\ntype: {kind}\nlayer: L2\nstatus: {status}\n"
+                "updated: 2026-10-01\ndepends_on: [{deps}]\n---\n# {0}\n> Purpose.\n\n"
+                "## Interface\n- **{0}-I1** Offers a term.\n\n## Rules\n{body}\n{extra}").format(
+                    code, kind=kind, status=status, deps=", ".join(deps), body=body, extra=extra)
+        self.write("docs/design/combat/{}.md".format(code.lower()), text)
+
+    def all_specs(self, **deps):
+        for code in self.CODES:
+            self.spec(code, deps.get(code, ()))
+
+    def hits(self, out, text):
+        return [l for l in out.splitlines() if text in l]
+
+    def set_coupling(self, value):
+        path = os.path.join(self.root, "tools", "doclint.json")
+        with open(path, encoding="utf-8") as f:
+            cfg = json.load(f)
+        if value is None:
+            cfg.pop("coupling", None)
+        else:
+            cfg["coupling"] = value
+        self.write("tools/doclint.json", json.dumps(cfg))
+
+    # -- foreign rule references
+    def test_foreign_rule_reference_warns_with_fix(self):
+        self.all_specs()
+        self.spec("ARC", body="- **ARC-R1** Draw follows CHA-R1 exactly. `locked`\n")
+        rc, out = self.lint()
+        self.assertEqual(rc, 0, out)
+        self.assertFinding(out, "WARN", "arc.md:17",
+                           "rule cites CHA-R1 of another system: cite an interface item (CHA-I\u2026) or the system code")
+
+    def test_foreign_reference_in_parameter_line_warns(self):
+        self.all_specs()
+        self.spec("ARC", extra="## Parameters\n| Draw time | per CHA-R1 |\n")
+        self.assertFinding(self.lint()[1], "WARN", "arc.md", "parameter cites CHA-R1 of another system")
+
+    def test_foreign_reference_exemptions(self):
+        self.all_specs()
+        body = ("- **ARC-R1** Uses the CHA interface (CHA-I1), the code CHA and own ARC-R2; `CHA-R1` is code. `locked`\n"
+                "- **ARC-R2** Reads [the charged spec](cha.md) by link only. `locked`\n"
+                "- **ARC-R3** Waits on ARC-Q1 and CHA-Q1 (questions, not rules). `locked`\n")
+        self.spec("CHA", extra="## Open questions\n- **CHA-Q1** Range? `minor`\n")
+        extra = ("## Open questions\n- **ARC-Q1** Does CHA-R1 still hold? `major`\n\n"
+                 "## Working notes\nCHA-R1 and SHD-R1 here.\n")
+        self.spec("ARC", body=body, extra=extra, status="drafting")
+        out = self.lint()[1]
+        self.assertEqual(self.hits(out, "of another system"), [], out)
+
+    def test_foreign_reference_ignored_outside_configured_types(self):
+        self.all_specs()
+        self.spec("ARC", kind="data", body="- **ARC-R1** Follows CHA-R1. `locked`\n")
+        self.assertEqual(self.hits(self.lint()[1], "of another system"), [])
+
+    # -- interface items
+    def test_interface_items_are_ids(self):
+        self.all_specs()
+        self.spec("ARC", deps=["CHA"], body="- **ARC-R1** Needs CHA-I1 from CHA. `locked`\n")
+        out = self.lint()[1]
+        self.assertEqual(self.hits(out, "dangling"), [], out)
+        self.assertEqual(self.hits(out, "of another system"), [], out)
+
+    def test_dangling_interface_citation_is_a_warning(self):
+        self.all_specs()
+        self.spec("ARC", deps=["CHA"], body="- **ARC-R1** Needs CHA-I9. `locked`\n")
+        rc, out = self.lint()
+        self.assertEqual(rc, 0, out)
+        self.assertFinding(out, "WARN", "arc.md:17", "dangling reference CHA-I9")
+
+    def test_dangling_rule_citation_stays_an_error(self):
+        self.all_specs()
+        self.spec("ARC", extra="Mentions CHA-R9.\n")
+        rc, out = self.lint()
+        self.assertEqual(rc, 1, out)
+        self.assertFinding(out, "ERROR", "arc.md", "dangling reference CHA-R9")
+
+    def test_duplicate_and_mismatched_interface_ids_are_errors(self):
+        self.all_specs()
+        self.spec("ARC", extra="- **ARC-I1** Again.\n- **CHA-I2** Wrong file.\n")
+        rc, out = self.lint()
+        self.assertEqual(rc, 1, out)
+        self.assertFinding(out, "ERROR", "arc.md", "duplicate interface item id ARC-I1")
+        self.assertFinding(out, "ERROR", "arc.md", "interface item CHA-I2 does not match file code ARC")
+
+    # -- fan-out
+    def test_fan_out_over_the_limit_warns(self):
+        self.set_coupling({"types": ["spec"], "max_fan_out": 2})
+        self.all_specs(ARC=["CHA", "SHD", "DMI"])
+        out = self.lint()[1]
+        self.assertFinding(out, "WARN", "arc.md", "fan-out 3 exceeds the limit of 2")
+
+    def test_fan_out_at_the_limit_is_silent(self):
+        self.set_coupling({"types": ["spec"], "max_fan_out": 3})
+        self.all_specs(ARC=["CHA", "SHD", "DMI"])
+        self.assertEqual(self.hits(self.lint()[1], "fan-out"), [])
+
+    def test_fan_out_default_limit_and_disable(self):
+        self.set_coupling({})
+        self.all_specs(ARC=["CHA", "SHD", "DMI", "ARC", "XXX", "YYY"])
+        self.assertFinding(self.lint()[1], "WARN", "arc.md", "fan-out 6 exceeds the limit of 5")
+        self.set_coupling({"max_fan_out": None})
+        self.assertEqual(self.hits(self.lint()[1], "fan-out"), [])
+
+    # -- cycles
+    def test_two_cycle_reported_once(self):
+        self.all_specs(ARC=["CHA"], CHA=["ARC"])
+        out = self.lint()[1]
+        self.assertEqual(self.hits(out, "dependency cycle"), ["WARN  docs/design/combat/arc.md:1  dependency cycle: ARC -> CHA -> ARC"])
+
+    def test_three_cycle_reported_once(self):
+        self.all_specs(CHA=["SHD"], SHD=["DMI"], DMI=["CHA"])
+        out = self.lint()[1]
+        self.assertEqual(self.hits(out, "dependency cycle"),
+                         ["WARN  docs/design/combat/cha.md:1  dependency cycle: CHA -> SHD -> DMI -> CHA"])
+
+    def test_acyclic_dependencies_and_unknown_codes_are_silent(self):
+        self.all_specs(ARC=["CHA", "SHD"], CHA=["SHD", "ZZZ"])
+        self.assertEqual(self.hits(self.lint()[1], "dependency cycle"), [])
+
+    def test_find_cycles_covers_self_loop_and_shared_nodes(self):
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("doclint_under_test", os.path.join(KIT, "tools", "doclint.py"))
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        graph = {"A": ["A", "B"], "B": ["A", "C"], "C": ["B"], "D": []}
+        self.assertEqual(mod.find_cycles(graph), [("A",), ("A", "B"), ("B", "C")])
+        dense = {str(i): [str(j) for j in range(14) if j != i] for i in range(14)}
+        self.assertTrue(mod.find_cycles(dense))  # polynomial: returns at once on a dense graph
+
+    # -- report mode
+    def test_coupling_report(self):
+        self.all_specs(ARC=["CHA", "SHD"], CHA=["ARC"])
+        self.spec("SHD", body="- **SHD-R1** Follows ARC-R1 and ARC-R1 again, and CHA-R1. `locked`\n")
+        rc, out = self.lint("--coupling")
+        self.assertEqual(rc, 0, out)
+        self.assertEqual(out, (
+            "System  Fan-out  Fan-in  Foreign rule refs  Interface items\n"
+            "------  -------  ------  -----------------  ---------------\n"
+            "ARC           2       1                  0                1\n"
+            "CHA           1       1                  0                1\n"
+            "DMI           0       0                  0                1\n"
+            "SHD           0       1                  2                1\n"
+            "\nCycles: 1\n  ARC -> CHA -> ARC\n"))
+
+    # -- off when not configured
+    def test_everything_is_off_without_the_key(self):
+        self.set_coupling(None)
+        self.all_specs(ARC=["CHA", "SHD", "DMI", "ARC", "XXX", "YYY"], CHA=["ARC"])
+        self.spec("ARC", deps=["CHA", "SHD", "DMI", "ARC", "XXX", "YYY"],
+                  body="- **ARC-R1** Draw follows CHA-R1 and needs CHA-I9. `locked`\n", extra="- **ARC-I1** Again.\n")
+        rc, out = self.lint()
+        self.assertEqual(rc, 0, out)
+        for text in ("another system", "fan-out", "dependency cycle", "interface item", "CHA-I9"):
+            self.assertEqual(self.hits(out, text), [], out)
+        rc, out = self.lint("--coupling")
+        self.assertEqual(rc, 2, out)
+
+    def test_spec_template_has_an_interface_section_before_rules(self):
+        with open(os.path.join(KIT, "templates", "design", "docs", "templates", "spec.md"), encoding="utf-8") as f:
+            text = f.read()
+        self.assertLess(text.index("## Intent"), text.index("## Interface"))
+        self.assertLess(text.index("## Interface"), text.index("## Rules"))
+        self.assertIn("**XXX-I1**", text)
+
+    def test_wayfarer_example_config_has_no_coupling_key(self):
+        path = os.path.join(os.path.dirname(KIT), "examples", "wayfarer", "doclint.json")
+        with open(path, encoding="utf-8") as f:
+            self.assertNotIn("coupling", json.load(f))
+
+
 class VocabularyTags(ProjectCase):
     """`conflicting`, `needs-build` and `validated` are accepted by the design preset."""
 
