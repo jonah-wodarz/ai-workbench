@@ -5,6 +5,7 @@ Isolation model: every run gets a fresh project dir with the skills under test i
 synced plugin skills, memory and project context are not loaded.
 """
 import difflib
+from collections import Counter
 import fcntl
 import hashlib
 import json
@@ -241,9 +242,10 @@ def reset_wait(msg):
     return (t - now).total_seconds() + 120
 
 
-def with_retry(fn, attempts=4, base=60):
+def with_retry(fn, attempts=4, base=60, max_wait=None):
     """fn() -> dict with optional 'error'. Limit-type errors wait (until the stated reset time if given)
-    and retry; other errors retry once."""
+    and retry; other errors retry once. With max_wait (seconds), a limit whose reset lies further away
+    returns the result with 'limit_abort' set instead of waiting."""
     res, tries, waits = None, 0, 0
     while True:
         GATE.wait()
@@ -255,7 +257,11 @@ def with_retry(fn, attempts=4, base=60):
             waits += 1
             if waits > 6:
                 return res
-            GATE.trip(min(reset_wait(err) or base * (2 ** min(waits, 5)), 6 * 3600))
+            wait = min(reset_wait(err) or base * (2 ** min(waits, 5)), 6 * 3600)
+            if max_wait is not None and wait > max_wait:
+                res["limit_abort"] = True
+                return res
+            GATE.trip(wait)
             res["retries"] = waits
             continue
         tries += 1
@@ -405,19 +411,51 @@ def render_report(data):
          f"scenario `{m.get('scenario_model', '-')}`.", ""]
     t = data.get("trigger")
     if t:
+        w = t.get("window", 1)
         o += ["## Trigger", "",
-              f"{t['n_runs']} runs ({t['runs_per_query']} per query), isolation violations: {t['isolation_violations']}, "
-              f"errors: {t['errors']}.", "",
-              "| Skill | Should-trigger | Near-miss false trigger | Confusion on should-trigger (other firing) |",
-              "|---|---|---|---|"]
-        for s, r in t["skills"].items():
-            sh, nm = r["should"], r["near_miss"]
-            conf = ", ".join(f"{k} x{v}" for k, v in sorted(sh["confusion"].items(), key=lambda x: -x[1])) or "-"
-            o.append(f"| {s} | {sh['hits']}/{sh['n']} ({pct(sh['hits'], sh['n'])}) | "
-                     f"{nm['false_hits']}/{nm['n']} ({pct(nm['false_hits'], nm['n'])}) | {conf} |")
+              f"{t['n_runs']} runs ({t['runs_per_query']} per query, window {w}), isolation violations: "
+              f"{t['isolation_violations']}, errors: {t['errors']}.", ""]
+        if t.get("aborted"):
+            o += [f"**Incomplete: {t['aborted']}.**", ""]
+        if w > 1:
+            o += [f"First call: the first tool call is a Skill call for the expected skill. Within window: the skill "
+                  f"loaded within the first {w} tool calls; `Load at` lists the tool-call index of the load "
+                  f"(1 = first call).", ""]
+        for title, key in (("Train set", "skills"), ("Hold-out set", "holdout_skills")):
+            grp = t.get(key)
+            if not grp:
+                continue
+            if t.get("holdout_skills"):
+                o += [f"### {title}", ""]
+            if w > 1:
+                o += ["| Skill | Should: first call | Should: within window | Load at | Near-miss: first call | "
+                      "Near-miss: within window | Other firing on should-trigger (within window) |",
+                      "|---|---|---|---|---|---|---|"]
+            else:
+                o += ["| Skill | Should-trigger | Near-miss false trigger | Confusion on should-trigger (other firing) |",
+                      "|---|---|---|---|"]
+            for s, r in grp.items():
+                sh, nm = r["should"], r["near_miss"]
+                conf = ", ".join(f"{k} x{v}" for k, v in sorted(sh["confusion"].items(), key=lambda x: -x[1])) or "-"
+                if w > 1:
+                    wc = ", ".join(f"{k} x{v}" for k, v in sorted(sh["win_confusion"].items(), key=lambda x: -x[1])) or "-"
+                    at = Counter(sh["skill_at"])
+                    ats = ", ".join(f"{k}: {v}" for k, v in sorted(at.items(), key=lambda x: (x[0] is None, x[0]))) or "-"
+                    o.append(f"| {s} | {sh['hits']}/{sh['n']} ({pct(sh['hits'], sh['n'])}) | "
+                             f"{sh['win_hits']}/{sh['n']} ({pct(sh['win_hits'], sh['n'])}) | {ats} | "
+                             f"{nm['false_hits']}/{nm['n']} ({pct(nm['false_hits'], nm['n'])}) | "
+                             f"{nm['win_false_hits']}/{nm['n']} ({pct(nm['win_false_hits'], nm['n'])}) | {wc} |")
+                else:
+                    o.append(f"| {s} | {sh['hits']}/{sh['n']} ({pct(sh['hits'], sh['n'])}) | "
+                             f"{nm['false_hits']}/{nm['n']} ({pct(nm['false_hits'], nm['n'])}) | {conf} |")
+            for s in t.get("not_in_ref", []):
+                o.append(f"| {s} | n/a (skill not in this ref) | | | | | |" if w > 1 else f"| {s} | n/a (skill not in this ref) | | |")
+            o.append("")
         u = t["unrelated"]
-        o += ["", f"Unrelated queries: {u['false_hits']}/{u['n']} fired one of the skills "
-                  f"({', '.join(f'{k} x{v}' for k, v in u['by_skill'].items()) or 'none'}).", ""]
+        if u["n"]:
+            o += [f"Unrelated queries: {u['false_hits']}/{u['n']} fired one of the skills "
+                  f"({', '.join(f'{k} x{v}' for k, v in u['by_skill'].items()) or 'none'})"
+                  + (f"; within window {u.get('win_false_hits', 0)}/{u['n']}" if w > 1 else "") + ".", ""]
         for k, v in t.get("explicit", {}).items():
             o.append(f"Explicit `/{k}`: loaded {v['hits']}/{v['n']}.")
         o.append("")

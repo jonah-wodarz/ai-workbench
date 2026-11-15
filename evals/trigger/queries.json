@@ -40,7 +40,33 @@
      "q": "Give my supervisor a one-page overview of the design decisions in docs/design so far.",
      "instead": "report-style"
     }
-   ]
+   ],
+   "holdout": {
+    "should": [
+     {
+      "q": "Okay, decisions for the trading system: prices drift with supply, caravans can be raided, and merchants remember if you cheated them. Please write these into docs/design."
+     },
+     {
+      "q": "Quick update from my side: drop the idea of a mana bar entirely, spells cost health instead. Update the design docs and anything that referenced mana."
+     },
+     {
+      "q": "Here's my take on the open questions in the sailing spec: wind direction changes hourly (SAI-Q1: yes), ships can't sail backwards (SAI-Q2: no way). Fold that in please."
+     },
+     {
+      "q": "Ich hab mir überlegt: Pferde brauchen Futter, aber nur auf langen Reisen, und Sättel sind austauschbar. Pack das in die Design-Dokumentation, Details später."
+     }
+    ],
+    "near_miss": [
+     {
+      "q": "Can you tell me whether a hunger bar or a food-quality system is better for a survival game? I want to compare the pros and cons before deciding anything.",
+      "instead": "layered-design-facilitation"
+     },
+     {
+      "q": "Check the design docs for rules that contradict each other and just list what you find, don't change anything.",
+      "instead": null
+     }
+    ]
+   }
   },
   "layered-design-facilitation": {
    "should": [
@@ -82,7 +108,33 @@
      "q": "Record these decisions in docs/design/crafting.md: recipes are discovered, not bought, and benches have three tiers.",
      "instead": "design-capture"
     }
-   ]
+   ],
+   "holdout": {
+    "should": [
+     {
+      "q": "I'd like to design a puzzle game about time loops, but all I have is the feeling I want players to have. Help me turn that into something real."
+     },
+     {
+      "q": "Let's think through the magic system for my tabletop campaign. I don't know yet what magic should mean in this world."
+     },
+     {
+      "q": "Help me explore what kind of tool would make my team's onboarding easier. It's a vague problem and I want to find the right shape first."
+     },
+     {
+      "q": "Ich plane ein Handelsspiel im Weltraum und würde gern Schritt für Schritt von der Grundidee zu den Mechaniken kommen. Wo fangen wir an?"
+     }
+    ],
+    "near_miss": [
+     {
+      "q": "Implement an A* pathfinding function in Python for a grid with obstacles.",
+      "instead": null
+     },
+     {
+      "q": "Add these decisions to docs/design/magic.md: mana regenerates slowly, spells have three schools.",
+      "instead": "design-capture"
+     }
+    ]
+   }
   },
   "structured-project-docs": {
    "should": [
@@ -124,7 +176,33 @@
      "q": "Create one Docs artifact with my resume, nothing else.",
      "instead": null
     }
-   ]
+   ],
+   "holdout": {
+    "should": [
+     {
+      "q": "I'm about to start a research project with papers, interview transcripts and drafts. How should I lay out the folder so it stays manageable?"
+     },
+     {
+      "q": "My CONTRIBUTING.md and the architecture doc are both 2000+ lines and overlap. Break them into focused files that link to each other."
+     },
+     {
+      "q": "Räum bitte meinen Projektordner auf: Specs, Notizen und Protokolle liegen wild durcheinander."
+     },
+     {
+      "q": "Where do ADRs, runbooks and onboarding notes belong in a repo's docs folder, and how should I name the files?"
+     }
+    ],
+    "near_miss": [
+     {
+      "q": "Write a docstring for this Python function.",
+      "instead": null
+     },
+     {
+      "q": "Run the markdown linter on my docs and tell me which rules fail.",
+      "instead": "doc-kit"
+     }
+    ]
+   }
   },
   "doc-kit": {
    "should": [
@@ -166,7 +244,33 @@
      "q": "Check this paragraph for spelling and grammar mistakes.",
      "instead": null
     }
-   ]
+   ],
+   "holdout": {
+    "should": [
+     {
+      "q": "Install the docs checker from the toolkit into this repo and wire it into CI so broken front matter fails the build."
+     },
+     {
+      "q": "My markdown docs keep drifting: old names, missing metadata, dead links. I want an automated check that enforces the conventions I write down in a config file."
+     },
+     {
+      "q": "Wie füge ich der doclint-Konfiguration eine eigene Regel hinzu, die verbotene Begriffe im Glossar meldet?"
+     },
+     {
+      "q": "Start a fresh design-docs project for my game with the standard entry files and the lint already set up."
+     }
+    ],
+    "near_miss": [
+     {
+      "q": "My README has a dead link to the install guide. Can you fix it?",
+      "instead": null
+     },
+     {
+      "q": "Which folder structure suits a docs tree with ADRs, runbooks and onboarding notes? No tooling needed, just the layout.",
+      "instead": "structured-project-docs"
+     }
+    ]
+   }
   },
   "fair-practice-questions": {
    "should": [
@@ -208,7 +312,33 @@
      "q": "Here are my exam answers from last week; tell me where I lost points.",
      "instead": null
     }
-   ]
+   ],
+   "holdout": {
+    "should": [
+     {
+      "q": "I have an operating systems exam on Friday. Write me 15 questions about scheduling and deadlocks that I can answer to check myself."
+     },
+     {
+      "q": "Create a true/false worksheet about Git branching, with a solution page, for my study group."
+     },
+     {
+      "q": "Mach mir Karteikarten zu den Begriffen der Graphentheorie, vorne der Begriff, hinten die Definition."
+     },
+     {
+      "q": "Please make a matching exercise: pair each HTTP status code with its meaning. 12 pairs, for a lesson page I'm building."
+     }
+    ],
+    "near_miss": [
+     {
+      "q": "Grade my answers to this quiz: 1b, 2d, 3a, and explain what I got wrong.",
+      "instead": null
+     },
+     {
+      "q": "What is the difference between a stack and a queue? I keep forgetting.",
+      "instead": null
+     }
+    ]
+   }
   },
   "interrogate": {
    "should": [
@@ -250,7 +380,33 @@
      "q": "Which questions should I ask in a job interview at a startup?",
      "instead": null
     }
-   ]
+   ],
+   "holdout": {
+    "should": [
+     {
+      "q": "I can't decide whether to do my bachelor thesis at a company or at the university. Ask me whatever you need until it is clear."
+     },
+     {
+      "q": "Before you build anything, I want you to quiz me about what this app should do. I have a rough idea and no spec."
+     },
+     {
+      "q": "Challenge my plan: I intend to rewrite the whole backend in Go over the semester break."
+     },
+     {
+      "q": "Ich will meiner Chefin schreiben, dass ich kündigen möchte, weiß aber nicht genau, was ich sagen will. Befrag mich dazu."
+     }
+    ],
+    "near_miss": [
+     {
+      "q": "What are good questions to ask a thesis supervisor in a first meeting?",
+      "instead": null
+     },
+     {
+      "q": "Test my knowledge of SQL joins with a few questions.",
+      "instead": "fair-practice-questions"
+     }
+    ]
+   }
   },
   "playbook": {
    "should": [
@@ -292,7 +448,33 @@
      "q": "Summarize the folder structure of this repo.",
      "instead": null
     }
-   ]
+   ],
+   "holdout": {
+    "should": [
+     {
+      "q": "Getting the Raspberry Pi to boot from the USB SSD took me a week of trial and error. Next time I want a guide so I don't repeat the dead ends."
+     },
+     {
+      "q": "Can you check whether we already wrote down how to renew the TLS certificate on the lab server? I think we did this in spring."
+     },
+     {
+      "q": "I'll have to produce this weekly report from the raw logs every Monday, and the first run needs some investigation. Work it out and leave a procedure for next time."
+     },
+     {
+      "q": "Wir bauen jedes Semester das Praktikums-Setup neu auf. Dokumentiere bitte, was geklappt hat und was nicht, damit es beim nächsten Mal schneller geht."
+     }
+    ],
+    "near_miss": [
+     {
+      "q": "What does chmod 755 do?",
+      "instead": null
+     },
+     {
+      "q": "Write me a Python one-liner that sums the numbers in a list.",
+      "instead": null
+     }
+    ]
+   }
   },
   "report-style": {
    "should": [
@@ -334,7 +516,33 @@
      "q": "Reply to my landlord's email and tell him I can't make it on Friday.",
      "instead": null
     }
-   ]
+   ],
+   "holdout": {
+    "should": [
+     {
+      "q": "Prepare a status report for the steering committee about the migration project: progress, risks, next steps."
+     },
+     {
+      "q": "Write the summary of what you changed and why, for the pull request description."
+     },
+     {
+      "q": "Erstelle eine Zusammenfassung unserer Testergebnisse für mein Praktikumsprotokoll."
+     },
+     {
+      "q": "Compose a design review document comparing the two caching strategies we tried, with a recommendation."
+     }
+    ],
+    "near_miss": [
+     {
+      "q": "Translate this paragraph into French.",
+      "instead": null
+     },
+     {
+      "q": "Is a hash map faster than a binary search tree for lookups?",
+      "instead": null
+     }
+    ]
+   }
   },
   "setup-retro": {
    "should": [
@@ -376,7 +584,33 @@
      "q": "Review my pull request for code quality and naming.",
      "instead": null
     }
-   ]
+   ],
+   "holdout": {
+    "should": [
+     {
+      "q": "Look through my skills folder and tell me what to prune. I suspect half of them just add noise."
+     },
+     {
+      "q": "A skill didn't trigger yesterday although it should have. Can you figure out why and check my other descriptions as well?"
+     },
+     {
+      "q": "Time for the monthly review of my Claude configuration: instructions, plugins, anything that has gone stale."
+     },
+     {
+      "q": "Schau dir meine Anweisungen und Skills an und sag mir, was sich widerspricht oder überflüssig ist."
+     }
+    ],
+    "near_miss": [
+     {
+      "q": "Create a new skill that generates commit messages.",
+      "instead": null
+     },
+     {
+      "q": "Which Claude model should I use for long coding tasks?",
+      "instead": null
+     }
+    ]
+   }
   },
   "handoff": {
    "should": [
@@ -418,7 +652,33 @@
      "q": "What does a two-phase commit do? Short answer please.",
      "instead": null
     }
-   ]
+   ],
+   "holdout": {
+    "should": [
+     {
+      "q": "The refactor is done. Instead of a long message, give me a page where I can see what changed, which files, and what you still need me to decide."
+     },
+     {
+      "q": "Draw me an interactive overview of how requests flow through our microservices, I want to click through the services."
+     },
+     {
+      "q": "I need to sign off three options for the database migration. Make a one-page brief with a recommendation and checkboxes for my choice."
+     },
+     {
+      "q": "Mach mir eine übersichtliche Seite zum Stand des Projekts: was ist fertig, was offen, wo brauchst du eine Entscheidung von mir?"
+     }
+    ],
+    "near_miss": [
+     {
+      "q": "Give me three bullet points on what changed in the last release.",
+      "instead": null
+     },
+     {
+      "q": "Write the quarterly project report as a Word-style document I can edit and send around.",
+      "instead": "report-style"
+     }
+    ]
+   }
   }
  },
  "unrelated": [
