@@ -1,6 +1,6 @@
 ---
 name: "structured-project-docs"
-description: "Organize project documentation into a clean, navigable file tree of small, single-topic Markdown files instead of large monolithic docs. Use this whenever creating, structuring, or reorganizing a project's docs, notes, specs, or design records in a folder or repo — especially in Claude Cowork — or whenever a Markdown file is growing large or starts covering more than one topic, even if the user doesn't explicitly ask for \"structure.\" Trigger when setting up a new project's documentation, when a doc needs splitting, or when a folder layout has become messy or ad hoc."
+description: "Plan and reorganize the file tree of project documentation: split a large or mixed-topic Markdown file into small single-topic files with an index, decide where notes, specs, ADRs, runbooks or research belong, and clean up a messy or ad hoc docs folder or wiki. Use for 'reorganize my notes', 'split this doc up', 'where should X go', 'set up a docs layout', 'Ordnerstruktur für die Doku', especially in Claude Cowork, and whenever a Markdown file grows past one topic. Boundary: installing or running the lint, pre-commit hook or doc templates is doc-kit; the content and wording of a report or README is report-style."
 ---
 
 # Structured Project Docs

@@ -1,6 +1,6 @@
 ---
 name: handoff
-description: Builds a self-contained HTML handoff page (decision brief, system map, change report or explainer) instead of a wall of Markdown. Use for "handoff page", "visual summary", "show me instead of a wall of text", "checkpoint", "decisions needed", "review of changes", "explain this visually", or when results with structure, flow, comparison or quantity go to the reader. Stop for a short answer (reply in chat) and for prose people edit (write a document).
+description: "Build a visual HTML page for the reader instead of a wall of Markdown: a decision page with options to pick and copy back, a checkpoint or change report (what changed, what needs a decision), a project state map, or a visual explainer with diagrams. Use for requests such as 'handoff page', 'checkpoint page', 'visual summary', 'show me this visually', 'put the open decisions on a page', 'click-through map', 'explain this visually', 'als interaktive Seite'. Load this skill first for any such request, before writing a page by hand or calling the Artifact tool; the page is then delivered as an artifact where available. Short answers go in chat; written documents and reports follow report-style."
 ---
 
 # Handoff

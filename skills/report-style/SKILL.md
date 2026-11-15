@@ -1,6 +1,6 @@
 ---
 name: "report-style"
-description: "House style for written deliverables and the summary at the end of multi-step work: bottom line first, one term per concept, terms defined by what they do, tables and diagrams where they carry a comparison. Use when writing or revising a document, report, review, README, write-up or final summary, in English or German (\"fass zusammen\", \"schreib einen Bericht\", \"summarize what you did\"). Boundary: file layout and splitting of docs belong to structured-project-docs; quick conversational answers follow the user's preferences only."
+description: "House style for written deliverables: documents, reports, reviews, proposals, write-ups, one-pagers, READMEs and the summary at the end of multi-step work. Bottom line first, one term per concept, terms defined by what they do, tables where they carry a comparison. Use when asked to write, draft or revise such a text, in English or German ('write a report', 'Bericht schreiben', 'fass zusammen', 'summarize what you did'); load it before gathering material or drafting. Boundary: a visual HTML page with diagrams or options to pick is handoff; file layout and splitting of docs is structured-project-docs; quick conversational answers follow the user's preferences only."
 ---
 
 # Report Style
