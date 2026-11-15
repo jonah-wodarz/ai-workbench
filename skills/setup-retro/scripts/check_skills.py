@@ -1,13 +1,16 @@
 #!/usr/bin/env python3
 """Check skill folders against the mechanical audit rules.
 
-Usage: python check_skills.py <skills-dir> [skill-name ...]
+Usage: python check_skills.py <skills-dir> [skill-name ...] [--deny FILE]
 
 Checks per skill: front matter parses, name equals folder name, description
 present, under 1,024 characters and free of angle brackets, SKILL.md word
 count (warning above 1,000, error above 5,000), local links in SKILL.md
-resolve, no README.md in the folder. Prints one line per finding; exit code 1
-if any error was found. Stdlib only.
+resolve, no README.md in the folder. With --deny FILE, every text file in the
+skill folder is also searched for the file's patterns (one regex per line,
+"#" starts a comment); a match is an error. Use it before publishing to keep
+personal terms out. Prints one line per finding; exit code 1 if any error was
+found. Stdlib only.
 """
 import re
 import sys
@@ -66,7 +69,37 @@ def check(skill_dir):
     return findings
 
 
+def load_deny(path):
+    lines = Path(path).read_text(encoding="utf-8").splitlines()
+    return [re.compile(l.strip()) for l in lines if l.strip() and not l.lstrip().startswith("#")]
+
+
+def check_deny(skill_dir, patterns):
+    findings = []
+    for f in sorted(skill_dir.rglob("*")):
+        if not f.is_file() or "__pycache__" in f.parts:
+            continue
+        try:
+            lines = f.read_text(encoding="utf-8").splitlines()
+        except (UnicodeDecodeError, OSError):
+            continue
+        for n, line in enumerate(lines, 1):
+            for rx in patterns:
+                m = rx.search(line)
+                if m:
+                    findings.append(("error", f"{f.relative_to(skill_dir).as_posix()}:{n}: denied term '{m.group(0)}'"))
+    return findings
+
+
 def main(argv):
+    deny = []
+    if "--deny" in argv:
+        i = argv.index("--deny")
+        if i + 1 >= len(argv):
+            print(__doc__)
+            return 2
+        deny = load_deny(argv[i + 1])
+        argv = argv[:i] + argv[i + 2:]
     if len(argv) < 2:
         print(__doc__)
         return 2
@@ -77,7 +110,7 @@ def main(argv):
     names = argv[2:] or sorted(p.name for p in root.iterdir() if p.is_dir())
     errors = 0
     for name in names:
-        for level, msg in check(root / name):
+        for level, msg in check(root / name) + (check_deny(root / name, deny) if deny else []):
             print(f"{level.upper():5} {name}: {msg}")
             errors += level == "error"
     print(f"{len(names)} skills checked, {errors} errors")

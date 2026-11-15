@@ -1,0 +1,20 @@
+{
+  "name": "creative-design",
+  "displayName": "Creative Design",
+  "version": "0.1.0",
+  "description": "Turn a stream of unstructured design ideas into a specification that stays consistent: layered facilitation, decision capture, a linted docs tree and visual handoff pages.",
+  "author": {
+    "name": "Jonah Wodarz",
+    "url": "https://github.com/jonah-wodarz"
+  },
+  "repository": "https://github.com/jonah-wodarz/creative-design",
+  "homepage": "https://github.com/jonah-wodarz/creative-design",
+  "license": "MIT",
+  "keywords": [
+    "design",
+    "specification",
+    "requirements",
+    "documentation",
+    "facilitation"
+  ]
+}
