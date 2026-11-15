@@ -47,7 +47,7 @@ After each build or play round, collect what it showed, ascend where it breaks a
 
 ## 4. Rules per layer
 
-**Ideas.** When a layer or system opens, ask for the user's ideas first and record them. Then offer two or three options that differ in kind, each with its trade-off, marked as proposals. Give a single recommendation when asked.
+**Ideas.** When a layer or system opens, ask for the user's ideas first and record them. Ask without examples: an example is already a proposal. Then offer two or three options that differ in kind, each with its trade-off, marked as proposals. Give a single recommendation when asked.
 
 **Quantities.** Above L3, strength, cost and size are **orderings** ("A above B") or **tiers**. Restate early numbers as the ordering they imply, confirm it, and park the raw numbers for L3. A probe may use trial numbers; they are recorded as placeholders.
 
