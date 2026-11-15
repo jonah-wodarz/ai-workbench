@@ -38,7 +38,7 @@
     },
     {
      "q": "Give my supervisor a one-page overview of the design decisions in docs/design so far.",
-     "instead": "report-style"
+     "instead": null
     }
    ],
    "holdout": {
@@ -166,7 +166,7 @@
    "near_miss": [
     {
      "q": "Write a README for my CLI tool that renames photos by EXIF date.",
-     "instead": "report-style"
+     "instead": null
     },
     {
      "q": "Add a check that fails the build when docs contain broken links.",
@@ -476,74 +476,6 @@
     ]
    }
   },
-  "report-style": {
-   "should": [
-    {
-     "q": "Write a short report on the results of our load tests for the team."
-    },
-    {
-     "q": "Summarize what you just did in this refactor for me."
-    },
-    {
-     "q": "Schreib mir einen Bericht über die Ergebnisse meines Praktikumsversuchs, für meinen Betreuer."
-    },
-    {
-     "q": "Draft the README for this repo. It's a CLI tool that renames photos by EXIF date."
-    },
-    {
-     "q": "Write up the review of the three candidate databases we looked at, comparing latency, cost and ops effort."
-    },
-    {
-     "q": "Can you write a proposal document for adopting trunk-based development in our student project?"
-    },
-    {
-     "q": "I need a one-pager for my supervisor on where the thesis stands."
-    },
-    {
-     "q": "Create a write-up of the security lab findings: 4 vulnerabilities, severity and fix for each."
-    }
-   ],
-   "near_miss": [
-    {
-     "q": "Quick question: what's the difference between a mutex and a semaphore?",
-     "instead": null
-    },
-    {
-     "q": "Fix the typo in line 12 of README.md.",
-     "instead": null
-    },
-    {
-     "q": "Reply to my landlord's email and tell him I can't make it on Friday.",
-     "instead": null
-    }
-   ],
-   "holdout": {
-    "should": [
-     {
-      "q": "Prepare a status report for the steering committee about the migration project: progress, risks, next steps."
-     },
-     {
-      "q": "Write the summary of what you changed and why, for the pull request description."
-     },
-     {
-      "q": "Erstelle eine Zusammenfassung unserer Testergebnisse für mein Praktikumsprotokoll."
-     },
-     {
-      "q": "Compose a design review document comparing the two caching strategies we tried, with a recommendation."
-     }
-    ],
-    "near_miss": [
-     {
-      "q": "Translate this paragraph into French.",
-      "instead": null
-     },
-     {
-      "q": "Is a hash map faster than a binary search tree for lookups?",
-      "instead": null
-     }
-    ]
-   }
-  },
   "setup-retro": {
    "should": [
     {
@@ -633,7 +565,7 @@
      "q": "Build a checkpoint page for this session: what changed, what needs my decision."
     },
     {
-     "q": "Can you turn this dependency list into a map I can click through to see what depends on what?"
+     "q": "The migration is finished. Give me an overview page: what changed, the results, and what I still have to decide."
     },
     {
      "q": "Explain how our build pipeline works as a visual explainer with diagrams, not Markdown."
@@ -646,7 +578,7 @@
     },
     {
      "q": "Write a short report on the load test results for the team.",
-     "instead": "report-style"
+     "instead": null
     },
     {
      "q": "What does a two-phase commit do? Short answer please.",
@@ -675,7 +607,7 @@
      },
      {
       "q": "Write the quarterly project report as a Word-style document I can edit and send around.",
-      "instead": "report-style"
+      "instead": null
      }
     ]
    }

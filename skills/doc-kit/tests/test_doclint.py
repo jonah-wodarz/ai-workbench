@@ -5,6 +5,7 @@ Each test builds a throwaway project with the kit's tools/ and a preset config.
 """
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -481,6 +482,43 @@ class Coupling(ProjectCase):
             "SHD           0       1                  2                1\n"
             "\nCycles: 1\n  ARC -> CHA -> ARC\n"))
 
+    # -- system map page
+    def map_data(self):
+        with open(os.path.join(self.root, "docs", "system-map.html"), encoding="utf-8") as f:
+            page = f.read()
+        return json.loads(re.search(r'id="handoff-data">(.*?)</script>', page, re.S).group(1)), page
+
+    def test_system_map_page_from_front_matter(self):
+        self.all_specs(ARC=["CHA", "SHD"], CHA=["ARC"])
+        self.spec("SHD", status="drafting", extra="## Open questions\n- **SHD-Q1** Does a shield block arrows? `major`\n")
+        rc, out = self.lint("--system-map")
+        self.assertEqual(rc, 0, out)
+        self.assertIn("docs/system-map.html (4 systems, 3 dependencies)", out)
+        data, page = self.map_data()
+        self.assertEqual([n["id"] for n in data["nodes"]], ["ARC", "CHA", "DMI", "SHD"])
+        shd = data["nodes"][3]
+        self.assertEqual((shd["status"], shd["layer"], shd["open"], shd["summary"]), ("drafting", "L2", 1, "Purpose."))
+        self.assertEqual(sorted((e["from"], e["to"]) for e in data["edges"]), [("ARC", "CHA"), ("ARC", "SHD"), ("CHA", "ARC")])
+        self.assertIn("1 dependency cycle", data["bottom_line"])
+        self.assertEqual(data["fan_out_warn"], 5)
+        self.assertEqual([s["id"] for s in data["statuses"]][:2], ["idea", "drafting"])
+        self.assertNotIn("groups", data)  # one folder only
+        self.assertIn("<title>System map</title>", page)
+
+    def test_system_map_custom_path_and_fan_out(self):
+        self.set_coupling({"types": ["spec"], "max_fan_out": 1})
+        self.all_specs(ARC=["CHA", "SHD"])
+        rc, out = self.lint("--system-map", "out/map.html")
+        self.assertEqual(rc, 0, out)
+        with open(os.path.join(self.root, "out", "map.html"), encoding="utf-8") as f:
+            self.assertIn("above the fan-out limit of 1: ARC", f.read())
+
+    def test_system_map_needs_coupling(self):
+        self.set_coupling(None)
+        self.all_specs()
+        rc, out = self.lint("--system-map")
+        self.assertEqual(rc, 2, out)
+
     # -- off when not configured
     def test_everything_is_off_without_the_key(self):
         self.set_coupling(None)
@@ -500,11 +538,6 @@ class Coupling(ProjectCase):
         self.assertLess(text.index("## Intent"), text.index("## Interface"))
         self.assertLess(text.index("## Interface"), text.index("## Rules"))
         self.assertIn("**XXX-I1**", text)
-
-    def test_wayfarer_example_config_has_no_coupling_key(self):
-        path = os.path.join(os.path.dirname(KIT), "examples", "wayfarer", "doclint.json")
-        with open(path, encoding="utf-8") as f:
-            self.assertNotIn("coupling", json.load(f))
 
 
 class VocabularyTags(ProjectCase):

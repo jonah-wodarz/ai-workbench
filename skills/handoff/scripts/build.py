@@ -2,7 +2,7 @@
 """Build a handoff page: inject a data JSON into a template after validating it.
 
 Usage: build.py <template> <data.json> -o <out.html> [--artifact] [--validate]
-  template   decision-brief | system-map | change-report | explainer (or a path)
+  template   decision-brief | overview | explainer (or a path)
   --artifact write page content without the html/head/body wrappers (for the Artifact tool)
   --validate check the data only
 Exit 0 ok, 1 invalid data (messages say how to fix), 2 usage error.
@@ -16,14 +16,6 @@ from pathlib import Path
 
 TEMPLATES = Path(__file__).resolve().parent.parent / "assets" / "templates"
 ID_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.-]*$")
-DEFAULT_STATUSES = [
-    {"id": "idea", "label": "Idea", "tone": "muted"},
-    {"id": "drafting", "label": "Drafting", "tone": "warn"},
-    {"id": "settled", "label": "Settled", "tone": "good"},
-    {"id": "validated", "label": "Validated", "tone": "info"},
-    {"id": "locked", "label": "Locked", "tone": "info"},
-    {"id": "deferred", "label": "Deferred", "tone": "muted"},
-]
 KINDS = ["added", "changed", "removed", "reversed", "conflict"]
 
 
@@ -161,119 +153,113 @@ def decision_brief():
     return schema, cross
 
 
-def system_map():
-    node = Obj({"id": Str(10, True), "label": Str(40), "layer": Str(20), "status": Str(20)},
-               {"group": Str(20), "summary": Str(240), "open": Int(0, 999)})
-    edge = Obj({"from": Str(10), "to": Str(10)}, {"note": Str(120)})
-    lab = Obj({"id": Str(20, True), "label": Str(32)})
-    status = Obj({"id": Str(20, True), "label": Str(24), "tone": Enum("good", "warn", "bad", "info", "muted")})
-    req = head_req()
-    req.update({"layers": List(lab, 1, 8), "nodes": List(node, 1, 60), "edges": List(edge, 0, 300)})
-    schema = Obj(req, {"ask": Str(220), "groups": List(lab, 1, 10), "statuses": List(status, 1, 10),
-                       "columns": Enum("layer", "group"), "fan_out_warn": Int(1, 99)})
-
-    def cross(c, d):
-        if not isinstance(d.get("nodes"), list):
-            return
-        ids = unique(c, d["nodes"], "$.nodes")
-        layers = {x.get("id") for x in d.get("layers", []) if isinstance(x, dict)}
-        groups = {x.get("id") for x in d.get("groups", []) if isinstance(x, dict)}
-        sts = {x.get("id") for x in d.get("statuses", DEFAULT_STATUSES) if isinstance(x, dict)}
-        for i, n in enumerate(d["nodes"]):
-            if not isinstance(n, dict):
-                continue
-            if n.get("layer") not in layers:
-                c.err(f"$.nodes[{i}].layer", f"'{n.get('layer')}' is not in 'layers'. Known: {', '.join(sorted(map(str, layers)))}")
-            if n.get("status") not in sts:
-                c.err(f"$.nodes[{i}].status", f"'{n.get('status')}' is not a status. Known: {', '.join(sorted(map(str, sts)))}")
-            if "group" in n and n["group"] not in groups:
-                c.err(f"$.nodes[{i}].group", f"'{n['group']}' is not in 'groups'. Add it or fix the id")
-            if d.get("columns") == "group" and "group" not in n:
-                c.err(f"$.nodes[{i}]", "columns is 'group' but this node has no 'group'")
-        seen = set()
-        for i, e in enumerate(d.get("edges", [])):
-            if not isinstance(e, dict):
-                continue
-            for k in ("from", "to"):
-                if e.get(k) not in ids:
-                    c.err(f"$.edges[{i}].{k}", f"'{e.get(k)}' is not a node id. Add the node or remove the edge")
-            if e.get("from") == e.get("to"):
-                c.err(f"$.edges[{i}]", "points from a node to itself; remove it")
-            key = (e.get("from"), e.get("to"))
-            if key in seen:
-                c.err(f"$.edges[{i}]", f"duplicate edge {key[0]} -> {key[1]}")
-            seen.add(key)
-        if d.get("columns") == "group" and not groups:
-            c.err("$.columns", "is 'group' but 'groups' is missing. Add 'groups' or use 'layer'")
-    return schema, cross
+def shared_blocks():
+    series = Obj({"name": Str(30), "values": List(Num(), 2, 12)})
+    return {
+        "table": Obj({"type": Enum("table"), "columns": List(Str(32), 2, 6), "rows": List(List(Str(100), 2, 6), 1, 10)}, {"caption": Str(140)}),
+        "chart": Obj({"type": Enum("chart"), "kind": Enum("bar", "line"), "labels": List(Str(24), 2, 12), "series": List(series, 1, 3)},
+                     {"title": Str(80), "unit": Str(14), "caption": Str(140)}),
+        "list": Obj({"type": Enum("list"), "items": List(Str(170), 2, 8)}, {"ordered": Bool(), "title": Str(60)}),
+    }
 
 
-def change_report():
+class Block:
+    def __init__(self, blocks):
+        self.blocks = blocks
+
+    def check(self, c, v, p):
+        if not isinstance(v, dict) or v.get("type") not in self.blocks:
+            return c.err(p, f"needs an object with 'type' one of: {', '.join(self.blocks)}")
+        self.blocks[v["type"]].check(c, v, p)
+        if v["type"] == "table" and isinstance(v.get("rows"), list) and isinstance(v.get("columns"), list):
+            for i, r in enumerate(v["rows"]):
+                if isinstance(r, list) and len(r) != len(v["columns"]):
+                    c.err(f"{p}.rows[{i}]", f"has {len(r)} cells but there are {len(v['columns'])} columns")
+        if v["type"] == "chart" and isinstance(v.get("labels"), list):
+            for i, s in enumerate(v.get("series", [])):
+                if isinstance(s, dict) and isinstance(s.get("values"), list) and len(s["values"]) != len(v["labels"]):
+                    c.err(f"{p}.series[{i}].values", f"has {len(s['values'])} values but there are {len(v['labels'])} labels")
+
+
+def check_changes(c, ch, path):
+    """Cross-checks for a changes section: areas exist, each kind has the texts it needs."""
+    if not isinstance(ch, dict) or not isinstance(ch.get("items"), list):
+        return
+    need = {"added": ["after"], "removed": ["before"], "changed": ["before", "after"],
+            "reversed": ["before", "after"], "conflict": ["before", "after"]}
+    unique(c, ch["items"], f"{path}.items")
+    areas = {x.get("id") for x in ch.get("areas", []) if isinstance(x, dict)}
+    used = set()
+    for i, x in enumerate(ch["items"]):
+        if not isinstance(x, dict):
+            continue
+        used.add(x.get("area"))
+        if x.get("area") not in areas:
+            c.err(f"{path}.items[{i}].area", f"'{x.get('area')}' is not in 'areas'. Known: {', '.join(sorted(map(str, areas)))}")
+        for k in need.get(x.get("kind"), []):
+            if k not in x:
+                c.err(f"{path}.items[{i}]", f"kind '{x['kind']}' needs '{k}' text so the page can show the change")
+        if x.get("kind") == "added" and "before" in x:
+            c.err(f"{path}.items[{i}]", "kind 'added' has no 'before' text; remove it")
+        if x.get("kind") == "removed" and "after" in x:
+            c.err(f"{path}.items[{i}]", "kind 'removed' has no 'after' text; remove it")
+    for a in sorted(areas - used):
+        c.warnings.append(f"area '{a}' has no items; remove it")
+
+
+def overview():
     item = Obj({"id": Str(10, True), "area": Str(20), "kind": Enum(*KINDS), "title": Str(100)},
                {"why": Str(220), "before": Str(700), "after": Str(700), "ref": Str(30), "review": Bool(),
                 "before_label": Str(22), "after_label": Str(22)})
     area = Obj({"id": Str(20, True), "label": Str(40)})
+    changes = Obj({"checkpoint": Str(140), "areas": List(area, 1, 12), "items": List(item, 1, 60)})
+    stat = Obj({"label": Str(40), "value": Str(24)}, {"note": Str(90), "tone": Enum("good", "warn", "bad")})
+    blocks = shared_blocks()
+    blocks["stats"] = Obj({"type": Enum("stats"), "items": List(stat, 2, 6)})
+    action = Obj({"id": Str(10, True), "kind": Enum("decide", "review", "do"), "text": Str(220)}, {"ref": Str(30)})
+    result = Obj({"id": Str(10, True), "heading": Str(70)}, {"summary": Str(300), "blocks": List(Block(blocks), 1, 4)})
+    dec = Obj({"id": Str(10, True), "question": Str(170)},
+              {"context": Str(300), "options": List(Str(130), 2, 4), "recommended": Int(0, 3)})
     req = head_req()
-    req.update({"checkpoint": Str(140), "areas": List(area, 1, 12), "items": List(item, 1, 60)})
-    schema = Obj(req, {"ask": Str(220)})
-    need = {"added": ["after"], "removed": ["before"], "changed": ["before", "after"],
-            "reversed": ["before", "after"], "conflict": ["before", "after"]}
+    req["actions"] = List(action, 0, 8)
+    schema = Obj(req, {"ask": Str(220), "task": Str(220), "changes": changes, "results": List(result, 1, 8),
+                       "decisions": List(dec, 1, 8), "next_steps": List(Str(170), 1, 8)})
 
     def cross(c, d):
-        if not isinstance(d.get("items"), list):
-            return
-        unique(c, d["items"], "$.items")
-        areas = {x.get("id") for x in d.get("areas", []) if isinstance(x, dict)}
-        used = set()
-        for i, x in enumerate(d["items"]):
-            if not isinstance(x, dict):
+        for key in ("actions", "results", "decisions"):
+            if isinstance(d.get(key), list):
+                unique(c, d[key], f"$.{key}")
+        check_changes(c, d.get("changes"), "$.changes")
+        for i, r in enumerate(d.get("results") or []):
+            if isinstance(r, dict) and not (r.get("summary") or r.get("blocks")):
+                c.err(f"$.results[{i}]", "needs a 'summary' or at least one block")
+        for i, q in enumerate(d.get("decisions") or []):
+            if not isinstance(q, dict) or "recommended" not in q:
                 continue
-            used.add(x.get("area"))
-            if x.get("area") not in areas:
-                c.err(f"$.items[{i}].area", f"'{x.get('area')}' is not in 'areas'. Known: {', '.join(sorted(map(str, areas)))}")
-            for k in need.get(x.get("kind"), []):
-                if k not in x:
-                    c.err(f"$.items[{i}]", f"kind '{x['kind']}' needs '{k}' text so the page can show the change")
-            if x.get("kind") == "added" and "before" in x:
-                c.err(f"$.items[{i}]", "kind 'added' has no 'before' text; remove it")
-            if x.get("kind") == "removed" and "after" in x:
-                c.err(f"$.items[{i}]", "kind 'removed' has no 'after' text; remove it")
-        for a in sorted(areas - used):
-            c.warnings.append(f"area '{a}' has no items; remove it")
+            if not isinstance(q.get("options"), list):
+                c.err(f"$.decisions[{i}]", "has 'recommended' but no 'options'. Add the options or drop 'recommended'")
+            elif isinstance(q["recommended"], int) and q["recommended"] >= len(q["options"]):
+                c.err(f"$.decisions[{i}].recommended", f"index {q['recommended']} is outside the {len(q['options'])} options (0-based)")
+        if not any(k in d for k in ("changes", "results", "decisions", "next_steps")):
+            c.err("$", "an overview needs at least one of 'changes', 'results', 'decisions', 'next_steps'")
+        if isinstance(d.get("decisions"), list) and len(d["decisions"]) > 4:
+            c.warnings.append("more than 4 open decisions; decisions with trade-offs read better as a decision-brief page")
     return schema, cross
 
 
 def explainer():
     step = Obj({"label": Str(44)}, {"note": Str(100)})
     layer = Obj({"label": Str(32), "note": Str(150)}, {"tag": Str(20)})
-    series = Obj({"name": Str(30), "values": List(Num(), 2, 12)})
-    blocks = {
+    blocks = shared_blocks()
+    blocks.update({
         "callout": Obj({"type": Enum("callout"), "kind": Enum("definition", "pitfall", "example"), "text": Str(420)}, {"title": Str(50)}),
         "flow": Obj({"type": Enum("flow"), "steps": List(step, 2, 7)}, {"loop": Str(110), "caption": Str(140)}),
-        "table": Obj({"type": Enum("table"), "columns": List(Str(32), 2, 6), "rows": List(List(Str(100), 2, 6), 1, 10)}, {"caption": Str(140)}),
-        "chart": Obj({"type": Enum("chart"), "kind": Enum("bar", "line"), "labels": List(Str(24), 2, 12), "series": List(series, 1, 3)},
-                     {"title": Str(80), "unit": Str(14), "caption": Str(140)}),
         "layers": Obj({"type": Enum("layers"), "layers": List(layer, 2, 8)}, {"title": Str(80), "direction": Str(40), "caption": Str(140)}),
-        "list": Obj({"type": Enum("list"), "items": List(Str(170), 2, 8)}, {"ordered": Bool(), "title": Str(60)}),
-    }
-
-    class Block:
-        def check(self, c, v, p):
-            if not isinstance(v, dict) or v.get("type") not in blocks:
-                return c.err(p, f"needs an object with 'type' one of: {', '.join(blocks)}")
-            blocks[v["type"]].check(c, v, p)
-            if v["type"] == "table" and isinstance(v.get("rows"), list) and isinstance(v.get("columns"), list):
-                for i, r in enumerate(v["rows"]):
-                    if isinstance(r, list) and len(r) != len(v["columns"]):
-                        c.err(f"{p}.rows[{i}]", f"has {len(r)} cells but there are {len(v['columns'])} columns")
-            if v["type"] == "chart" and isinstance(v.get("labels"), list):
-                for i, s in enumerate(v.get("series", [])):
-                    if isinstance(s, dict) and isinstance(s.get("values"), list) and len(s["values"]) != len(v["labels"]):
-                        c.err(f"{p}.series[{i}].values", f"has {len(s['values'])} values but there are {len(v['labels'])} labels")
+    })
 
     check = Obj({"q": Str(190), "options": List(Str(130), 2, 4), "answer": Int(0, 3), "explain": Str(240)})
     sec = Obj({"id": Str(10, True), "heading": Str(70), "idea": Str(210)},
-              {"body": List(Str(620), 0, 4), "blocks": List(Block(), 0, 5), "check": List(check, 0, 3)})
+              {"body": List(Str(620), 0, 4), "blocks": List(Block(blocks), 0, 5), "check": List(check, 0, 3)})
     req = head_req()
     req["sections"] = List(sec, 1, 10)
     schema = Obj(req, {"ask": Str(220)})
@@ -292,8 +278,7 @@ def explainer():
     return schema, cross
 
 
-BUILDERS = {"decision-brief": decision_brief, "system-map": system_map,
-            "change-report": change_report, "explainer": explainer}
+BUILDERS = {"decision-brief": decision_brief, "overview": overview, "explainer": explainer}
 
 
 def validate(name, data):
@@ -311,14 +296,6 @@ def validate(name, data):
     if len(str(data.get("title", "")).split()) > 6:
         c.warnings.append("title has more than 6 words; a 2 to 4 word name works better as the page title")
     return c
-
-
-def normalize(name, data):
-    if name == "system-map":
-        data.setdefault("statuses", DEFAULT_STATUSES)
-        data.setdefault("columns", "layer")
-        data.setdefault("fan_out_warn", 8)
-    return data
 
 
 def artifact_form(text):
@@ -361,7 +338,7 @@ def main(argv=None):
         print("data valid")
         return 0
     tpl = (TEMPLATES / f"{name}.html").read_text(encoding="utf-8")
-    payload = json.dumps(normalize(name, data), ensure_ascii=False, separators=(",", ":")).replace("<", "\\u003c")
+    payload = json.dumps(data, ensure_ascii=False, separators=(",", ":")).replace("<", "\\u003c")
     pat = re.compile(r'(<script type="application/json" id="handoff-data">).*?(</script>)', re.S)
     out = pat.sub(lambda m: m.group(1) + payload + m.group(2), tpl, count=1)
     out = re.sub(r"<title>.*?</title>", lambda m: "<title>" + html.escape(data["title"]) + "</title>", out, count=1)

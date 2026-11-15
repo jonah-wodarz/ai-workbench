@@ -10,7 +10,7 @@ Skills are loaded by name at the start of the session; this table is what trigge
 |---|---|
 | Creating, moving or splitting files | `structured-project-docs` |
 | Setting up or running the lint | `doc-kit` |
-| A recurring workflow needs figuring out | `playbook` |
+| A recurring workflow needs figuring out | `playbook`, where installed |
 
 ## 1. Principles
 

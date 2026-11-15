@@ -1,6 +1,6 @@
 ---
 name: "design-capture"
-description: "Record design decisions in the project's design docs: turn free-form design talk (rambling ideas, batches of decisions, answers to open questions, changes of mind) into updates of the specs, decision history and open questions. Use whenever the user works on a design project with a docs tree (game design, system architecture, product concepts, requirements) and says things like 'put that in the design docs', 'update the specs', 'record these decisions', 'here are my answers to your questions', 'I changed my mind on X', 'trag das in die Design-Docs ein'. Load this skill before reading or editing the docs. Open-ended brainstorming without recording is layered-design-facilitation; lint problems are doc-kit."
+description: "Record design decisions in the project's design docs: turn free-form design talk (rambling ideas, batches of decisions, answers to open questions, changes of mind) into updates of the specs, decision history and open questions. Use whenever the user works on a design project with a docs tree (game design, system architecture, product concepts, requirements) and says things like 'put that in the design docs', 'update the specs', 'record these decisions', 'here are my answers to your questions', 'I changed my mind on X'. Load this skill before reading or editing the docs. Open-ended brainstorming without recording is layered-design-facilitation; lint problems are doc-kit."
 ---
 
 # Design Capture

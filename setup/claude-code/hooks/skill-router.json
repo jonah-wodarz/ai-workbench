@@ -35,13 +35,6 @@
       "which skills overlap",
       "setup aufräumen"
     ],
-    "report-style": [
-      "\\b(write|draft) (a |the )?(report|write-?up|readme|review)\\b",
-      "summari[sz]e what you did",
-      "final summary",
-      "fass zusammen",
-      "schreib einen bericht"
-    ],
     "doc-kit": [
       "doc-?kit",
       "doclint",
@@ -54,7 +47,8 @@
       "(split|reorgani[sz]e|restructure) (the |this |my )?(docs?|notes|specs?)",
       "file tree",
       "ordnerstruktur",
-      "dokumentation aufteilen"
+      "dokumentation aufteilen",
+      "ordnerstruktur für die doku"
     ],
     "layered-design-facilitation": [
       "\\blayers? of abstraction\\b",
@@ -69,13 +63,17 @@
       "\\bwe decided\\b",
       "update the (spec|docs?|decision)",
       "halt das fest",
-      "entscheidung(en)? festhalten"
+      "entscheidung(en)? festhalten",
+      "trag das in die design-docs ein"
     ],
     "handoff": [
       "handoff page",
+      "overview page",
+      "checkpoint (page|report)",
       "visual summary",
-      "checkpoint report",
-      "decision brief"
+      "decision brief",
+      "als interaktive seite",
+      "übersichtsseite"
     ]
   }
 }

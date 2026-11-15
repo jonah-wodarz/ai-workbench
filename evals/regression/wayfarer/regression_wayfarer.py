@@ -13,6 +13,7 @@ import subprocess
 import sys
 import tempfile
 
+HERE = os.path.dirname(os.path.abspath(__file__))
 LINE = re.compile(r"^(ERROR|WARN)\s+(\S+?)(?::(\d+))?\s{2}(.*)$")
 
 
@@ -116,9 +117,9 @@ def main(src, kit):
         shutil.copytree(src, root)
         tools = os.path.join(root, "tools")
         shutil.copy(os.path.join(kit, "kit", "tools", "doclint.py"), os.path.join(tools, "doclint2.py"))
-        shutil.copy(os.path.join(kit, "examples", "wayfarer", "doclint.json"), os.path.join(tools, "doclint.json"))
+        shutil.copy(os.path.join(HERE, "doclint.json"), os.path.join(tools, "doclint.json"))
         os.makedirs(os.path.join(tools, "doclint_plugins"), exist_ok=True)
-        shutil.copy(os.path.join(kit, "examples", "wayfarer", "doclint_plugins", "wayfarer.py"),
+        shutil.copy(os.path.join(HERE, "doclint_plugins", "wayfarer.py"),
                     os.path.join(tools, "doclint_plugins", "wayfarer.py"))
         for step in steps:
             step(root)
@@ -172,9 +173,9 @@ def map_new(src, kit):
     shutil.copytree(src, root)
     tools = os.path.join(root, "tools")
     shutil.copy(os.path.join(kit, "kit", "tools", "doclint.py"), os.path.join(tools, "doclint2.py"))
-    shutil.copy(os.path.join(kit, "examples", "wayfarer", "doclint.json"), os.path.join(tools, "doclint.json"))
+    shutil.copy(os.path.join(HERE, "doclint.json"), os.path.join(tools, "doclint.json"))
     os.makedirs(os.path.join(tools, "doclint_plugins"), exist_ok=True)
-    shutil.copy(os.path.join(kit, "examples", "wayfarer", "doclint_plugins", "wayfarer.py"),
+    shutil.copy(os.path.join(HERE, "doclint_plugins", "wayfarer.py"),
                 os.path.join(tools, "doclint_plugins", "wayfarer.py"))
     out = subprocess.run([sys.executable, "tools/doclint2.py", "--map"], cwd=root,
                          stdout=subprocess.PIPE, universal_newlines=True).stdout

@@ -5,6 +5,7 @@ Usage (from the repository root):
     python tools/doclint.py              # run all checks
     python tools/doclint.py --map        # print the generated index (map) table
     python tools/doclint.py --coupling   # print fan-out, fan-in, foreign rule references, cycles
+    python tools/doclint.py --system-map [OUT.html]  # write the interactive system map page
     python tools/doclint.py --quiet      # errors only (used by the pre-commit hook)
     python tools/doclint.py --verbose    # also list files missing front matter, plugin details
     python tools/doclint.py --config PATH  # use another config (default: tools/doclint.json)
@@ -14,13 +15,15 @@ see the kit's CONFIG.md for every key. Files with front matter are "migrated" an
 checked strictly; files without it get only the link and stale-term checks.
 Project-specific checks are plugins: tools/doclint_plugins/<name>.py.
 """
+import datetime
+import html
 import importlib.util
 import json
 import os
 import re
 import sys
 
-__version__ = "0.4.0"
+__version__ = "0.5.0"
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DEFAULT_CONFIG = os.path.join(HERE, "doclint.json")
@@ -66,6 +69,7 @@ DEFAULTS = {
     "index": {"file": None, "question_tags": []},
     "expect_front_matter": {"include": [], "exclude_regex": None},
     "map": {"columns": [], "sort": []},
+    "system_map": {"out": "docs/system-map.html", "title": "System map"},
     "plugins": [],
     "plugin_config": {},
 }
@@ -808,6 +812,94 @@ def _render_map(columns, sort_keys, rows):
     return "\n".join(out)
 
 
+# --------------------------------------------------------------------------- system map page
+
+SYSTEM_MAP_TEMPLATE = os.path.join(HERE, "doclint_assets", "system-map.html")
+STATUS_TONES = {"idea": "muted", "drafting": "warn", "settled": "good", "validated": "info",
+                "locked": "info", "deferred": "muted"}
+
+
+def _labels(known, used):
+    """Configured enum values first, then any other value the documents use."""
+    return [{"id": v, "label": v} for v in list(known) + sorted(set(used) - set(known))]
+
+
+def system_map_data(project, today=None):
+    """Data for the system map page: one node per coupling document, one edge per dependency.
+    Everything comes from front matter, the documents' open-question lines and the dependency graph."""
+    project.load()
+    project.build_index()
+    cfg, spec = project.cfg, project.cfg.get("system_map") or {}
+    docs, graph = coupling_docs(project), coupling_graph(project)
+    nodes, groups = [], []
+    for code, doc in docs.items():
+        group = os.path.basename(os.path.dirname(doc.rel))
+        summary = next((line[1:].strip() for _, line, fence in doc.body() if not fence and line.startswith(">")), "")
+        questions = sum(1 for _, line, fence in doc.body() if not fence
+                        for m in [project.rx_question_line.match(line)] if m and m.group(1) == code)
+        node = {"id": code, "label": str(doc.fm.get("title", code)), "layer": str(doc.fm.get("layer", "none")),
+                "status": str(doc.fm.get("status", "none")), "open": questions}
+        if summary:
+            node["summary"] = summary[:240]
+        if group:
+            node["group"] = group
+            if group not in groups:
+                groups.append(group)
+        nodes.append(node)
+    edges = [{"from": code, "to": dep} for code, deps in graph.items() for dep in deps if dep != code]
+    cycles = find_cycles(graph)
+    limit = project.coupling["max_fan_out"]
+    over = [code for code, doc in docs.items() if limit is not None and len(dependencies(project, doc)) > limit]
+    line = "{} systems, {} dependencies. ".format(len(nodes), len(edges))
+    line += "{} dependency cycle{}".format(len(cycles), "" if len(cycles) == 1 else "s") if cycles else "No dependency cycles"
+    if over:
+        line += "; above the fan-out limit of {}: {}".format(limit, ", ".join(over[:8]) + (" and more" if len(over) > 8 else ""))
+    data = {
+        "title": spec.get("title", "System map"),
+        "date": today or datetime.date.today().isoformat(),
+        "source": "front matter and depends_on, doclint " + __version__,
+        "bottom_line": line[:259] + ".",
+        "layers": _labels(cfg["enums"].get("layer", []), [n["layer"] for n in nodes]),
+        "statuses": [dict(s, tone=STATUS_TONES.get(s["id"], "muted"))
+                     for s in _labels(cfg["enums"].get("status", []), [n["status"] for n in nodes])],
+        "columns": "layer",
+        "fan_out_warn": limit if limit is not None else 99,
+        "nodes": nodes,
+        "edges": edges,
+    }
+    if len(groups) > 1 and all("group" in n for n in nodes):
+        data["groups"] = [{"id": g, "label": g.replace("-", " ").replace("_", " ").capitalize()} for g in sorted(groups)]
+    else:
+        for n in nodes:
+            n.pop("group", None)
+    if cycles or over:
+        data["ask"] = "Start with the flagged systems: cycles and high fan-out show where to decouple."
+    return data
+
+
+def write_system_map(project, out=None):
+    """Inject the data into the page template. Returns the exit code."""
+    if not os.path.isfile(SYSTEM_MAP_TEMPLATE):
+        print("system map template not found: copy the kit's tools/doclint_assets/ folder next to doclint.py")
+        return 2
+    data = system_map_data(project)
+    if not data["nodes"]:
+        print("no documents of the coupling types have front matter yet; nothing to map")
+        return 2
+    out = out or os.path.join(project.root, (project.cfg.get("system_map") or {}).get("out", "docs/system-map.html"))
+    payload = json.dumps(data, ensure_ascii=False, separators=(",", ":")).replace("<", "\\u003c")
+    page = read(SYSTEM_MAP_TEMPLATE)
+    page = re.sub(r'(<script type="application/json" id="handoff-data">).*?(</script>)',
+                  lambda m: m.group(1) + payload + m.group(2), page, count=1, flags=re.S)
+    page = re.sub(r"<title>.*?</title>", lambda m: "<title>" + html.escape(data["title"]) + "</title>", page, count=1)
+    os.makedirs(os.path.dirname(os.path.abspath(out)), exist_ok=True)
+    with open(out, "w", encoding="utf-8", newline="\n") as f:
+        f.write(page)
+    print("wrote {} ({} systems, {} dependencies)".format(os.path.relpath(out, project.root).replace(os.sep, "/"),
+                                                         len(data["nodes"]), len(data["edges"])))
+    return 0
+
+
 # --------------------------------------------------------------------------- plugins
 
 def load_plugins(project):
@@ -899,6 +991,12 @@ def main(argv):
             return 2
         print(coupling_report(project))
         return 0
+    if "--system-map" in argv:
+        if not project.coupling:
+            print("the system map needs the dependency graph: add a `coupling` key to the config (see CONFIG.md)")
+            return 2
+        nxt = argv[argv.index("--system-map") + 1:][:1]
+        return write_system_map(project, nxt[0] if nxt and not nxt[0].startswith("--") else None)
     report = Report(root)
     migrated, missing = run(project, report)
     report.print(quiet="--quiet" in argv)

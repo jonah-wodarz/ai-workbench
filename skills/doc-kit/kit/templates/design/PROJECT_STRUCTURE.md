@@ -8,6 +8,7 @@ How the project is organized and where new work goes.
 ├─ PROJECT_STRUCTURE.md      ← this file
 ├─ docs/
 │  ├─ SYSTEM_MAP.md          ← START HERE: systems × layer × status (generated)
+│  ├─ system-map.html        ← the same state as an interactive page (generated)
 │  ├─ GLOSSARY.md            ← canonical names (check before naming anything)
 │  ├─ CONVENTIONS.md         ← how every doc is structured and written (binding)
 │  ├─ design/                ← current state: vision, parking lot, <domain>/ specs

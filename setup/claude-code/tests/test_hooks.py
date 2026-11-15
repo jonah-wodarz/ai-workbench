@@ -119,7 +119,7 @@ class SkillRouterTest(unittest.TestCase):
         with open(os.path.join(HOOKS, "skill-router.json"), encoding="utf-8") as fh:
             cfg = json.load(fh)
         expected = {"design-capture", "layered-design-facilitation", "structured-project-docs",
-                    "doc-kit", "playbook", "report-style", "interrogate", "setup-retro",
+                    "doc-kit", "playbook", "interrogate", "setup-retro",
                     "fair-practice-questions", "handoff"}
         self.assertEqual(set(cfg["skills"]), expected)
 

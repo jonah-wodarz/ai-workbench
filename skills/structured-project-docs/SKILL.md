@@ -1,6 +1,6 @@
 ---
 name: "structured-project-docs"
-description: "Plan and reorganize the file tree of project documentation: split a large or mixed-topic Markdown file into small single-topic files with an index, decide where notes, specs, ADRs, runbooks or research belong, and clean up a messy or ad hoc docs folder or wiki. Use for 'reorganize my notes', 'split this doc up', 'where should X go', 'set up a docs layout', 'Ordnerstruktur für die Doku', especially in Claude Cowork, and whenever a Markdown file grows past one topic. Boundary: installing or running the lint, pre-commit hook or doc templates is doc-kit; the content and wording of a report or README is report-style."
+description: "Plan and reorganize the file tree of project documentation: split a large or mixed-topic Markdown file into small single-topic files with an index, decide where notes, specs, ADRs, runbooks or research belong, and clean up a messy or ad hoc docs folder or wiki. Use for 'reorganize my notes', 'split this doc up', 'where should X go', 'set up a docs layout', especially in Claude Cowork, and whenever a Markdown file grows past one topic. Boundary: installing or running the lint, pre-commit hook or doc templates is doc-kit."
 ---
 
 # Structured Project Docs
@@ -87,4 +87,4 @@ Done when every file has one topic, every link resolves, and the lint is clean.
 
 ## Related skills
 
-**design-capture** decides what goes into spec, decision history and parking lot. **layered-design-facilitation** decides which layer a thought belongs to. **playbook** writes workflow guides and run logs. **doc-kit** holds the lint and the templates. A single standalone document or a chat reply is outside this skill (see **report-style**).
+**design-capture** decides what goes into spec, decision history and parking lot. **layered-design-facilitation** decides which layer a thought belongs to. Workflow guides and run logs follow the project's playbook templates. **doc-kit** holds the lint and the templates. A single standalone document or a chat reply is outside this skill.

@@ -34,7 +34,7 @@ Assign each finding a category and its cheapest fix from [finding-categories.md]
 
 ## 5. Report
 
-Files when a folder is available (structured-project-docs), else a doc; the chat gets the summary (report-style). Contents:
+Files when a folder is available (structured-project-docs), else a doc; the chat gets the summary. Contents:
 
 - Decision table: item, verdict (keep / amend / merge / remove / new / promote), confidence, evidence link.
 - Friction found, including what the log missed.

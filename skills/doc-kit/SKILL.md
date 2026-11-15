@@ -18,7 +18,8 @@ Mechanical doc rules get a deterministic check; prose rules are kept for judgmen
 | `kit/presets/design.json` | Design projects (design-capture): specs + decision history, IDs, tags, L0-L4, open-questions index, early-quantity and coupling warnings |
 | `kit/templates/basic/`, `kit/templates/design/` | Entry files: README, PROJECT_STRUCTURE, CONVENTIONS, GLOSSARY, map, parking lot; `docs/templates/` with playbook and run-log (+ spec/decisions/data for design) |
 | `CONFIG.md` | Every config key and plugin hook |
-| `examples/wayfarer/` | A real project's config + plugin, for reference |
+| `kit/tools/doclint_assets/system-map.html` | Page template that `--system-map` fills |
+| `examples/tidewatch/` | A small complete design project, for reference |
 
 Find this skill's folder first (the folder containing this SKILL.md) and copy from there.
 
@@ -28,7 +29,7 @@ Find this skill's folder first (the folder containing this SKILL.md) and copy fr
 2. **Propose the tree** (from the template's `PROJECT_STRUCTURE.md`, trimmed to what the project needs) and get a yes before creating files.
 3. **Copy**: `kit/templates/<preset>/` → project root; `kit/tools/` → `<root>/tools/`; `kit/presets/<preset>.json` → `<root>/tools/doclint.json`.
 4. **Fill placeholders**: project name, `<OWNER>` in CONVENTIONS, today's date for every `YYYY-MM-DD`. For `design`: add each system to the code table in `CONVENTIONS.md` §5 before creating its file.
-5. **Run** `python tools/doclint.py` until it reports 0 errors. Generate the map with `--map` and paste it under the map file's introduction.
+5. **Run** `python tools/doclint.py` until it reports 0 errors. Generate the map with `--map` and paste it under the map file's introduction. For `design`, `python tools/doclint.py --system-map` also writes the interactive page `docs/system-map.html`.
 6. **Hook** (git projects): `git config core.hooksPath tools/hooks`.
 
 If the project is on the user's linked computer, write files there with the device tools; run the lint there if Python is available, otherwise in the workspace on a staged copy.
@@ -51,5 +52,6 @@ If the project is on the user's linked computer, write files there with the devi
 
 - Run the lint after every docs change you make, before reporting the change as done.
 - Errors block; warnings are reported, not necessarily fixed.
-- Never edit a generated map table by hand; regenerate it.
+- Never edit a generated map table or `docs/system-map.html` by hand; regenerate them.
+- When the user wants to see the state of the systems or their dependencies, run `--system-map` and deliver the page (as an Artifact where the session offers them). The lint writes it from front matter, so it costs no writing.
 - Changes to `CONVENTIONS.md` or `doclint.json` need the user's approval: they change what "correct" means.
