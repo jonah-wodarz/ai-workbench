@@ -1,0 +1,1777 @@
+{
+ "trigger": {
+  "runs_per_query": 3,
+  "window": 4,
+  "sets": [
+   "holdout",
+   "train"
+  ],
+  "n_runs": 189,
+  "isolation_violations": 0,
+  "errors": 0,
+  "bundled_skills_visible": [
+   "artifact-capabilities",
+   "artifact-diagramming",
+   "batch",
+   "claude-api",
+   "code-review",
+   "dataviz",
+   "debug",
+   "design",
+   "design-sync",
+   "doctor",
+   "explain-usage",
+   "fewer-permission-prompts",
+   "loop",
+   "plugin-authoring",
+   "run",
+   "run-skill-generator",
+   "session-start-hook",
+   "setup-claude",
+   "simplify",
+   "slides",
+   "update-config",
+   "verify",
+   "whiteboard"
+  ],
+  "skills": {
+   "doc-kit": {
+    "should": {
+     "n": 27,
+     "hits": 27,
+     "confusion": {},
+     "win_hits": 27,
+     "win_confusion": {},
+     "skill_at": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    "near_miss": {
+     "n": 9,
+     "false_hits": 0,
+     "instead_hits": 3,
+     "instead_n": 3,
+     "fired": {
+      "structured-project-docs": 3
+     },
+     "win_false_hits": 0,
+     "win_fired": {
+      "structured-project-docs": 3
+     }
+    }
+   },
+   "handoff": {
+    "should": {
+     "n": 36,
+     "hits": 27,
+     "confusion": {
+      "tool:Bash": 8,
+      "tool:Artifact": 1
+     },
+     "win_hits": 29,
+     "win_confusion": {
+      "other-skill:artifact-diagramming": 1,
+      "tool:Bash": 6
+     },
+     "skill_at": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      2,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      2,
+      1
+     ]
+    },
+    "near_miss": {
+     "n": 15,
+     "false_hits": 0,
+     "instead_hits": 0,
+     "instead_n": 0,
+     "fired": {},
+     "win_false_hits": 0,
+     "win_fired": {}
+    }
+   },
+   "structured-project-docs": {
+    "should": {
+     "n": 33,
+     "hits": 25,
+     "confusion": {
+      "none": 3,
+      "doc-kit": 3,
+      "tool:Bash": 2
+     },
+     "win_hits": 27,
+     "win_confusion": {
+      "none": 3,
+      "doc-kit": 3
+     },
+     "skill_at": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      2,
+      2,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    "near_miss": {
+     "n": 15,
+     "false_hits": 0,
+     "instead_hits": 3,
+     "instead_n": 6,
+     "fired": {
+      "doc-kit": 3
+     },
+     "win_false_hits": 0,
+     "win_fired": {
+      "doc-kit": 3
+     }
+    }
+   }
+  },
+  "holdout_skills": {
+   "doc-kit": {
+    "should": {
+     "n": 12,
+     "hits": 12,
+     "confusion": {},
+     "win_hits": 12,
+     "win_confusion": {},
+     "skill_at": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    "near_miss": {
+     "n": 6,
+     "false_hits": 0,
+     "instead_hits": 2,
+     "instead_n": 3,
+     "fired": {
+      "structured-project-docs": 2
+     },
+     "win_false_hits": 0,
+     "win_fired": {
+      "structured-project-docs": 2
+     }
+    }
+   },
+   "handoff": {
+    "should": {
+     "n": 12,
+     "hits": 4,
+     "confusion": {
+      "tool:Bash": 5,
+      "none": 3
+     },
+     "win_hits": 5,
+     "win_confusion": {
+      "tool:Bash": 4,
+      "none": 3
+     },
+     "skill_at": [
+      1,
+      1,
+      1,
+      2,
+      1
+     ]
+    },
+    "near_miss": {
+     "n": 6,
+     "false_hits": 0,
+     "instead_hits": 0,
+     "instead_n": 0,
+     "fired": {},
+     "win_false_hits": 0,
+     "win_fired": {}
+    }
+   },
+   "structured-project-docs": {
+    "should": {
+     "n": 12,
+     "hits": 8,
+     "confusion": {
+      "tool:Bash": 4
+     },
+     "win_hits": 9,
+     "win_confusion": {
+      "tool:Bash": 3
+     },
+     "skill_at": [
+      1,
+      1,
+      1,
+      2,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    "near_miss": {
+     "n": 6,
+     "false_hits": 0,
+     "instead_hits": 3,
+     "instead_n": 3,
+     "fired": {
+      "doc-kit": 3
+     },
+     "win_false_hits": 0,
+     "win_fired": {
+      "doc-kit": 3
+     }
+    }
+   }
+  },
+  "not_in_ref": [],
+  "aborted": "",
+  "unrelated": {
+   "n": 0,
+   "false_hits": 0,
+   "win_false_hits": 0,
+   "by_skill": {}
+  },
+  "explicit": {},
+  "queries": [
+   {
+    "id": "189c2c62",
+    "set": "train",
+    "kind": "should",
+    "skill": "doc-kit",
+    "instead": null,
+    "query": "Set up doclint in my docs repo with a pre-commit hook.",
+    "outcomes": [
+     "doc-kit",
+     "doc-kit",
+     "doc-kit"
+    ],
+    "window_outcomes": [
+     "doc-kit",
+     "doc-kit",
+     "doc-kit"
+    ],
+    "skill_at": [
+     1,
+     1,
+     1
+    ]
+   },
+   {
+    "id": "47f03e78",
+    "set": "train",
+    "kind": "should",
+    "skill": "doc-kit",
+    "instead": null,
+    "query": "I want a linter for my Markdown design docs that checks front matter, broken links and retired names. Can you set that up?",
+    "outcomes": [
+     "doc-kit",
+     "doc-kit",
+     "doc-kit"
+    ],
+    "window_outcomes": [
+     "doc-kit",
+     "doc-kit",
+     "doc-kit"
+    ],
+    "skill_at": [
+     1,
+     1,
+     1
+    ]
+   },
+   {
+    "id": "efb5de17",
+    "set": "train",
+    "kind": "should",
+    "skill": "doc-kit",
+    "instead": null,
+    "query": "Add a pre-commit hook so my docs get checked before every commit.",
+    "outcomes": [
+     "doc-kit",
+     "doc-kit",
+     "doc-kit"
+    ],
+    "window_outcomes": [
+     "doc-kit",
+     "doc-kit",
+     "doc-kit"
+    ],
+    "skill_at": [
+     1,
+     1,
+     1
+    ]
+   },
+   {
+    "id": "598f7c51",
+    "set": "train",
+    "kind": "should",
+    "skill": "doc-kit",
+    "instead": null,
+    "query": "Run the docs lint and tell me what is failing.",
+    "outcomes": [
+     "doc-kit",
+     "doc-kit",
+     "doc-kit"
+    ],
+    "window_outcomes": [
+     "doc-kit",
+     "doc-kit",
+     "doc-kit"
+    ],
+    "skill_at": [
+     1,
+     1,
+     1
+    ]
+   },
+   {
+    "id": "86aa123e",
+    "set": "train",
+    "kind": "should",
+    "skill": "doc-kit",
+    "instead": null,
+    "query": "Can you migrate my existing doc tree onto checked conventions, with a config file for the checker?",
+    "outcomes": [
+     "doc-kit",
+     "doc-kit",
+     "doc-kit"
+    ],
+    "window_outcomes": [
+     "doc-kit",
+     "doc-kit",
+     "doc-kit"
+    ],
+    "skill_at": [
+     1,
+     1,
+     1
+    ]
+   },
+   {
+    "id": "c99857e0",
+    "set": "train",
+    "kind": "should",
+    "skill": "doc-kit",
+    "instead": null,
+    "query": "Richte mir ein neues Doku-Projekt ein, mit Lint und Vorlagen für die Einstiegsdateien.",
+    "outcomes": [
+     "doc-kit",
+     "doc-kit",
+     "doc-kit"
+    ],
+    "window_outcomes": [
+     "doc-kit",
+     "doc-kit",
+     "doc-kit"
+    ],
+    "skill_at": [
+     1,
+     1,
+     1
+    ]
+   },
+   {
+    "id": "87678ed3",
+    "set": "train",
+    "kind": "should",
+    "skill": "doc-kit",
+    "instead": null,
+    "query": "I need a new check in doclint that flags first person in specs. How do I extend it?",
+    "outcomes": [
+     "doc-kit",
+     "doc-kit",
+     "doc-kit"
+    ],
+    "window_outcomes": [
+     "doc-kit",
+     "doc-kit",
+     "doc-kit"
+    ],
+    "skill_at": [
+     1,
+     1,
+     1
+    ]
+   },
+   {
+    "id": "d7cb6086",
+    "set": "train",
+    "kind": "should",
+    "skill": "doc-kit",
+    "instead": null,
+    "query": "Bootstrap a design docs project with a glossary, a conventions file, a system map and an automatic checker.",
+    "outcomes": [
+     "doc-kit",
+     "doc-kit",
+     "doc-kit"
+    ],
+    "window_outcomes": [
+     "doc-kit",
+     "doc-kit",
+     "doc-kit"
+    ],
+    "skill_at": [
+     1,
+     1,
+     1
+    ]
+   },
+   {
+    "id": "da0786c6",
+    "set": "train",
+    "kind": "should",
+    "skill": "doc-kit",
+    "instead": null,
+    "query": "Set up the documentation structure for my new repo. It will have architecture docs, ADRs and some how-tos.",
+    "outcomes": [
+     "doc-kit",
+     "doc-kit",
+     "doc-kit"
+    ],
+    "window_outcomes": [
+     "doc-kit",
+     "doc-kit",
+     "doc-kit"
+    ],
+    "skill_at": [
+     1,
+     1,
+     1
+    ]
+   },
+   {
+    "id": "fe823d93",
+    "set": "train",
+    "kind": "near_miss",
+    "skill": "doc-kit",
+    "instead": "structured-project-docs",
+    "query": "How should I organize my docs folder? It's grown organically and I can't find anything.",
+    "outcomes": [
+     "structured-project-docs",
+     "structured-project-docs",
+     "structured-project-docs"
+    ],
+    "window_outcomes": [
+     "structured-project-docs",
+     "structured-project-docs",
+     "structured-project-docs"
+    ],
+    "skill_at": [
+     1,
+     1,
+     1
+    ]
+   },
+   {
+    "id": "b19cab87",
+    "set": "train",
+    "kind": "near_miss",
+    "skill": "doc-kit",
+    "instead": null,
+    "query": "Run ruff on src/ and fix the warnings.",
+    "outcomes": [
+     "tool:Bash",
+     "tool:Bash",
+     "tool:Bash"
+    ],
+    "window_outcomes": [
+     "tool:Bash",
+     "tool:Bash",
+     "tool:Bash"
+    ],
+    "skill_at": [
+     null,
+     null,
+     null
+    ]
+   },
+   {
+    "id": "6698bf66",
+    "set": "train",
+    "kind": "near_miss",
+    "skill": "doc-kit",
+    "instead": null,
+    "query": "Check this paragraph for spelling and grammar mistakes.",
+    "outcomes": [
+     "none",
+     "none",
+     "none"
+    ],
+    "window_outcomes": [
+     "none",
+     "none",
+     "none"
+    ],
+    "skill_at": [
+     null,
+     null,
+     null
+    ]
+   },
+   {
+    "id": "75292724",
+    "set": "holdout",
+    "kind": "should",
+    "skill": "doc-kit",
+    "instead": null,
+    "query": "Install the docs checker from the toolkit into this repo and wire it into CI so broken front matter fails the build.",
+    "outcomes": [
+     "doc-kit",
+     "doc-kit",
+     "doc-kit"
+    ],
+    "window_outcomes": [
+     "doc-kit",
+     "doc-kit",
+     "doc-kit"
+    ],
+    "skill_at": [
+     1,
+     1,
+     1
+    ]
+   },
+   {
+    "id": "357bb8bf",
+    "set": "holdout",
+    "kind": "should",
+    "skill": "doc-kit",
+    "instead": null,
+    "query": "My markdown docs keep drifting: old names, missing metadata, dead links. I want an automated check that enforces the conventions I write down in a config file.",
+    "outcomes": [
+     "doc-kit",
+     "doc-kit",
+     "doc-kit"
+    ],
+    "window_outcomes": [
+     "doc-kit",
+     "doc-kit",
+     "doc-kit"
+    ],
+    "skill_at": [
+     1,
+     1,
+     1
+    ]
+   },
+   {
+    "id": "dcba9f82",
+    "set": "holdout",
+    "kind": "should",
+    "skill": "doc-kit",
+    "instead": null,
+    "query": "Wie füge ich der doclint-Konfiguration eine eigene Regel hinzu, die verbotene Begriffe im Glossar meldet?",
+    "outcomes": [
+     "doc-kit",
+     "doc-kit",
+     "doc-kit"
+    ],
+    "window_outcomes": [
+     "doc-kit",
+     "doc-kit",
+     "doc-kit"
+    ],
+    "skill_at": [
+     1,
+     1,
+     1
+    ]
+   },
+   {
+    "id": "8ae3d047",
+    "set": "holdout",
+    "kind": "should",
+    "skill": "doc-kit",
+    "instead": null,
+    "query": "Start a fresh design-docs project for my game with the standard entry files and the lint already set up.",
+    "outcomes": [
+     "doc-kit",
+     "doc-kit",
+     "doc-kit"
+    ],
+    "window_outcomes": [
+     "doc-kit",
+     "doc-kit",
+     "doc-kit"
+    ],
+    "skill_at": [
+     1,
+     1,
+     1
+    ]
+   },
+   {
+    "id": "ce4c1c53",
+    "set": "holdout",
+    "kind": "near_miss",
+    "skill": "doc-kit",
+    "instead": null,
+    "query": "My README has a dead link to the install guide. Can you fix it?",
+    "outcomes": [
+     "tool:Bash",
+     "tool:Bash",
+     "tool:Bash"
+    ],
+    "window_outcomes": [
+     "tool:Bash",
+     "tool:Bash",
+     "tool:Bash"
+    ],
+    "skill_at": [
+     null,
+     null,
+     null
+    ]
+   },
+   {
+    "id": "d6e32738",
+    "set": "holdout",
+    "kind": "near_miss",
+    "skill": "doc-kit",
+    "instead": "structured-project-docs",
+    "query": "Which folder structure suits a docs tree with ADRs, runbooks and onboarding notes? No tooling needed, just the layout.",
+    "outcomes": [
+     "structured-project-docs",
+     "none",
+     "structured-project-docs"
+    ],
+    "window_outcomes": [
+     "structured-project-docs",
+     "none",
+     "structured-project-docs"
+    ],
+    "skill_at": [
+     1,
+     null,
+     1
+    ]
+   },
+   {
+    "id": "8f8ec46a",
+    "set": "train",
+    "kind": "should",
+    "skill": "handoff",
+    "instead": null,
+    "query": "Give me a handoff page for what we decided today so I can review it tomorrow.",
+    "outcomes": [
+     "handoff",
+     "handoff",
+     "handoff"
+    ],
+    "window_outcomes": [
+     "handoff",
+     "handoff",
+     "handoff"
+    ],
+    "skill_at": [
+     1,
+     1,
+     1
+    ]
+   },
+   {
+    "id": "68558900",
+    "set": "train",
+    "kind": "should",
+    "skill": "handoff",
+    "instead": null,
+    "query": "Show me the state of this project visually instead of a wall of text.",
+    "outcomes": [
+     "handoff",
+     "handoff",
+     "handoff"
+    ],
+    "window_outcomes": [
+     "handoff",
+     "handoff",
+     "handoff"
+    ],
+    "skill_at": [
+     1,
+     1,
+     1
+    ]
+   },
+   {
+    "id": "4362028e",
+    "set": "train",
+    "kind": "should",
+    "skill": "handoff",
+    "instead": null,
+    "query": "I have six open decisions on the caching design. Put them on a page where I can pick options and copy my answers back.",
+    "outcomes": [
+     "handoff",
+     "handoff",
+     "handoff"
+    ],
+    "window_outcomes": [
+     "handoff",
+     "handoff",
+     "handoff"
+    ],
+    "skill_at": [
+     1,
+     1,
+     1
+    ]
+   },
+   {
+    "id": "ce70eabf",
+    "set": "train",
+    "kind": "should",
+    "skill": "handoff",
+    "instead": null,
+    "query": "Make a visual summary of what changed in the spec since last week, with before and after.",
+    "outcomes": [
+     "tool:Bash",
+     "handoff",
+     "handoff"
+    ],
+    "window_outcomes": [
+     "handoff",
+     "handoff",
+     "handoff"
+    ],
+    "skill_at": [
+     2,
+     1,
+     1
+    ]
+   },
+   {
+    "id": "bf60f3fe",
+    "set": "train",
+    "kind": "should",
+    "skill": "handoff",
+    "instead": null,
+    "query": "Erklär mir das Zwei-Phasen-Commit-Protokoll visuell, Schritt für Schritt, als interaktive Seite.",
+    "outcomes": [
+     "handoff",
+     "handoff",
+     "tool:Artifact"
+    ],
+    "window_outcomes": [
+     "handoff",
+     "handoff",
+     "other-skill:artifact-diagramming"
+    ],
+    "skill_at": [
+     1,
+     1,
+     2
+    ]
+   },
+   {
+    "id": "d8aa3325",
+    "set": "train",
+    "kind": "should",
+    "skill": "handoff",
+    "instead": null,
+    "query": "Build a checkpoint page for this session: what changed, what needs my decision.",
+    "outcomes": [
+     "handoff",
+     "handoff",
+     "handoff"
+    ],
+    "window_outcomes": [
+     "handoff",
+     "handoff",
+     "handoff"
+    ],
+    "skill_at": [
+     1,
+     1,
+     1
+    ]
+   },
+   {
+    "id": "70ca5e72",
+    "set": "train",
+    "kind": "should",
+    "skill": "handoff",
+    "instead": null,
+    "query": "The migration is finished. Give me an overview page: what changed, the results, and what I still have to decide.",
+    "outcomes": [
+     "handoff",
+     "handoff",
+     "handoff"
+    ],
+    "window_outcomes": [
+     "handoff",
+     "handoff",
+     "handoff"
+    ],
+    "skill_at": [
+     1,
+     1,
+     1
+    ]
+   },
+   {
+    "id": "689daa3d",
+    "set": "train",
+    "kind": "should",
+    "skill": "handoff",
+    "instead": null,
+    "query": "Explain how our build pipeline works as a visual explainer with diagrams, not Markdown.",
+    "outcomes": [
+     "handoff",
+     "handoff",
+     "handoff"
+    ],
+    "window_outcomes": [
+     "handoff",
+     "handoff",
+     "handoff"
+    ],
+    "skill_at": [
+     1,
+     1,
+     1
+    ]
+   },
+   {
+    "id": "54de81cd",
+    "set": "train",
+    "kind": "should",
+    "skill": "handoff",
+    "instead": null,
+    "query": "The refactor is done. Instead of a long message, give me a page where I can see what changed, which files, and what you still need me to decide.",
+    "outcomes": [
+     "handoff",
+     "handoff",
+     "handoff"
+    ],
+    "window_outcomes": [
+     "handoff",
+     "handoff",
+     "handoff"
+    ],
+    "skill_at": [
+     1,
+     1,
+     1
+    ]
+   },
+   {
+    "id": "f84409c3",
+    "set": "train",
+    "kind": "should",
+    "skill": "handoff",
+    "instead": null,
+    "query": "Draw me an interactive overview of how requests flow through our microservices, I want to click through the services.",
+    "outcomes": [
+     "tool:Bash",
+     "tool:Bash",
+     "tool:Bash"
+    ],
+    "window_outcomes": [
+     "tool:Bash",
+     "tool:Bash",
+     "tool:Bash"
+    ],
+    "skill_at": [
+     null,
+     null,
+     null
+    ]
+   },
+   {
+    "id": "41d81418",
+    "set": "train",
+    "kind": "should",
+    "skill": "handoff",
+    "instead": null,
+    "query": "I need to sign off three options for the database migration. Make a one-page brief with a recommendation and checkboxes for my choice.",
+    "outcomes": [
+     "tool:Bash",
+     "tool:Bash",
+     "tool:Bash"
+    ],
+    "window_outcomes": [
+     "tool:Bash",
+     "tool:Bash",
+     "tool:Bash"
+    ],
+    "skill_at": [
+     null,
+     null,
+     null
+    ]
+   },
+   {
+    "id": "eb335828",
+    "set": "train",
+    "kind": "should",
+    "skill": "handoff",
+    "instead": null,
+    "query": "Mach mir eine übersichtliche Seite zum Stand des Projekts: was ist fertig, was offen, wo brauchst du eine Entscheidung von mir?",
+    "outcomes": [
+     "handoff",
+     "tool:Bash",
+     "handoff"
+    ],
+    "window_outcomes": [
+     "handoff",
+     "handoff",
+     "handoff"
+    ],
+    "skill_at": [
+     1,
+     2,
+     1
+    ]
+   },
+   {
+    "id": "56cd3c9e",
+    "set": "train",
+    "kind": "near_miss",
+    "skill": "handoff",
+    "instead": null,
+    "query": "Summarize the last commit in two sentences.",
+    "outcomes": [
+     "tool:Bash",
+     "tool:Bash",
+     "tool:Bash"
+    ],
+    "window_outcomes": [
+     "tool:Bash",
+     "tool:Bash",
+     "tool:Bash"
+    ],
+    "skill_at": [
+     null,
+     null,
+     null
+    ]
+   },
+   {
+    "id": "f60f0646",
+    "set": "train",
+    "kind": "near_miss",
+    "skill": "handoff",
+    "instead": null,
+    "query": "Write a short report on the load test results for the team.",
+    "outcomes": [
+     "tool:Bash",
+     "tool:Bash",
+     "tool:Bash"
+    ],
+    "window_outcomes": [
+     "tool:Bash",
+     "tool:Bash",
+     "tool:Bash"
+    ],
+    "skill_at": [
+     null,
+     null,
+     null
+    ]
+   },
+   {
+    "id": "34e93781",
+    "set": "train",
+    "kind": "near_miss",
+    "skill": "handoff",
+    "instead": null,
+    "query": "What does a two-phase commit do? Short answer please.",
+    "outcomes": [
+     "none",
+     "none",
+     "none"
+    ],
+    "window_outcomes": [
+     "none",
+     "none",
+     "none"
+    ],
+    "skill_at": [
+     null,
+     null,
+     null
+    ]
+   },
+   {
+    "id": "42043e22",
+    "set": "train",
+    "kind": "near_miss",
+    "skill": "handoff",
+    "instead": null,
+    "query": "Give me three bullet points on what changed in the last release.",
+    "outcomes": [
+     "tool:Bash",
+     "tool:Bash",
+     "tool:Bash"
+    ],
+    "window_outcomes": [
+     "tool:Bash",
+     "tool:Bash",
+     "tool:Bash"
+    ],
+    "skill_at": [
+     null,
+     null,
+     null
+    ]
+   },
+   {
+    "id": "1fef0ac8",
+    "set": "train",
+    "kind": "near_miss",
+    "skill": "handoff",
+    "instead": null,
+    "query": "Write the quarterly project report as a Word-style document I can edit and send around.",
+    "outcomes": [
+     "tool:Bash",
+     "tool:Bash",
+     "tool:Bash"
+    ],
+    "window_outcomes": [
+     "tool:Bash",
+     "tool:Bash",
+     "tool:Bash"
+    ],
+    "skill_at": [
+     null,
+     null,
+     null
+    ]
+   },
+   {
+    "id": "db7fd5ca",
+    "set": "holdout",
+    "kind": "should",
+    "skill": "handoff",
+    "instead": null,
+    "query": "We just finished moving the test suite to pytest. I don't want a long chat message. Can I get something I can open in the browser that shows what's done and what you need from me?",
+    "outcomes": [
+     "handoff",
+     "handoff",
+     "handoff"
+    ],
+    "window_outcomes": [
+     "handoff",
+     "handoff",
+     "handoff"
+    ],
+    "skill_at": [
+     1,
+     1,
+     1
+    ]
+   },
+   {
+    "id": "27fc645a",
+    "set": "holdout",
+    "kind": "should",
+    "skill": "handoff",
+    "instead": null,
+    "query": "There are four ways we could handle auth for the mobile app. Lay them out so I can compare them and tick the one I want.",
+    "outcomes": [
+     "tool:Bash",
+     "handoff",
+     "tool:Bash"
+    ],
+    "window_outcomes": [
+     "handoff",
+     "handoff",
+     "tool:Bash"
+    ],
+    "skill_at": [
+     2,
+     1,
+     null
+    ]
+   },
+   {
+    "id": "2d0f93d2",
+    "set": "holdout",
+    "kind": "should",
+    "skill": "handoff",
+    "instead": null,
+    "query": "I never understood how DNS resolution actually works. Walk me through it with pictures, not paragraphs.",
+    "outcomes": [
+     "none",
+     "none",
+     "none"
+    ],
+    "window_outcomes": [
+     "none",
+     "none",
+     "none"
+    ],
+    "skill_at": [
+     null,
+     null,
+     null
+    ]
+   },
+   {
+    "id": "911c7b05",
+    "set": "holdout",
+    "kind": "should",
+    "skill": "handoff",
+    "instead": null,
+    "query": "Wrap up this week's work on the pricing model in something I can forward to my co-founder, with the numbers as charts.",
+    "outcomes": [
+     "tool:Bash",
+     "tool:Bash",
+     "tool:Bash"
+    ],
+    "window_outcomes": [
+     "tool:Bash",
+     "tool:Bash",
+     "tool:Bash"
+    ],
+    "skill_at": [
+     null,
+     null,
+     null
+    ]
+   },
+   {
+    "id": "7f2bb525",
+    "set": "holdout",
+    "kind": "near_miss",
+    "skill": "handoff",
+    "instead": null,
+    "query": "What's the difference between TCP and UDP? One paragraph is enough.",
+    "outcomes": [
+     "none",
+     "none",
+     "none"
+    ],
+    "window_outcomes": [
+     "none",
+     "none",
+     "none"
+    ],
+    "skill_at": [
+     null,
+     null,
+     null
+    ]
+   },
+   {
+    "id": "aabaa5f9",
+    "set": "holdout",
+    "kind": "near_miss",
+    "skill": "handoff",
+    "instead": null,
+    "query": "Export the test results as a CSV file.",
+    "outcomes": [
+     "tool:Bash",
+     "tool:Bash",
+     "tool:Bash"
+    ],
+    "window_outcomes": [
+     "tool:Bash",
+     "tool:Bash",
+     "tool:Bash"
+    ],
+    "skill_at": [
+     null,
+     null,
+     null
+    ]
+   },
+   {
+    "id": "f8144775",
+    "set": "train",
+    "kind": "should",
+    "skill": "structured-project-docs",
+    "instead": null,
+    "query": "My notes folder is a mess: one 4000-word notes.md with meeting minutes, API docs and todo lists mixed together. Can you reorganize it into something sane?",
+    "outcomes": [
+     "structured-project-docs",
+     "structured-project-docs",
+     "structured-project-docs"
+    ],
+    "window_outcomes": [
+     "structured-project-docs",
+     "structured-project-docs",
+     "structured-project-docs"
+    ],
+    "skill_at": [
+     1,
+     1,
+     1
+    ]
+   },
+   {
+    "id": "fd06ad5c",
+    "set": "train",
+    "kind": "should",
+    "skill": "structured-project-docs",
+    "instead": null,
+    "query": "docs/overview.md has grown to 3000 words and covers install, config and troubleshooting. Split it up.",
+    "outcomes": [
+     "structured-project-docs",
+     "structured-project-docs",
+     "structured-project-docs"
+    ],
+    "window_outcomes": [
+     "structured-project-docs",
+     "structured-project-docs",
+     "structured-project-docs"
+    ],
+    "skill_at": [
+     1,
+     1,
+     1
+    ]
+   },
+   {
+    "id": "c8f2a146",
+    "set": "train",
+    "kind": "should",
+    "skill": "structured-project-docs",
+    "instead": null,
+    "query": "Where should research notes go versus design specs in my project folder? The layout is ad hoc and I keep losing stuff.",
+    "outcomes": [
+     "structured-project-docs",
+     "structured-project-docs",
+     "structured-project-docs"
+    ],
+    "window_outcomes": [
+     "structured-project-docs",
+     "structured-project-docs",
+     "structured-project-docs"
+    ],
+    "skill_at": [
+     1,
+     1,
+     1
+    ]
+   },
+   {
+    "id": "a3d18a72",
+    "set": "train",
+    "kind": "should",
+    "skill": "structured-project-docs",
+    "instead": null,
+    "query": "Mein docs-Ordner ist ein Chaos. Kannst du eine sinnvolle Ordnerstruktur für die Projektdokumentation vorschlagen und umsetzen?",
+    "outcomes": [
+     "structured-project-docs",
+     "structured-project-docs",
+     "structured-project-docs"
+    ],
+    "window_outcomes": [
+     "structured-project-docs",
+     "structured-project-docs",
+     "structured-project-docs"
+    ],
+    "skill_at": [
+     1,
+     1,
+     1
+    ]
+   },
+   {
+    "id": "1650bb03",
+    "set": "train",
+    "kind": "should",
+    "skill": "structured-project-docs",
+    "instead": null,
+    "query": "I'm starting a new Cowork project for my bachelor thesis with literature notes, drafts and experiment logs. How should I organize the files?",
+    "outcomes": [
+     "none",
+     "none",
+     "none"
+    ],
+    "window_outcomes": [
+     "none",
+     "none",
+     "none"
+    ],
+    "skill_at": [
+     null,
+     null,
+     null
+    ]
+   },
+   {
+    "id": "398635e5",
+    "set": "train",
+    "kind": "should",
+    "skill": "structured-project-docs",
+    "instead": null,
+    "query": "Restructure the wiki folder into small topic files with an index. Right now everything is in one giant README.",
+    "outcomes": [
+     "structured-project-docs",
+     "structured-project-docs",
+     "structured-project-docs"
+    ],
+    "window_outcomes": [
+     "structured-project-docs",
+     "structured-project-docs",
+     "structured-project-docs"
+    ],
+    "skill_at": [
+     1,
+     1,
+     1
+    ]
+   },
+   {
+    "id": "983ccd56",
+    "set": "train",
+    "kind": "should",
+    "skill": "structured-project-docs",
+    "instead": null,
+    "query": "Create a docs folder layout for my side project. I want it navigable, not one big monolith.",
+    "outcomes": [
+     "doc-kit",
+     "doc-kit",
+     "doc-kit"
+    ],
+    "window_outcomes": [
+     "doc-kit",
+     "doc-kit",
+     "doc-kit"
+    ],
+    "skill_at": [
+     1,
+     1,
+     1
+    ]
+   },
+   {
+    "id": "2836e4bc",
+    "set": "train",
+    "kind": "should",
+    "skill": "structured-project-docs",
+    "instead": null,
+    "query": "I'm about to start a research project with papers, interview transcripts and drafts. How should I lay out the folder so it stays manageable?",
+    "outcomes": [
+     "structured-project-docs",
+     "structured-project-docs",
+     "structured-project-docs"
+    ],
+    "window_outcomes": [
+     "structured-project-docs",
+     "structured-project-docs",
+     "structured-project-docs"
+    ],
+    "skill_at": [
+     1,
+     1,
+     1
+    ]
+   },
+   {
+    "id": "659ebdcb",
+    "set": "train",
+    "kind": "should",
+    "skill": "structured-project-docs",
+    "instead": null,
+    "query": "My CONTRIBUTING.md and the architecture doc are both 2000+ lines and overlap. Break them into focused files that link to each other.",
+    "outcomes": [
+     "tool:Bash",
+     "tool:Bash",
+     "structured-project-docs"
+    ],
+    "window_outcomes": [
+     "structured-project-docs",
+     "structured-project-docs",
+     "structured-project-docs"
+    ],
+    "skill_at": [
+     2,
+     2,
+     1
+    ]
+   },
+   {
+    "id": "1ca4c480",
+    "set": "train",
+    "kind": "should",
+    "skill": "structured-project-docs",
+    "instead": null,
+    "query": "Räum bitte meinen Projektordner auf: Specs, Notizen und Protokolle liegen wild durcheinander.",
+    "outcomes": [
+     "structured-project-docs",
+     "structured-project-docs",
+     "structured-project-docs"
+    ],
+    "window_outcomes": [
+     "structured-project-docs",
+     "structured-project-docs",
+     "structured-project-docs"
+    ],
+    "skill_at": [
+     1,
+     1,
+     1
+    ]
+   },
+   {
+    "id": "a7ef2a64",
+    "set": "train",
+    "kind": "should",
+    "skill": "structured-project-docs",
+    "instead": null,
+    "query": "Where do ADRs, runbooks and onboarding notes belong in a repo's docs folder, and how should I name the files?",
+    "outcomes": [
+     "structured-project-docs",
+     "structured-project-docs",
+     "structured-project-docs"
+    ],
+    "window_outcomes": [
+     "structured-project-docs",
+     "structured-project-docs",
+     "structured-project-docs"
+    ],
+    "skill_at": [
+     1,
+     1,
+     1
+    ]
+   },
+   {
+    "id": "79825372",
+    "set": "train",
+    "kind": "near_miss",
+    "skill": "structured-project-docs",
+    "instead": null,
+    "query": "Write a README for my CLI tool that renames photos by EXIF date.",
+    "outcomes": [
+     "tool:Bash",
+     "tool:Bash",
+     "tool:Bash"
+    ],
+    "window_outcomes": [
+     "tool:Bash",
+     "tool:Bash",
+     "tool:Bash"
+    ],
+    "skill_at": [
+     null,
+     null,
+     null
+    ]
+   },
+   {
+    "id": "8a7c5dac",
+    "set": "train",
+    "kind": "near_miss",
+    "skill": "structured-project-docs",
+    "instead": "doc-kit",
+    "query": "Add a check that fails the build when docs contain broken links.",
+    "outcomes": [
+     "tool:Bash",
+     "tool:Bash",
+     "tool:Bash"
+    ],
+    "window_outcomes": [
+     "tool:Bash",
+     "tool:Bash",
+     "tool:Bash"
+    ],
+    "skill_at": [
+     null,
+     null,
+     null
+    ]
+   },
+   {
+    "id": "156d8f83",
+    "set": "train",
+    "kind": "near_miss",
+    "skill": "structured-project-docs",
+    "instead": null,
+    "query": "Create one Docs artifact with my resume, nothing else.",
+    "outcomes": [
+     "tool:Artifact",
+     "tool:Bash",
+     "tool:Artifact"
+    ],
+    "window_outcomes": [
+     "tool:Artifact",
+     "tool:Bash",
+     "tool:Artifact"
+    ],
+    "skill_at": [
+     null,
+     null,
+     null
+    ]
+   },
+   {
+    "id": "9d8c6cd9",
+    "set": "train",
+    "kind": "near_miss",
+    "skill": "structured-project-docs",
+    "instead": null,
+    "query": "Write a docstring for this Python function.",
+    "outcomes": [
+     "none",
+     "tool:Bash",
+     "tool:Bash"
+    ],
+    "window_outcomes": [
+     "none",
+     "tool:Bash",
+     "tool:Bash"
+    ],
+    "skill_at": [
+     null,
+     null,
+     null
+    ]
+   },
+   {
+    "id": "3477adb4",
+    "set": "train",
+    "kind": "near_miss",
+    "skill": "structured-project-docs",
+    "instead": "doc-kit",
+    "query": "Run the markdown linter on my docs and tell me which rules fail.",
+    "outcomes": [
+     "doc-kit",
+     "doc-kit",
+     "doc-kit"
+    ],
+    "window_outcomes": [
+     "doc-kit",
+     "doc-kit",
+     "doc-kit"
+    ],
+    "skill_at": [
+     1,
+     1,
+     1
+    ]
+   },
+   {
+    "id": "fcebb751",
+    "set": "holdout",
+    "kind": "should",
+    "skill": "structured-project-docs",
+    "instead": null,
+    "query": "My Obsidian vault has turned into one giant inbox note. Help me break it up into something I can navigate.",
+    "outcomes": [
+     "structured-project-docs",
+     "structured-project-docs",
+     "structured-project-docs"
+    ],
+    "window_outcomes": [
+     "structured-project-docs",
+     "structured-project-docs",
+     "structured-project-docs"
+    ],
+    "skill_at": [
+     1,
+     1,
+     1
+    ]
+   },
+   {
+    "id": "49549931",
+    "set": "holdout",
+    "kind": "should",
+    "skill": "structured-project-docs",
+    "instead": null,
+    "query": "We keep meeting minutes, API docs and onboarding guides all in the repo root. Sort that out.",
+    "outcomes": [
+     "tool:Bash",
+     "tool:Bash",
+     "tool:Bash"
+    ],
+    "window_outcomes": [
+     "tool:Bash",
+     "tool:Bash",
+     "tool:Bash"
+    ],
+    "skill_at": [
+     null,
+     null,
+     null
+    ]
+   },
+   {
+    "id": "82ced6e9",
+    "set": "holdout",
+    "kind": "should",
+    "skill": "structured-project-docs",
+    "instead": null,
+    "query": "The design doc for the scheduler now covers scheduling, retries and billing. That's too much for one file, isn't it?",
+    "outcomes": [
+     "tool:Bash",
+     "structured-project-docs",
+     "structured-project-docs"
+    ],
+    "window_outcomes": [
+     "structured-project-docs",
+     "structured-project-docs",
+     "structured-project-docs"
+    ],
+    "skill_at": [
+     2,
+     1,
+     1
+    ]
+   },
+   {
+    "id": "dd376f51",
+    "set": "holdout",
+    "kind": "should",
+    "skill": "structured-project-docs",
+    "instead": null,
+    "query": "Where would a troubleshooting guide go in this docs folder, and what do I call it?",
+    "outcomes": [
+     "structured-project-docs",
+     "structured-project-docs",
+     "structured-project-docs"
+    ],
+    "window_outcomes": [
+     "structured-project-docs",
+     "structured-project-docs",
+     "structured-project-docs"
+    ],
+    "skill_at": [
+     1,
+     1,
+     1
+    ]
+   },
+   {
+    "id": "6a7aa39c",
+    "set": "holdout",
+    "kind": "near_miss",
+    "skill": "structured-project-docs",
+    "instead": null,
+    "query": "Fix the typos in README.md.",
+    "outcomes": [
+     "tool:Read",
+     "tool:Read",
+     "tool:Read"
+    ],
+    "window_outcomes": [
+     "tool:Read",
+     "tool:Read",
+     "tool:Read"
+    ],
+    "skill_at": [
+     null,
+     null,
+     null
+    ]
+   },
+   {
+    "id": "b8aede24",
+    "set": "holdout",
+    "kind": "near_miss",
+    "skill": "structured-project-docs",
+    "instead": "doc-kit",
+    "query": "Add a pre-commit hook that checks my docs for broken links.",
+    "outcomes": [
+     "doc-kit",
+     "doc-kit",
+     "doc-kit"
+    ],
+    "window_outcomes": [
+     "doc-kit",
+     "doc-kit",
+     "doc-kit"
+    ],
+    "skill_at": [
+     1,
+     1,
+     1
+    ]
+   }
+  ],
+  "seconds": 209
+ },
+ "meta": {
+  "label": "final2-w4",
+  "ref": "WORKTREE",
+  "sha": "WORKTREE",
+  "trigger_model": "sonnet"
+ }
+}

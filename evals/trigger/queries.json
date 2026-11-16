@@ -142,9 +142,6 @@
      "q": "My notes folder is a mess: one 4000-word notes.md with meeting minutes, API docs and todo lists mixed together. Can you reorganize it into something sane?"
     },
     {
-     "q": "Set up the documentation structure for my new repo. It will have architecture docs, ADRs and some how-tos."
-    },
-    {
      "q": "docs/overview.md has grown to 3000 words and covers install, config and troubleshooting. Split it up."
     },
     {
@@ -160,7 +157,16 @@
      "q": "Restructure the wiki folder into small topic files with an index. Right now everything is in one giant README."
     },
     {
-     "q": "Create a docs folder layout for my side project. I want it navigable, not one big monolith."
+     "q": "I'm about to start a research project with papers, interview transcripts and drafts. How should I lay out the folder so it stays manageable?"
+    },
+    {
+     "q": "My CONTRIBUTING.md and the architecture doc are both 2000+ lines and overlap. Break them into focused files that link to each other."
+    },
+    {
+     "q": "Räum bitte meinen Projektordner auf: Specs, Notizen und Protokolle liegen wild durcheinander."
+    },
+    {
+     "q": "Where do ADRs, runbooks and onboarding notes belong in a repo's docs folder, and how should I name the files?"
     }
    ],
    "near_miss": [
@@ -175,30 +181,38 @@
     {
      "q": "Create one Docs artifact with my resume, nothing else.",
      "instead": null
+    },
+    {
+     "q": "Write a docstring for this Python function.",
+     "instead": null
+    },
+    {
+     "q": "Run the markdown linter on my docs and tell me which rules fail.",
+     "instead": "doc-kit"
     }
    ],
    "holdout": {
     "should": [
      {
-      "q": "I'm about to start a research project with papers, interview transcripts and drafts. How should I lay out the folder so it stays manageable?"
+      "q": "My Obsidian vault has turned into one giant inbox note. Help me break it up into something I can navigate."
      },
      {
-      "q": "My CONTRIBUTING.md and the architecture doc are both 2000+ lines and overlap. Break them into focused files that link to each other."
+      "q": "We keep meeting minutes, API docs and onboarding guides all in the repo root. Sort that out."
      },
      {
-      "q": "Räum bitte meinen Projektordner auf: Specs, Notizen und Protokolle liegen wild durcheinander."
+      "q": "The design doc for the scheduler now covers scheduling, retries and billing. That's too much for one file, isn't it?"
      },
      {
-      "q": "Where do ADRs, runbooks and onboarding notes belong in a repo's docs folder, and how should I name the files?"
+      "q": "Where would a troubleshooting guide go in this docs folder, and what do I call it?"
      }
     ],
     "near_miss": [
      {
-      "q": "Write a docstring for this Python function.",
+      "q": "Fix the typos in README.md.",
       "instead": null
      },
      {
-      "q": "Run the markdown linter on my docs and tell me which rules fail.",
+      "q": "Add a pre-commit hook that checks my docs for broken links.",
       "instead": "doc-kit"
      }
     ]
@@ -229,6 +243,12 @@
     },
     {
      "q": "Bootstrap a design docs project with a glossary, a conventions file, a system map and an automatic checker."
+    },
+    {
+     "q": "Set up the documentation structure for my new repo. It will have architecture docs, ADRs and some how-tos."
+    },
+    {
+     "q": "Create a docs folder layout for my side project. I want it navigable, not one big monolith."
     }
    ],
    "near_miss": [
@@ -569,6 +589,18 @@
     },
     {
      "q": "Explain how our build pipeline works as a visual explainer with diagrams, not Markdown."
+    },
+    {
+     "q": "The refactor is done. Instead of a long message, give me a page where I can see what changed, which files, and what you still need me to decide."
+    },
+    {
+     "q": "Draw me an interactive overview of how requests flow through our microservices, I want to click through the services."
+    },
+    {
+     "q": "I need to sign off three options for the database migration. Make a one-page brief with a recommendation and checkboxes for my choice."
+    },
+    {
+     "q": "Mach mir eine übersichtliche Seite zum Stand des Projekts: was ist fertig, was offen, wo brauchst du eine Entscheidung von mir?"
     }
    ],
    "near_miss": [
@@ -583,30 +615,38 @@
     {
      "q": "What does a two-phase commit do? Short answer please.",
      "instead": null
+    },
+    {
+     "q": "Give me three bullet points on what changed in the last release.",
+     "instead": null
+    },
+    {
+     "q": "Write the quarterly project report as a Word-style document I can edit and send around.",
+     "instead": null
     }
    ],
    "holdout": {
     "should": [
      {
-      "q": "The refactor is done. Instead of a long message, give me a page where I can see what changed, which files, and what you still need me to decide."
+      "q": "We just finished moving the test suite to pytest. I don't want a long chat message. Can I get something I can open in the browser that shows what's done and what you need from me?"
      },
      {
-      "q": "Draw me an interactive overview of how requests flow through our microservices, I want to click through the services."
+      "q": "There are four ways we could handle auth for the mobile app. Lay them out so I can compare them and tick the one I want."
      },
      {
-      "q": "I need to sign off three options for the database migration. Make a one-page brief with a recommendation and checkboxes for my choice."
+      "q": "I never understood how DNS resolution actually works. Walk me through it with pictures, not paragraphs."
      },
      {
-      "q": "Mach mir eine übersichtliche Seite zum Stand des Projekts: was ist fertig, was offen, wo brauchst du eine Entscheidung von mir?"
+      "q": "Wrap up this week's work on the pricing model in something I can forward to my co-founder, with the numbers as charts."
      }
     ],
     "near_miss": [
      {
-      "q": "Give me three bullet points on what changed in the last release.",
+      "q": "What's the difference between TCP and UDP? One paragraph is enough.",
       "instead": null
      },
      {
-      "q": "Write the quarterly project report as a Word-style document I can edit and send around.",
+      "q": "Export the test results as a CSV file.",
       "instead": null
      }
     ]

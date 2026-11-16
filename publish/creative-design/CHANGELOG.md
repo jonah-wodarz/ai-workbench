@@ -12,3 +12,4 @@ The five skills as one bundle, installable as a Claude Code plugin or one skill 
   - `skills/doc-kit` — `doclint` 0.5.0 with the `basic` and `design` presets, templates, the generated system map page and an example project.
   - `skills/handoff` — HTML pages built from data: overview, decision brief, explainer.
   - `.claude-plugin/` — plugin manifest and a one-plugin marketplace.
+  - `hooks/` — a session-start hook that puts a routing table (which skill for which work) into every Claude Code session.

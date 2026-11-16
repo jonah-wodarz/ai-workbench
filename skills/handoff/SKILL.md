@@ -1,6 +1,6 @@
 ---
 name: handoff
-description: "Build a visual HTML page for the reader instead of a wall of Markdown: an overview of a finished task (the outcome, what changed, what the reader must do or decide), a decision page with options to pick and copy back, or a visual explainer with diagrams. Use for requests such as 'handoff page', 'overview page', 'checkpoint page', 'visual summary', 'show me what changed', 'show me this visually', 'put the open decisions on a page', 'explain this visually'. Load this skill first for any such request, before writing a page by hand or calling the Artifact tool; the page is then delivered as an artifact where available. Short answers go in chat. The map of a docs project's systems comes from doc-kit (doclint --system-map)."
+description: "Build an HTML page from a tested template instead of writing one from scratch or sending a wall of Markdown. The agent writes only a small data file and a script builds the page, which costs a fraction of the tokens of a hand-built page. Templates: an overview of a finished task (the outcome, what changed, what the reader must do or decide), a decision brief with options to pick and copy back, a visual explainer with diagrams, charts and self-checks. Use for 'handoff page', 'overview page', 'checkpoint page', 'visual summary', 'one-page brief', 'show me what changed', 'show me this visually', 'put the open decisions on a page', 'explain this visually', and whenever a result, a set of decisions or an explanation is easier to judge on a page than in chat. Load this skill first, before writing HTML by hand or calling the Artifact tool. Short answers stay in chat."
 ---
 
 # Handoff
@@ -23,7 +23,7 @@ An `overview` replaces a long results document: the outcome and the required act
 2. Read that template's schema, then write the data JSON (examples: `assets/examples/`). Take facts from the files and name them in `source`.
 3. Build: `python3 scripts/build.py <template> <data.json> -o <out.html>`. Add `--artifact` when publishing as an Artifact. Fix each reported problem and rebuild until it passes.
 4. Where a browser is available, view the built file at desktop and phone width.
-5. Deliver the page as an Artifact where the session offers them, otherwise save it beside the work and give its path.
+5. Deliver the page. In a project folder, save it there: in the folder the project's conventions name for such pages, otherwise `docs/handoff/<date>-<name>.html`. Where the session offers Artifacts, also publish it as one. Give the path or the link.
 6. When the reader pastes the answer block back, apply it to the files. The page is not edited.
 
 ## Content rules

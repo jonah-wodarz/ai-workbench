@@ -3,7 +3,7 @@
 An index, not a discussion: every `blocking` question, every `needs-build` question and every `major` question that spans systems, one line each. The question lives in its owner's spec; resolved entries are deleted.
 
 ## Blocking
-- **SHP-Q1** · Do the players see how many ships are coming before they choose the burn level? · [Ships](../design/world/ships.md)
+- **REP-Q1** · Does the customer approve the cost before the work starts? · [Repairs](../design/workshop/repairs.md)
 
 ## Cross-system
 

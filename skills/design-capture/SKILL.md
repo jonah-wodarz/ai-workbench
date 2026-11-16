@@ -16,7 +16,7 @@ Converts design conversation into docs that state the current design precisely, 
 - **One owner per fact.** Summary files (glossary, system map, vision) define and link to the owner.
 - A decision is **pivotal** when it reverses or supersedes a recorded rule, chooses among seriously considered alternatives, has a reason that the spec's intent does not explain, or is hard to reverse. Every other rule goes into the spec only; version control keeps its history.
 - Content settles at most one layer below the system's layer. Above L3, quantities are **orderings** or **tiers**.
-- A spec's **interface** lists what other systems may rely on, as interface items (`ARC-I1`). A rule that refers to another system cites that system's code or one of its interface items.
+- A spec's **interface** lists what other systems may rely on, as interface items (`ORD-I1`). A rule that refers to another system cites that system's code or one of its interface items.
 
 ## Procedure for each message
 
@@ -34,7 +34,7 @@ For each decision in the message, search the owning spec and the specs it names 
 | Decision | Rule in the owning spec; a history entry if it is pivotal |
 | Reversal | Rule replaced; a history entry naming what it supersedes. Say in the reply that a past ruling is reversed |
 | Idea for the current system | A rule if decided, an open question if not, working notes while the system is drafting |
-| Idea for another system or layer | Parking lot, one line: `- [combat, L3] crit chance scales with stamina` |
+| Idea for another system or layer | Parking lot, one line: `- [repairs, L3] express repairs cost a surcharge` |
 | Idea ruled out | *Out of scope*, one line with the reason |
 | New term or rename | Glossary in the same change; the old name goes to *Retired names* |
 | Open question | The owner's open questions, tagged and sized to one decision; an index entry if `blocking` or cross-system |

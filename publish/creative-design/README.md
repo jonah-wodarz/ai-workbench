@@ -1,6 +1,6 @@
 # creative-design
 
-Five skills that take open-ended design work from a stream of loose ideas to a specification that stays consistent. They are written for people who know their subject and design with an AI assistant over many sessions: a game, a system architecture, a product concept, a set of requirements.
+Five skills that take open-ended design work from a stream of loose ideas to a specification that stays consistent. They are written for people who know their subject and design with an AI assistant over many sessions: a set of requirements, a system architecture, a product concept, a game.
 
 Status: **0.x pre-release**. The skills work together and are tested, but names and file formats may still change.
 
@@ -49,9 +49,9 @@ claude plugin install creative-design@creative-design
 3. Say what you decide. *"Record that."* The capture skill writes rules into the owning spec and asks before it overrides an earlier ruling.
 4. Ask for the state at any time: *"Show me the system map"* or *"Give me an overview page of today's session."*
 
-Skills load more reliably when the project names them. The conventions file from doc-kit contains a *Skills in use* table; point your project instructions at it.
+Skills load more reliably when something names them. As a Claude Code plugin, the bundle adds a short routing table to every session (`hooks/routing.md`, about 200 tokens). Elsewhere, the conventions file from doc-kit contains a *Skills in use* table; point your project instructions at it.
 
-A complete small project to look at: [`skills/doc-kit/examples/tidewatch`](skills/doc-kit/examples/tidewatch).
+A complete small project to look at: [`skills/doc-kit/examples/bike-shop`](skills/doc-kit/examples/bike-shop).
 
 ## Checks
 

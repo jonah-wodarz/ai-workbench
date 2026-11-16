@@ -37,7 +37,7 @@ INLINE_CODE = re.compile(r"`[^`]*`")
 LINK_TARGET = re.compile(r"\]\([^)]*\)")
 SECTION_REF = re.compile(r"(?i)(?:§|\b(?:sections?|chapters?)\b)\s*\d+(?:\.\d+)*")
 # A quantity: a decimal number, or a number followed by a percent sign or a unit.
-# Rule IDs (ARC-R7), dates, version numbers and bare integers do not match.
+# Rule IDs (ORD-R7), dates, version numbers and bare integers do not match.
 QUANTITY = (r"(?i)(?<![\w.§-])(?:\d+\.\d+(?!\d|\.\d)"
             r"|\d+(?:\.\d+)?(?:\s?%|\s?(?:ms|s|secs?|seconds?|min|minutes?|h|hrs?|hours?|days?"
             r"|m|km|cm|mm|meters?|metres?|kg|g|hp|hz|px|pts?|points?|x)\b))")
@@ -211,7 +211,7 @@ class Project:
         self.rx_question_line = re.compile(r"^\s*[-*]\s+\*\*(" + code + ")-" + q + r"(\d+)\*\*")
         self.rx_decision_head = re.compile(r"^###\s+" + d + "-(" + code + r")-(\d{" + str(dd) + r"})\b")
         self.coupling = coupling_config(cfg)
-        # Interface items (ARC-I1) exist only when `coupling` is configured.
+        # Interface items (ORD-I1) exist only when `coupling` is configured.
         i = ids.get("interface", "I") if self.coupling else ""
         self.rx_interface_line = (re.compile(r"^\s*[-*]\s+\*\*(" + code + ")-" + i + r"(\d+)\*\*")
                                   if i else None)

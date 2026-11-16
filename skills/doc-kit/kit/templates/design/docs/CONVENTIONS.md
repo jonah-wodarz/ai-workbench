@@ -74,10 +74,10 @@ Keys as in `docs/templates/spec.md` (lint: keys, values, dates). `layer` is the 
 
 | Item | Format | Example |
 |---|---|---|
-| Interface item | `<CODE>-I<n>` | `ARC-I1` |
-| Rule | `<CODE>-R<n>` | `ARC-R7` |
-| Open question | `<CODE>-Q<n>` | `ARC-Q2` |
-| Decision | `D-<CODE>-<nnn>` | `D-ARC-006` |
+| Interface item | `<CODE>-I<n>` | `ORD-I1` |
+| Rule | `<CODE>-R<n>` | `ORD-R7` |
+| Open question | `<CODE>-Q<n>` | `ORD-Q2` |
+| Decision | `D-<CODE>-<nnn>` | `D-ORD-006` |
 
 IDs are never reused. Reference across files by ID plus link.
 
@@ -104,7 +104,7 @@ Sections in this order; omit a section only if it would be empty, except *Rules*
 
 ## 7. Decision history
 
-Entry format: `docs/templates/decisions.md` (lint: heading ID, file code). Optional field: `supersedes D-ARC-003`.
+Entry format: `docs/templates/decisions.md` (lint: heading ID, file code). Optional field: `supersedes D-ORD-003`.
 
 Entries are immutable; the only edit is appending `· superseded by D-…`. Newest at the bottom. A cross-system decision lives in the history of the spec that owns the resulting rule.
 

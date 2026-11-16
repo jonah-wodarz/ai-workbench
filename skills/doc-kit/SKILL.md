@@ -1,6 +1,6 @@
 ---
 name: doc-kit
-description: Scaffold, lint and enforce conventions for a multi-file Markdown docs project with a config-driven checker (doclint) and entry-file templates. Use when setting up a new docs project or repo, adding a docs lint or pre-commit hook, running or extending doclint, or migrating an existing doc tree onto checked conventions.
+description: "Set up and check a multi-file Markdown docs project: scaffold a new docs project or repo from templates (basic or design preset), install and run the config-driven lint doclint and its pre-commit hook, generate the docs index and the interactive system map page, and migrate an existing doc tree onto checked conventions. Use for 'set up the docs for my new project', 'set up the documentation structure', 'lint my docs', 'add a docs pre-commit hook', 'show me the system map'."
 ---
 
 # doc-kit
@@ -19,7 +19,7 @@ Mechanical doc rules get a deterministic check; prose rules are kept for judgmen
 | `kit/templates/basic/`, `kit/templates/design/` | Entry files: README, PROJECT_STRUCTURE, CONVENTIONS, GLOSSARY, map, parking lot; `docs/templates/` with playbook and run-log (+ spec/decisions/data for design) |
 | `CONFIG.md` | Every config key and plugin hook |
 | `kit/tools/doclint_assets/system-map.html` | Page template that `--system-map` fills |
-| `examples/tidewatch/` | A small complete design project, for reference |
+| `examples/bike-shop/` | A small complete project (requirements for a bike shop), for reference |
 
 Find this skill's folder first (the folder containing this SKILL.md) and copy from there.
 

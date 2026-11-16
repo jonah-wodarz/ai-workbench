@@ -4,7 +4,7 @@ Config (plugin_config.style):
   types                   doc types to check (default: none)
   max_sentence_words      warn on longer sentences (default 30; 0 disables)
   max_bold_per_100_words  warn when a file's bold density exceeds this (default 4; 0 disables).
-                          Bold IDs (e.g. **ARC-R1**) don't count.
+                          Bold IDs (e.g. **ORD-R1**) don't count.
   emoji_in_prose          warn on emoji/symbol markers in prose lines (default true)
 
 Skips headings, table rows, code fences and sections marked "exempt" in the core config.

@@ -16,6 +16,7 @@ How the project is organized and where new work goes.
 │  ├─ templates/             ← spec · decisions · data · playbook · run-log
 │  ├─ playbooks/             ← repeatable workflow guides; runs/ holds their run logs
 │  ├─ research/              ← sourced external knowledge
+│  ├─ handoff/               ← review pages built from the docs (overview, decision brief)
 │  ├─ planning/              ← OPEN_QUESTIONS, roadmaps, audits
 │  └─ archive/               ← finished point-in-time docs
 └─ tools/                    ← doclint.py, doclint.json, stale-terms.txt, hooks/

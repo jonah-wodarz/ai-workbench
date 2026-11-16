@@ -22,7 +22,7 @@ Every `.md` under `root` is scanned (hidden folders excluded). Files without fro
 | `codes.pattern` | Regex with two groups (code, path) applied per line of that file |
 | `codes.inline` | `{code: docs-relative path}` merged with the table |
 | `code_path_prefixes` | Prefixes tried when resolving a code's path (e.g. `["", "design/"]`) |
-| `id_scheme` | `code` regex, `rule`/`question`/`interface` letters, `decision_prefix`, `decision_digits`. Default: `ARC-R7`, `ARC-Q2`, `ARC-I1`, `D-ARC-006`. The interface letter is read only when `coupling` is configured |
+| `id_scheme` | `code` regex, `rule`/`question`/`interface` letters, `decision_prefix`, `decision_digits`. Default: `ORD-R7`, `ORD-Q2`, `ORD-I1`, `D-ORD-006`. The interface letter is read only when `coupling` is configured |
 
 ## Front matter and types
 
@@ -72,9 +72,9 @@ Every `.md` under `root` is scanned (hidden folders excluded). Files without fro
 | Check | Fires on |
 |---|---|
 | Foreign rule reference | A rule line, or a non-blank line in `parameter_section`, citing a rule ID whose code differs from the document's `id`. Open-question lines, exempt sections (working notes), history lines, fences, inline code and link targets are skipped. Question and interface citations are fine |
-| Interface item IDs | `<CODE>-I<n>` list lines (`- **ARC-I1** ...`). A duplicate ID within a document or a code that differs from the file's `id` is an **error**, as for rule IDs. A cited interface item that the target spec does not define is a warning (cited rule and question IDs that do not exist stay errors) |
+| Interface item IDs | `<CODE>-I<n>` list lines (`- **ORD-I1** ...`). A duplicate ID within a document or a code that differs from the file's `id` is an **error**, as for rule IDs. A cited interface item that the target spec does not define is a warning (cited rule and question IDs that do not exist stay errors) |
 | Fan-out | Dependency count above `max_fan_out`, on line 1 of the file |
-| Cycle | One warning per cycle, on the file of its smallest code, with the path (`ARC -> CHA -> ARC`). Edges to codes without a document of a configured type are ignored. In a dense graph every edge on a cycle is covered by the shortest cycle through it, so not every elementary cycle is listed |
+| Cycle | One warning per cycle, on the file of its smallest code, with the path (`INV -> ORD -> INV`). Edges to codes without a document of a configured type are ignored. In a dense graph every edge on a cycle is covered by the shortest cycle through it, so not every elementary cycle is listed |
 
 `python tools/doclint.py --system-map [OUT.html]` writes the interactive system map page: one node per document of the coupling types (code, title, layer, status, number of open questions, the first quoted purpose line), one edge per dependency; the page computes fan-in, fan-out and cycles and flags fan-out above `max_fan_out`. Systems are also grouped by their folder when there is more than one. It needs `coupling` (exit code 2 without it) and the template `tools/doclint_assets/system-map.html`. `system_map` in the config sets `{out, title}` (defaults `docs/system-map.html`, `System map`).
 

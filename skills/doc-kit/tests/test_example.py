@@ -7,12 +7,12 @@ import tempfile
 import unittest
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-EXAMPLE = os.path.join(ROOT, "examples", "tidewatch")
+EXAMPLE = os.path.join(ROOT, "examples", "bike-shop")
 
 
 class Example(unittest.TestCase):
     def setUp(self):
-        self.root = os.path.join(tempfile.mkdtemp(), "tidewatch")
+        self.root = os.path.join(tempfile.mkdtemp(), "bike-shop")
         self.addCleanup(shutil.rmtree, os.path.dirname(self.root))
         shutil.copytree(EXAMPLE, self.root)
         shutil.copytree(os.path.join(ROOT, "kit", "tools"), os.path.join(self.root, "tools"), dirs_exist_ok=True)
@@ -41,7 +41,7 @@ class Example(unittest.TestCase):
     def test_system_map_page_builds(self):
         rc, out = self.lint("--system-map")
         self.assertEqual(rc, 0, out)
-        self.assertIn("(3 systems, 3 dependencies)", out)
+        self.assertIn("(3 systems, 2 dependencies)", out)
 
 
 if __name__ == "__main__":

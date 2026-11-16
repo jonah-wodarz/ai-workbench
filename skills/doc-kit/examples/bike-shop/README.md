@@ -1,6 +1,6 @@
-# Tidewatch (example project)
+# Bike shop (example project)
 
-A small invented design project in the shape the `design` preset expects: a cooperative game about keeping a lighthouse. It exists to show the docs tree, not to be a finished design.
+A small invented project in the shape the `design` preset expects: the requirements for the order, stock and repair system of a bike shop. It exists to show the docs tree, not to be a finished specification.
 
 - **State of the design:** [`docs/SYSTEM_MAP.md`](docs/SYSTEM_MAP.md)
 - **Rules for every doc:** [`docs/CONVENTIONS.md`](docs/CONVENTIONS.md)

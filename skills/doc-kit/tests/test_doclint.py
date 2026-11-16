@@ -55,42 +55,42 @@ class ProjectCase(unittest.TestCase):
 DESIGN_CONVENTIONS = """# Conventions
 | Code | File |
 |---|---|
-| `ARC` | design/combat/archery.md |
-| `CHA` | design/combat/charged.md |
+| `INV` | design/sales/inventory.md |
+| `ORD` | design/sales/orders.md |
 | `GLO` | GLOSSARY.md |
 """
 
 SPEC = """---
-id: ARC
-title: Archery
+id: INV
+title: Inventory
 type: spec
 layer: L2
 status: settled
 updated: 2026-10-01
-depends_on: [CHA]
+depends_on: [ORD]
 ---
-# Archery
+# Inventory
 > Purpose.
 
 ## Rules
-- **ARC-R1** The bow draws. `locked`
-- **ARC-R2** The crossbow loads. `placeholder`
+- **INV-R1** A part is counted. `locked`
+- **INV-R2** A part is reserved. `placeholder`
 
 ## Open questions
-- **ARC-Q1** Range? `major`
+- **INV-Q1** Range? `major`
 """
 
-CHARGED = SPEC.replace("id: ARC", "id: CHA").replace("ARC-", "CHA-").replace("depends_on: [CHA]", "depends_on: []")
+CHARGED = SPEC.replace("id: INV", "id: ORD").replace("INV-", "ORD-").replace("depends_on: [ORD]", "depends_on: []")
 
 HISTORY = """---
-id: ARC
-title: Archery - decision history
+id: INV
+title: Inventory - decision history
 type: decisions
 updated: 2026-10-01
 ---
-# Archery - decision history
-### D-ARC-001 - Draw stages
-2026-10-01 · accepted · rules ARC-R1
+# Inventory - decision history
+### D-INV-001 - Count stages
+2026-10-01 · accepted · rules INV-R1
 """
 
 GLOSSARY = """---
@@ -102,12 +102,12 @@ updated: 2026-10-01
 # Glossary
 | Term | Means | Owner | Not to be confused with |
 |---|---|---|---|
-| **Precision** | Bow stat: velocity per draw stage | ARC | - |
+| **Precision** | Part attribute: fit per frame size | INV | - |
 
 ## Retired names
 | Retired | Use instead | Lint pattern |
 |---|---|---|
-| Wobble | Precision | `\\b[Ww]obble\\b` |
+| Shrinkage | Precision | `\\b[Ss]hrinkage\\b` |
 | Power | Precision | |
 """
 
@@ -117,10 +117,10 @@ class DesignPreset(ProjectCase):
         super().setUp()
         self.write("docs/CONVENTIONS.md", DESIGN_CONVENTIONS)
         self.write("docs/GLOSSARY.md", GLOSSARY)
-        self.write("docs/design/combat/archery.md", SPEC)
-        self.write("docs/design/combat/charged.md", CHARGED)
-        self.write("docs/decisions/combat/archery.md", HISTORY)
-        self.write("docs/decisions/combat/charged.md", HISTORY.replace("ARC", "CHA"))
+        self.write("docs/design/sales/inventory.md", SPEC)
+        self.write("docs/design/sales/orders.md", CHARGED)
+        self.write("docs/decisions/sales/inventory.md", HISTORY)
+        self.write("docs/decisions/sales/orders.md", HISTORY.replace("INV", "ORD"))
         self.write("docs/planning/OPEN_QUESTIONS.md", "# Open questions\n")
 
     def test_clean_project(self):
@@ -129,122 +129,122 @@ class DesignPreset(ProjectCase):
         self.assertNoFindings(out)
 
     def test_broken_link(self):
-        self.write("docs/design/combat/archery.md", SPEC + "\nSee [x](missing.md).\n")
+        self.write("docs/design/sales/inventory.md", SPEC + "\nSee [x](missing.md).\n")
         rc, out = self.lint()
         self.assertEqual(rc, 1)
-        self.assertFinding(out, "ERROR", "archery.md:20", "broken link: missing.md")
+        self.assertFinding(out, "ERROR", "inventory.md:20", "broken link: missing.md")
 
     def test_links_in_code_fences_are_ignored(self):
-        self.write("docs/design/combat/archery.md", SPEC + "\n```\n[x](missing.md)\n```\n")
+        self.write("docs/design/sales/inventory.md", SPEC + "\n```\n[x](missing.md)\n```\n")
         self.assertNoFindings(self.lint()[1])
 
     def test_retired_name_and_stale_fact(self):
-        self.write("docs/design/combat/archery.md", SPEC + "\nNo wobble, old fact 3.\n")
+        self.write("docs/design/sales/inventory.md", SPEC + "\nNo shrinkage, old fact 3.\n")
         out = self.lint()[1]
-        self.assertFinding(out, "ERROR", "archery.md", "retired name; use: Precision")
-        self.assertFinding(out, "ERROR", "archery.md", "use the new fact")
+        self.assertFinding(out, "ERROR", "inventory.md", "retired name; use: Precision")
+        self.assertFinding(out, "ERROR", "inventory.md", "use the new fact")
 
     def test_stale_terms_exempt_in_decisions(self):
-        self.write("docs/decisions/combat/archery.md", HISTORY + "\nNo wobble here.\n")
+        self.write("docs/decisions/sales/inventory.md", HISTORY + "\nNo shrinkage here.\n")
         self.assertNoFindings(self.lint()[1])
 
     def test_front_matter_errors(self):
         bad = SPEC.replace("status: settled", "status: done").replace("updated: 2026-10-01", "updated: soon") \
-                  .replace("layer: L2\n", "").replace("depends_on: [CHA]", "depends_on: [ZZZ]")
-        self.write("docs/design/combat/archery.md", bad)
+                  .replace("layer: L2\n", "").replace("depends_on: [ORD]", "depends_on: [ZZZ]")
+        self.write("docs/design/sales/inventory.md", bad)
         out = self.lint()[1]
-        self.assertFinding(out, "ERROR", "archery.md:1", "unknown status 'done'")
-        self.assertFinding(out, "ERROR", "archery.md:1", "'updated' must be YYYY-MM-DD")
-        self.assertFinding(out, "ERROR", "archery.md:1", "missing 'layer'")
-        self.assertFinding(out, "ERROR", "archery.md:1", "unknown layer 'None'")
-        self.assertFinding(out, "WARN", "archery.md:1", "depends_on 'ZZZ'")
+        self.assertFinding(out, "ERROR", "inventory.md:1", "unknown status 'done'")
+        self.assertFinding(out, "ERROR", "inventory.md:1", "'updated' must be YYYY-MM-DD")
+        self.assertFinding(out, "ERROR", "inventory.md:1", "missing 'layer'")
+        self.assertFinding(out, "ERROR", "inventory.md:1", "unknown layer 'None'")
+        self.assertFinding(out, "WARN", "inventory.md:1", "depends_on 'ZZZ'")
 
     def test_unknown_type_does_not_crash(self):
-        self.write("docs/design/combat/archery.md", SPEC.replace("type: spec", "type: sdd"))
-        self.assertFinding(self.lint()[1], "ERROR", "archery.md:1", "unknown type 'sdd'")
+        self.write("docs/design/sales/inventory.md", SPEC.replace("type: spec", "type: sdd"))
+        self.assertFinding(self.lint()[1], "ERROR", "inventory.md:1", "unknown type 'sdd'")
 
     def test_id_must_match_path_and_be_unique(self):
-        self.write("docs/design/combat/charged.md", CHARGED.replace("id: CHA", "id: ARC"))
+        self.write("docs/design/sales/orders.md", CHARGED.replace("id: ORD", "id: INV"))
         out = self.lint()[1]
-        self.assertFinding(out, "ERROR", "charged.md:1", "id 'ARC' belongs to design/combat/archery.md")
-        self.assertFinding(out, "ERROR", "charged.md:1", "already used by")
+        self.assertFinding(out, "ERROR", "orders.md:1", "id 'INV' belongs to design/sales/inventory.md")
+        self.assertFinding(out, "ERROR", "orders.md:1", "already used by")
 
     def test_rule_tags(self):
-        body = SPEC.replace("The bow draws. `locked`", "The bow draws.") \
-                   .replace("The crossbow loads. `placeholder`", "The crossbow loads. `leaning`")
-        self.write("docs/design/combat/archery.md", body)
+        body = SPEC.replace("A part is counted. `locked`", "A part is counted.") \
+                   .replace("A part is reserved. `placeholder`", "A part is reserved. `leaning`")
+        self.write("docs/design/sales/inventory.md", body)
         out = self.lint()[1]
-        self.assertFinding(out, "ERROR", "archery.md:14", "must end with exactly one tag")
-        self.assertFinding(out, "ERROR", "archery.md:15", "only allowed under Provisional rules")
+        self.assertFinding(out, "ERROR", "inventory.md:14", "must end with exactly one tag")
+        self.assertFinding(out, "ERROR", "inventory.md:15", "only allowed under Provisional rules")
 
     def test_provisional_section_requires_leaning(self):
-        self.write("docs/design/combat/archery.md", SPEC + "\n## Provisional rules\n- **ARC-R3** Maybe. (ARC-Q1) `locked`\n")
-        self.assertFinding(self.lint()[1], "ERROR", "archery.md", "must be tagged `leaning`")
+        self.write("docs/design/sales/inventory.md", SPEC + "\n## Provisional rules\n- **INV-R3** Maybe. (INV-Q1) `locked`\n")
+        self.assertFinding(self.lint()[1], "ERROR", "inventory.md", "must be tagged `leaning`")
 
     def test_duplicate_and_foreign_ids(self):
-        self.write("docs/design/combat/archery.md", SPEC + "\n- **ARC-R1** Again. `locked`\n- **CHA-R1** Foreign. `locked`\n")
+        self.write("docs/design/sales/inventory.md", SPEC + "\n- **INV-R1** Again. `locked`\n- **ORD-R1** Foreign. `locked`\n")
         out = self.lint()[1]
-        self.assertFinding(out, "ERROR", "archery.md", "duplicate rule id ARC-R1")
-        self.assertFinding(out, "ERROR", "archery.md", "rule CHA-R1 does not match file code ARC")
+        self.assertFinding(out, "ERROR", "inventory.md", "duplicate rule id INV-R1")
+        self.assertFinding(out, "ERROR", "inventory.md", "rule ORD-R1 does not match file code INV")
 
     def test_question_tags_and_index(self):
-        self.write("docs/design/combat/archery.md", SPEC + "- **ARC-Q2** Untagged?\n- **ARC-Q3** Blocks? `blocking`\n")
+        self.write("docs/design/sales/inventory.md", SPEC + "- **INV-Q2** Untagged?\n- **INV-Q3** Blocks? `blocking`\n")
         out = self.lint()[1]
-        self.assertFinding(out, "ERROR", "archery.md", "question ARC-Q2 must end with exactly one tag")
-        self.assertFinding(out, "ERROR", "archery.md", "blocking question ARC-Q3 is not listed")
-        self.write("docs/planning/OPEN_QUESTIONS.md", "# Open questions\n- **ARC-Q3** Blocks? · link\n")
-        self.assertNotIn("ARC-Q3 is not listed", self.lint()[1])
+        self.assertFinding(out, "ERROR", "inventory.md", "question INV-Q2 must end with exactly one tag")
+        self.assertFinding(out, "ERROR", "inventory.md", "blocking question INV-Q3 is not listed")
+        self.write("docs/planning/OPEN_QUESTIONS.md", "# Open questions\n- **INV-Q3** Blocks? · link\n")
+        self.assertNotIn("INV-Q3 is not listed", self.lint()[1])
 
     def test_references(self):
-        self.write("docs/design/combat/charged.md", CHARGED + "\nSee ARC-R1, ARC-R9, D-ARC-001, D-ARC-007.\n")
+        self.write("docs/design/sales/orders.md", CHARGED + "\nSee INV-R1, INV-R9, D-INV-001, D-INV-007.\n")
         out = self.lint()[1]
-        self.assertFinding(out, "ERROR", "charged.md", "dangling reference ARC-R9")
-        self.assertFinding(out, "ERROR", "charged.md", "dangling reference D-ARC-007")
-        self.assertNotIn("ARC-R1:", out)
+        self.assertFinding(out, "ERROR", "orders.md", "dangling reference INV-R9")
+        self.assertFinding(out, "ERROR", "orders.md", "dangling reference D-INV-007")
+        self.assertNotIn("INV-R1:", out)
 
     def test_prose_checks(self):
-        self.write("docs/design/combat/archery.md",
+        self.write("docs/design/sales/inventory.md",
                    SPEC + "\n## Changelog\n## Notes 2026-01-01\n★ key ~~old~~. My view. Ships in v2.\n")
         out = self.lint()[1]
         for text in ("changelog section", "heading contains a date", "is not used in specs",
                      "strikethrough", "first person"):
-            self.assertFinding(out, "ERROR", "archery.md", text)
-        self.assertFinding(out, "WARN", "archery.md", "release scheduling")
+            self.assertFinding(out, "ERROR", "inventory.md", text)
+        self.assertFinding(out, "WARN", "inventory.md", "release scheduling")
 
     def test_working_notes_only_while_drafting(self):
-        self.write("docs/design/combat/archery.md", SPEC + "\n## Working notes\nMy ★ ideas, v2.\n")
+        self.write("docs/design/sales/inventory.md", SPEC + "\n## Working notes\nMy ★ ideas, v2.\n")
         out = self.lint()[1]
-        self.assertFinding(out, "ERROR", "archery.md", "working notes are only allowed")
+        self.assertFinding(out, "ERROR", "inventory.md", "working notes are only allowed")
         self.assertNotIn("first person", out)  # notes are exempt from prose checks
-        self.write("docs/design/combat/archery.md",
+        self.write("docs/design/sales/inventory.md",
                    SPEC.replace("status: settled", "status: drafting") + "\n## Working notes\nMy ideas.\n")
         self.assertNoFindings(self.lint()[1])
 
     def test_mirror_and_decision_log(self):
-        os.remove(os.path.join(self.root, "docs/decisions/combat/charged.md"))
-        self.write("docs/decisions/combat/archery.md", HISTORY + "### D-ARC-001 - Dup\n### D-CHA-001 - Wrong\n")
+        os.remove(os.path.join(self.root, "docs/decisions/sales/orders.md"))
+        self.write("docs/decisions/sales/inventory.md", HISTORY + "### D-INV-001 - Dup\n### D-ORD-001 - Wrong\n")
         out = self.lint()[1]
-        self.assertFinding(out, "WARN", "charged.md", "no decision-history file at docs/decisions/combat/charged.md")
-        self.assertFinding(out, "ERROR", "decisions/combat/archery.md", "duplicate decision id D-ARC-001")
-        self.assertFinding(out, "ERROR", "decisions/combat/archery.md", "decision D-CHA-001 does not match file code ARC")
+        self.assertFinding(out, "WARN", "orders.md", "no decision-history file at docs/decisions/sales/orders.md")
+        self.assertFinding(out, "ERROR", "decisions/sales/inventory.md", "duplicate decision id D-INV-001")
+        self.assertFinding(out, "ERROR", "decisions/sales/inventory.md", "decision D-ORD-001 does not match file code INV")
 
     def test_word_budget(self):
-        self.write("docs/design/combat/archery.md", SPEC + "\n" + "word " * 1600 + "\n")
-        self.assertFinding(self.lint()[1], "WARN", "archery.md", "exceeds the ~1500-word budget")
+        self.write("docs/design/sales/inventory.md", SPEC + "\n" + "word " * 1600 + "\n")
+        self.assertFinding(self.lint()[1], "WARN", "inventory.md", "exceeds the ~1500-word budget")
 
     def test_missing_front_matter_is_listed(self):
-        self.write("docs/design/combat/raw.md", "# Raw\nSee ARC-R1.\n")
+        self.write("docs/design/sales/raw.md", "# Raw\nSee INV-R1.\n")
         rc, out = self.lint("--verbose")
         self.assertIn("1 not yet migrated", out)
-        self.assertIn("design/combat/raw.md", out)
+        self.assertIn("design/sales/raw.md", out)
 
     def test_map_from_codes(self):
         rc, out = self.lint("--map")
-        self.assertIn("| `ARC` | Archery | spec | L2 | settled | [`design/combat/archery.md`](design/combat/archery.md) |", out)
+        self.assertIn("| `INV` | Inventory | spec | L2 | settled | [`design/sales/inventory.md`](design/sales/inventory.md) |", out)
         self.assertIn("| `GLO` | Glossary | registry |", out)
 
     def test_quiet_hides_warnings(self):
-        self.write("docs/design/combat/archery.md", SPEC + "\nShips in v2.\n")
+        self.write("docs/design/sales/inventory.md", SPEC + "\nShips in v2.\n")
         out = self.lint("--quiet")[1]
         self.assertNotIn("WARN", out)
 
@@ -255,52 +255,52 @@ class DesignPreset(ProjectCase):
 
 class EarlyQuantity(ProjectCase):
     """Rules below L3 state orderings or tiers; quantities need the `placeholder` tag."""
-    ANCHOR = "- **ARC-R2** The crossbow loads. `placeholder`\n"
+    ANCHOR = "- **INV-R2** A part is reserved. `placeholder`\n"
 
     def setUp(self):
         super().setUp()
         self.write("docs/CONVENTIONS.md", DESIGN_CONVENTIONS)
         self.write("docs/GLOSSARY.md", GLOSSARY)
-        self.write("docs/decisions/combat/archery.md", HISTORY)
+        self.write("docs/decisions/sales/inventory.md", HISTORY)
 
     def lint_rules(self, rules, layer="L2"):
         text = SPEC.replace(self.ANCHOR, rules).replace("layer: L2", "layer: " + layer)
-        self.write("docs/design/combat/archery.md", text)
+        self.write("docs/design/sales/inventory.md", text)
         return self.lint()[1]
 
     def test_fires_on_quantity_in_l2_rule(self):
-        out = self.lint_rules("- **ARC-R2** Damage rises by 12%. `locked`\n- **ARC-R3** A draw takes 1.5 s. `locked`\n")
-        self.assertFinding(out, "WARN", "archery.md:15", "quantity in a rule below L3")
-        self.assertFinding(out, "WARN", "archery.md:16", "tag it `placeholder`")
+        out = self.lint_rules("- **INV-R2** The price rises by 12%. `locked`\n- **INV-R3** A count takes 1.5 s. `locked`\n")
+        self.assertFinding(out, "WARN", "inventory.md:15", "quantity in a rule below L3")
+        self.assertFinding(out, "WARN", "inventory.md:16", "tag it `placeholder`")
         self.assertEqual(out.count("quantity in a rule"), 2, out)
 
     def test_fires_on_decimal_and_unit(self):
-        out = self.lint_rules("- **ARC-R2** Range is 2.5 tiles. `locked`\n- **ARC-R3** A volley lasts 3 seconds. `locked`\n")
+        out = self.lint_rules("- **INV-R2** Range is 2.5 tiles. `locked`\n- **INV-R3** A volley lasts 3 seconds. `locked`\n")
         self.assertEqual(out.count("quantity in a rule"), 2, out)
 
     def test_is_a_warning_not_an_error(self):
-        self.write("docs/design/combat/archery.md", SPEC.replace(self.ANCHOR, "- **ARC-R2** Costs 12%. `locked`\n"))
+        self.write("docs/design/sales/inventory.md", SPEC.replace(self.ANCHOR, "- **INV-R2** Costs 12%. `locked`\n"))
         rc, out = self.lint()
         self.assertEqual(rc, 0, out)
 
     def test_silent_when_tagged_placeholder(self):
-        self.assertNoFindings(self.lint_rules("- **ARC-R2** Damage rises by 12%. `placeholder`\n"))
+        self.assertNoFindings(self.lint_rules("- **INV-R2** The price rises by 12%. `placeholder`\n"))
 
     def test_silent_in_l3_doc(self):
-        self.assertNoFindings(self.lint_rules("- **ARC-R2** Damage rises by 12%. `locked`\n", layer="L3"))
+        self.assertNoFindings(self.lint_rules("- **INV-R2** The price rises by 12%. `locked`\n", layer="L3"))
 
     def test_silent_on_non_rule_lines(self):
-        out = self.lint_rules(self.ANCHOR + "\nThe draw takes 1.5 s and deals 12% more.\n"
-                              "- **ARC-Q2** Is 12% too much? `minor`\n")
+        out = self.lint_rules(self.ANCHOR + "\nThe count takes 1.5 s and costs 12% more.\n"
+                              "- **INV-Q2** Is 12% too much? `minor`\n")
         self.assertNotIn("quantity in a rule", out)
 
     def test_silent_on_ids_dates_and_structural_integers(self):
-        out = self.lint_rules("- **ARC-R2** Two shield types and 3 phases; extends ARC-R1 and D-ARC-001, "
+        out = self.lint_rules("- **INV-R2** Two price types and 3 phases; extends INV-R1 and D-INV-001, "
                               "decided 2026-11-14, see section 3.2 and v0.3.0. `locked`\n")
         self.assertNotIn("quantity in a rule", out)
 
     def test_silent_inside_inline_code(self):
-        out = self.lint_rules("- **ARC-R2** The config key `draw_time: 1.5 s` is named in code. `locked`\n")
+        out = self.lint_rules("- **INV-R2** The config key `draw_time: 1.5 s` is named in code. `locked`\n")
         self.assertNotIn("quantity in a rule", out)
 
     def test_silent_when_not_configured(self):
@@ -309,7 +309,7 @@ class EarlyQuantity(ProjectCase):
             cfg = json.load(f)
         del cfg["early_quantity"]
         self.write("tools/doclint.json", json.dumps(cfg))
-        self.assertNoFindings(self.lint_rules("- **ARC-R2** Damage rises by 12%. `locked`\n"))
+        self.assertNoFindings(self.lint_rules("- **INV-R2** The price rises by 12%. `locked`\n"))
 
     def test_threshold_and_pattern_are_configurable(self):
         path = os.path.join(self.root, "tools", "doclint.json")
@@ -317,21 +317,21 @@ class EarlyQuantity(ProjectCase):
             cfg = json.load(f)
         cfg["early_quantity"] = {"below_layer": "L2", "pattern": r"\bten\b"}
         self.write("tools/doclint.json", json.dumps(cfg))
-        rules = "- **ARC-R2** Costs 12%. `locked`\n- **ARC-R3** Deals ten damage. `locked`\n"
+        rules = "- **INV-R2** Costs 12%. `locked`\n- **INV-R3** Holds ten parts. `locked`\n"
         self.assertNoFindings(self.lint_rules(rules, layer="L2"))
         out = self.lint_rules(rules, layer="L1")
-        self.assertFinding(out, "WARN", "archery.md:16", "quantity in a rule below L2")
+        self.assertFinding(out, "WARN", "inventory.md:16", "quantity in a rule below L2")
         self.assertEqual(out.count("quantity in a rule"), 1, out)
 
 
 class Coupling(ProjectCase):
     """Foreign rule references, interface items, fan-out and cycles (all warnings except ID integrity)."""
-    CODES = ["ARC", "CHA", "SHD", "DMI"]
+    CODES = ["INV", "ORD", "REP", "PAY"]
 
     def setUp(self):
         super().setUp()
         table = "# Conventions\n| Code | File |\n|---|---|\n" + "".join(
-            "| `{}` | design/combat/{}.md |\n".format(c, c.lower()) for c in self.CODES) + "| `GLO` | GLOSSARY.md |\n"
+            "| `{}` | design/sales/{}.md |\n".format(c, c.lower()) for c in self.CODES) + "| `GLO` | GLOSSARY.md |\n"
         self.write("docs/CONVENTIONS.md", table)
         self.write("docs/GLOSSARY.md", GLOSSARY)
         self.write("docs/planning/OPEN_QUESTIONS.md", "# Open questions\n")
@@ -342,7 +342,7 @@ class Coupling(ProjectCase):
                 "updated: 2026-10-01\ndepends_on: [{deps}]\n---\n# {0}\n> Purpose.\n\n"
                 "## Interface\n- **{0}-I1** Offers a term.\n\n## Rules\n{body}\n{extra}").format(
                     code, kind=kind, status=status, deps=", ".join(deps), body=body, extra=extra)
-        self.write("docs/design/combat/{}.md".format(code.lower()), text)
+        self.write("docs/design/sales/{}.md".format(code.lower()), text)
 
     def all_specs(self, **deps):
         for code in self.CODES:
@@ -364,97 +364,97 @@ class Coupling(ProjectCase):
     # -- foreign rule references
     def test_foreign_rule_reference_warns_with_fix(self):
         self.all_specs()
-        self.spec("ARC", body="- **ARC-R1** Draw follows CHA-R1 exactly. `locked`\n")
+        self.spec("INV", body="- **INV-R1** Count follows ORD-R1 exactly. `locked`\n")
         rc, out = self.lint()
         self.assertEqual(rc, 0, out)
-        self.assertFinding(out, "WARN", "arc.md:17",
-                           "rule cites CHA-R1 of another system: cite an interface item (CHA-I\u2026) or the system code")
+        self.assertFinding(out, "WARN", "inv.md:17",
+                           "rule cites ORD-R1 of another system: cite an interface item (ORD-I\u2026) or the system code")
 
     def test_foreign_reference_in_parameter_line_warns(self):
         self.all_specs()
-        self.spec("ARC", extra="## Parameters\n| Draw time | per CHA-R1 |\n")
-        self.assertFinding(self.lint()[1], "WARN", "arc.md", "parameter cites CHA-R1 of another system")
+        self.spec("INV", extra="## Parameters\n| Count time | per ORD-R1 |\n")
+        self.assertFinding(self.lint()[1], "WARN", "inv.md", "parameter cites ORD-R1 of another system")
 
     def test_foreign_reference_exemptions(self):
         self.all_specs()
-        body = ("- **ARC-R1** Uses the CHA interface (CHA-I1), the code CHA and own ARC-R2; `CHA-R1` is code. `locked`\n"
-                "- **ARC-R2** Reads [the charged spec](cha.md) by link only. `locked`\n"
-                "- **ARC-R3** Waits on ARC-Q1 and CHA-Q1 (questions, not rules). `locked`\n")
-        self.spec("CHA", extra="## Open questions\n- **CHA-Q1** Range? `minor`\n")
-        extra = ("## Open questions\n- **ARC-Q1** Does CHA-R1 still hold? `major`\n\n"
-                 "## Working notes\nCHA-R1 and SHD-R1 here.\n")
-        self.spec("ARC", body=body, extra=extra, status="drafting")
+        body = ("- **INV-R1** Uses the ORD interface (ORD-I1), the code ORD and own INV-R2; `ORD-R1` is code. `locked`\n"
+                "- **INV-R2** Reads [the orders spec](ord.md) by link only. `locked`\n"
+                "- **INV-R3** Waits on INV-Q1 and ORD-Q1 (questions, not rules). `locked`\n")
+        self.spec("ORD", extra="## Open questions\n- **ORD-Q1** Range? `minor`\n")
+        extra = ("## Open questions\n- **INV-Q1** Does ORD-R1 still hold? `major`\n\n"
+                 "## Working notes\nCHA-R1 and REP-R1 here.\n")
+        self.spec("INV", body=body, extra=extra, status="drafting")
         out = self.lint()[1]
         self.assertEqual(self.hits(out, "of another system"), [], out)
 
     def test_foreign_reference_ignored_outside_configured_types(self):
         self.all_specs()
-        self.spec("ARC", kind="data", body="- **ARC-R1** Follows CHA-R1. `locked`\n")
+        self.spec("INV", kind="data", body="- **INV-R1** Follows ORD-R1. `locked`\n")
         self.assertEqual(self.hits(self.lint()[1], "of another system"), [])
 
     # -- interface items
     def test_interface_items_are_ids(self):
         self.all_specs()
-        self.spec("ARC", deps=["CHA"], body="- **ARC-R1** Needs CHA-I1 from CHA. `locked`\n")
+        self.spec("INV", deps=["ORD"], body="- **INV-R1** Needs ORD-I1 from ORD. `locked`\n")
         out = self.lint()[1]
         self.assertEqual(self.hits(out, "dangling"), [], out)
         self.assertEqual(self.hits(out, "of another system"), [], out)
 
     def test_dangling_interface_citation_is_a_warning(self):
         self.all_specs()
-        self.spec("ARC", deps=["CHA"], body="- **ARC-R1** Needs CHA-I9. `locked`\n")
+        self.spec("INV", deps=["ORD"], body="- **INV-R1** Needs ORD-I9. `locked`\n")
         rc, out = self.lint()
         self.assertEqual(rc, 0, out)
-        self.assertFinding(out, "WARN", "arc.md:17", "dangling reference CHA-I9")
+        self.assertFinding(out, "WARN", "inv.md:17", "dangling reference ORD-I9")
 
     def test_dangling_rule_citation_stays_an_error(self):
         self.all_specs()
-        self.spec("ARC", extra="Mentions CHA-R9.\n")
+        self.spec("INV", extra="Mentions ORD-R9.\n")
         rc, out = self.lint()
         self.assertEqual(rc, 1, out)
-        self.assertFinding(out, "ERROR", "arc.md", "dangling reference CHA-R9")
+        self.assertFinding(out, "ERROR", "inv.md", "dangling reference ORD-R9")
 
     def test_duplicate_and_mismatched_interface_ids_are_errors(self):
         self.all_specs()
-        self.spec("ARC", extra="- **ARC-I1** Again.\n- **CHA-I2** Wrong file.\n")
+        self.spec("INV", extra="- **INV-I1** Again.\n- **ORD-I2** Wrong file.\n")
         rc, out = self.lint()
         self.assertEqual(rc, 1, out)
-        self.assertFinding(out, "ERROR", "arc.md", "duplicate interface item id ARC-I1")
-        self.assertFinding(out, "ERROR", "arc.md", "interface item CHA-I2 does not match file code ARC")
+        self.assertFinding(out, "ERROR", "inv.md", "duplicate interface item id INV-I1")
+        self.assertFinding(out, "ERROR", "inv.md", "interface item ORD-I2 does not match file code INV")
 
     # -- fan-out
     def test_fan_out_over_the_limit_warns(self):
         self.set_coupling({"types": ["spec"], "max_fan_out": 2})
-        self.all_specs(ARC=["CHA", "SHD", "DMI"])
+        self.all_specs(INV=["ORD", "REP", "PAY"])
         out = self.lint()[1]
-        self.assertFinding(out, "WARN", "arc.md", "fan-out 3 exceeds the limit of 2")
+        self.assertFinding(out, "WARN", "inv.md", "fan-out 3 exceeds the limit of 2")
 
     def test_fan_out_at_the_limit_is_silent(self):
         self.set_coupling({"types": ["spec"], "max_fan_out": 3})
-        self.all_specs(ARC=["CHA", "SHD", "DMI"])
+        self.all_specs(INV=["ORD", "REP", "PAY"])
         self.assertEqual(self.hits(self.lint()[1], "fan-out"), [])
 
     def test_fan_out_default_limit_and_disable(self):
         self.set_coupling({})
-        self.all_specs(ARC=["CHA", "SHD", "DMI", "ARC", "XXX", "YYY"])
-        self.assertFinding(self.lint()[1], "WARN", "arc.md", "fan-out 6 exceeds the limit of 5")
+        self.all_specs(INV=["ORD", "REP", "PAY", "INV", "XXX", "YYY"])
+        self.assertFinding(self.lint()[1], "WARN", "inv.md", "fan-out 6 exceeds the limit of 5")
         self.set_coupling({"max_fan_out": None})
         self.assertEqual(self.hits(self.lint()[1], "fan-out"), [])
 
     # -- cycles
     def test_two_cycle_reported_once(self):
-        self.all_specs(ARC=["CHA"], CHA=["ARC"])
+        self.all_specs(INV=["ORD"], ORD=["INV"])
         out = self.lint()[1]
-        self.assertEqual(self.hits(out, "dependency cycle"), ["WARN  docs/design/combat/arc.md:1  dependency cycle: ARC -> CHA -> ARC"])
+        self.assertEqual(self.hits(out, "dependency cycle"), ["WARN  docs/design/sales/inv.md:1  dependency cycle: INV -> ORD -> INV"])
 
     def test_three_cycle_reported_once(self):
-        self.all_specs(CHA=["SHD"], SHD=["DMI"], DMI=["CHA"])
+        self.all_specs(ORD=["REP"], REP=["PAY"], PAY=["ORD"])
         out = self.lint()[1]
         self.assertEqual(self.hits(out, "dependency cycle"),
-                         ["WARN  docs/design/combat/cha.md:1  dependency cycle: CHA -> SHD -> DMI -> CHA"])
+                         ["WARN  docs/design/sales/ord.md:1  dependency cycle: ORD -> REP -> PAY -> ORD"])
 
     def test_acyclic_dependencies_and_unknown_codes_are_silent(self):
-        self.all_specs(ARC=["CHA", "SHD"], CHA=["SHD", "ZZZ"])
+        self.all_specs(INV=["ORD", "REP"], ORD=["REP", "ZZZ"])
         self.assertEqual(self.hits(self.lint()[1], "dependency cycle"), [])
 
     def test_find_cycles_covers_self_loop_and_shared_nodes(self):
@@ -469,18 +469,18 @@ class Coupling(ProjectCase):
 
     # -- report mode
     def test_coupling_report(self):
-        self.all_specs(ARC=["CHA", "SHD"], CHA=["ARC"])
-        self.spec("SHD", body="- **SHD-R1** Follows ARC-R1 and ARC-R1 again, and CHA-R1. `locked`\n")
+        self.all_specs(INV=["ORD", "REP"], ORD=["INV"])
+        self.spec("REP", body="- **REP-R1** Follows INV-R1 and INV-R1 again, and ORD-R1. `locked`\n")
         rc, out = self.lint("--coupling")
         self.assertEqual(rc, 0, out)
         self.assertEqual(out, (
             "System  Fan-out  Fan-in  Foreign rule refs  Interface items\n"
             "------  -------  ------  -----------------  ---------------\n"
-            "ARC           2       1                  0                1\n"
-            "CHA           1       1                  0                1\n"
-            "DMI           0       0                  0                1\n"
-            "SHD           0       1                  2                1\n"
-            "\nCycles: 1\n  ARC -> CHA -> ARC\n"))
+            "INV           2       1                  0                1\n"
+            "ORD           1       1                  0                1\n"
+            "PAY           0       0                  0                1\n"
+            "REP           0       1                  2                1\n"
+            "\nCycles: 1\n  INV -> ORD -> INV\n"))
 
     # -- system map page
     def map_data(self):
@@ -489,16 +489,16 @@ class Coupling(ProjectCase):
         return json.loads(re.search(r'id="handoff-data">(.*?)</script>', page, re.S).group(1)), page
 
     def test_system_map_page_from_front_matter(self):
-        self.all_specs(ARC=["CHA", "SHD"], CHA=["ARC"])
-        self.spec("SHD", status="drafting", extra="## Open questions\n- **SHD-Q1** Does a shield block arrows? `major`\n")
+        self.all_specs(INV=["ORD", "REP"], ORD=["INV"])
+        self.spec("REP", status="drafting", extra="## Open questions\n- **REP-Q1** Does a repair reserve parts? `major`\n")
         rc, out = self.lint("--system-map")
         self.assertEqual(rc, 0, out)
         self.assertIn("docs/system-map.html (4 systems, 3 dependencies)", out)
         data, page = self.map_data()
-        self.assertEqual([n["id"] for n in data["nodes"]], ["ARC", "CHA", "DMI", "SHD"])
+        self.assertEqual([n["id"] for n in data["nodes"]], ["INV", "ORD", "PAY", "REP"])
         shd = data["nodes"][3]
         self.assertEqual((shd["status"], shd["layer"], shd["open"], shd["summary"]), ("drafting", "L2", 1, "Purpose."))
-        self.assertEqual(sorted((e["from"], e["to"]) for e in data["edges"]), [("ARC", "CHA"), ("ARC", "SHD"), ("CHA", "ARC")])
+        self.assertEqual(sorted((e["from"], e["to"]) for e in data["edges"]), [("INV", "ORD"), ("INV", "REP"), ("ORD", "INV")])
         self.assertIn("1 dependency cycle", data["bottom_line"])
         self.assertEqual(data["fan_out_warn"], 5)
         self.assertEqual([s["id"] for s in data["statuses"]][:2], ["idea", "drafting"])
@@ -507,11 +507,11 @@ class Coupling(ProjectCase):
 
     def test_system_map_custom_path_and_fan_out(self):
         self.set_coupling({"types": ["spec"], "max_fan_out": 1})
-        self.all_specs(ARC=["CHA", "SHD"])
+        self.all_specs(INV=["ORD", "REP"])
         rc, out = self.lint("--system-map", "out/map.html")
         self.assertEqual(rc, 0, out)
         with open(os.path.join(self.root, "out", "map.html"), encoding="utf-8") as f:
-            self.assertIn("above the fan-out limit of 1: ARC", f.read())
+            self.assertIn("above the fan-out limit of 1: INV", f.read())
 
     def test_system_map_needs_coupling(self):
         self.set_coupling(None)
@@ -522,12 +522,12 @@ class Coupling(ProjectCase):
     # -- off when not configured
     def test_everything_is_off_without_the_key(self):
         self.set_coupling(None)
-        self.all_specs(ARC=["CHA", "SHD", "DMI", "ARC", "XXX", "YYY"], CHA=["ARC"])
-        self.spec("ARC", deps=["CHA", "SHD", "DMI", "ARC", "XXX", "YYY"],
-                  body="- **ARC-R1** Draw follows CHA-R1 and needs CHA-I9. `locked`\n", extra="- **ARC-I1** Again.\n")
+        self.all_specs(INV=["ORD", "REP", "PAY", "INV", "XXX", "YYY"], ORD=["INV"])
+        self.spec("INV", deps=["ORD", "REP", "PAY", "INV", "XXX", "YYY"],
+                  body="- **INV-R1** Count follows ORD-R1 and needs ORD-I9. `locked`\n", extra="- **INV-I1** Again.\n")
         rc, out = self.lint()
         self.assertEqual(rc, 0, out)
-        for text in ("another system", "fan-out", "dependency cycle", "interface item", "CHA-I9"):
+        for text in ("another system", "fan-out", "dependency cycle", "interface item", "ORD-I9"):
             self.assertEqual(self.hits(out, text), [], out)
         rc, out = self.lint("--coupling")
         self.assertEqual(rc, 2, out)
@@ -546,12 +546,12 @@ class VocabularyTags(ProjectCase):
     def test_new_tags_and_status_are_valid(self):
         self.write("docs/CONVENTIONS.md", DESIGN_CONVENTIONS)
         self.write("docs/GLOSSARY.md", GLOSSARY)
-        self.write("docs/decisions/combat/archery.md", HISTORY)
+        self.write("docs/decisions/sales/inventory.md", HISTORY)
         text = SPEC.replace("status: settled", "status: validated") \
-                   .replace(EarlyQuantity.ANCHOR, "- **ARC-R2** Reload is slower than draw (ARC-R3, ARC-Q2). `conflicting`\n"
-                            "- **ARC-R3** Reload is faster than draw (ARC-R2, ARC-Q2). `conflicting`\n") \
-                   + "- **ARC-Q2** Which rule holds? `needs-build`\n"
-        self.write("docs/design/combat/archery.md", text)
+                   .replace(EarlyQuantity.ANCHOR, "- **INV-R2** Pickup is slower than delivery (INV-R3, INV-Q2). `conflicting`\n"
+                            "- **INV-R3** Pickup is faster than delivery (INV-R2, INV-Q2). `conflicting`\n") \
+                   + "- **INV-Q2** Which rule holds? `needs-build`\n"
+        self.write("docs/design/sales/inventory.md", text)
         rc, out = self.lint()
         self.assertEqual(rc, 0, out)
         self.assertNoFindings(out)
@@ -563,22 +563,22 @@ class StylePlugin(ProjectCase):
     def setUp(self):
         super().setUp()
         self.write("docs/CONVENTIONS.md", DESIGN_CONVENTIONS)
-        self.write("docs/decisions/combat/archery.md", HISTORY)
+        self.write("docs/decisions/sales/inventory.md", HISTORY)
 
     def test_long_sentence_and_emoji(self):
         long = " ".join(["word"] * 35) + "."
-        self.write("docs/design/combat/archery.md", SPEC + "\n" + long + " Short one.\nStatus ✅ done.\n")
+        self.write("docs/design/sales/inventory.md", SPEC + "\n" + long + " Short one.\nStatus ✅ done.\n")
         out = self.lint()[1]
-        self.assertFinding(out, "WARN", "archery.md", "style: 35-word sentence")
-        self.assertFinding(out, "WARN", "archery.md", "style: emoji")
+        self.assertFinding(out, "WARN", "inventory.md", "style: 35-word sentence")
+        self.assertFinding(out, "WARN", "inventory.md", "style: emoji")
 
     def test_bold_density_ignores_ids(self):
         text = SPEC + "\n" + " ".join(["**bold**"] * 10 + ["plain"] * 100) + "\n"
-        self.write("docs/design/combat/archery.md", text)
-        self.assertFinding(self.lint()[1], "WARN", "archery.md", "bold spans per 100 words")
-        rules = SPEC + "\n" + "\n".join("- **ARC-R{}** plain words here for the count. `locked`".format(i)
+        self.write("docs/design/sales/inventory.md", text)
+        self.assertFinding(self.lint()[1], "WARN", "inventory.md", "bold spans per 100 words")
+        rules = SPEC + "\n" + "\n".join("- **INV-R{}** plain words here for the count. `locked`".format(i)
                                         for i in range(3, 40)) + "\n"
-        self.write("docs/design/combat/archery.md", rules)
+        self.write("docs/design/sales/inventory.md", rules)
         self.assertNotIn("bold spans", self.lint()[1])
 
 

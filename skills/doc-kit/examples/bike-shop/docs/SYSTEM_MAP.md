@@ -17,9 +17,9 @@ Every system, its type, depth and status, generated from front matter. Regenerat
 ## Systems
 | Code | System | Type | Layer | Status | File |
 |---|---|---|---|---|---|
-| `LMP` | Lamp | spec | L2 | settled | [`design/keeper/lamp.md`](design/keeper/lamp.md) |
-| `SHP` | Ships | spec | L1 | drafting | [`design/world/ships.md`](design/world/ships.md) |
-| `WEA` | Weather | spec | L2 | settled | [`design/world/weather.md`](design/world/weather.md) |
+| `INV` | Inventory | spec | L2 | settled | [`design/sales/inventory.md`](design/sales/inventory.md) |
+| `ORD` | Orders | spec | L2 | settled | [`design/sales/orders.md`](design/sales/orders.md) |
+| `REP` | Repairs | spec | L1 | drafting | [`design/workshop/repairs.md`](design/workshop/repairs.md) |
 | `GLO` | Glossary | registry | — | — | [`GLOSSARY.md`](GLOSSARY.md) |
 | `MAP` | System Map | registry | — | — | [`SYSTEM_MAP.md`](SYSTEM_MAP.md) |
 | `PRK` | Parking Lot | ideas | — | — | [`design/parking-lot.md`](design/parking-lot.md) |

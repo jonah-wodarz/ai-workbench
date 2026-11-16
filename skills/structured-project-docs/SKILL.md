@@ -1,6 +1,6 @@
 ---
 name: "structured-project-docs"
-description: "Plan and reorganize the file tree of project documentation: split a large or mixed-topic Markdown file into small single-topic files with an index, decide where notes, specs, ADRs, runbooks or research belong, and clean up a messy or ad hoc docs folder or wiki. Use for 'reorganize my notes', 'split this doc up', 'where should X go', 'set up a docs layout', especially in Claude Cowork, and whenever a Markdown file grows past one topic. Boundary: installing or running the lint, pre-commit hook or doc templates is doc-kit."
+description: "Reorganize existing project documentation and decide where things go: split a large or mixed-topic Markdown file into small single-topic files with an index, clean up a messy docs folder, notes pile or wiki, and answer where notes, specs, ADRs, runbooks or research belong and how to name them. Use for 'reorganize my notes', 'split this doc up', 'where should X go', 'how should I lay out this folder', and whenever a Markdown file grows past one topic. A new docs project is scaffolded by doc-kit; this skill governs how the tree grows afterwards."
 ---
 
 # Structured Project Docs
