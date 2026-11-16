@@ -1,0 +1,59 @@
+{
+ "description": "Six four-option MC questions in German with an answer key.",
+ "prompt": "Use the fair-practice-questions skill. Schreibe 6 MC-Fragen mit je 4 Optionen (A-D) zu den OSI-Schichten und zu TCP vs. UDP für meine Netzwerke-Klausur. Gib danach einen Lösungsschlüssel. Als Markdown ausgeben, kein Widget.",
+ "assertions": [
+  {
+   "id": "shape",
+   "desc": "Six questions with four options each can be parsed.",
+   "check": "py",
+   "fn": "mc_shape",
+   "questions": 6,
+   "options": 4
+  },
+  {
+   "id": "length-parity",
+   "desc": "The correct option is not systematically the longest or most detailed.",
+   "check": "py",
+   "fn": "mc_length_parity"
+  },
+  {
+   "id": "positions",
+   "desc": "Correct answers are spread over at least 3 positions, none used more than 3 times.",
+   "check": "py",
+   "fn": "mc_positions"
+  },
+  {
+   "id": "plausible-distractors",
+   "desc": "Every distractor is on-topic and plausible for a partial learner (real misconceptions or adjacent concepts); no joke or off-topic options.",
+   "check": "llm",
+   "negative": false
+  },
+  {
+   "id": "no-spoilers",
+   "desc": "No question stem, option or visible hint reveals the answer to another question.",
+   "check": "llm",
+   "negative": false
+  },
+  {
+   "id": "no-verbal-echo",
+   "desc": "No distinctive word from a stem appears only in the correct option, and no stem agrees grammatically with only one option.",
+   "check": "llm",
+   "negative": false
+  },
+  {
+   "id": "key-separate",
+   "desc": "A separate answer-key section follows the questions.",
+   "check": "regex",
+   "target": "output",
+   "pattern": "^#+\\s*.*(l[öo]sung|schl[üu]ssel|antwort)",
+   "expect": true,
+   "flags": "im"
+  },
+  {
+   "id": "german",
+   "desc": "The output is in German.",
+   "check": "py",
+   "fn": "german"
+  }
+ ]
+}

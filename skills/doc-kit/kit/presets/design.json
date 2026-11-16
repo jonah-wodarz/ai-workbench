@@ -51,6 +51,7 @@
     "patterns": [{"regex": "\\bv\\d+\\+?(?!\\w|\\.\\d)", "level": "warn", "message": "release scheduling in spec text; keep timing out of specs until L3-L4"}]
   },
   "early_quantity": {"types": ["spec"], "below_layer": "L3"},
+  "coupling": {"types": ["spec"], "max_fan_out": 5},
   "word_budget": {"spec": 1500, "playbook": 1200},
   "stale_terms": {
     "file": "tools/stale-terms.txt",

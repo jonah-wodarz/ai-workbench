@@ -1,0 +1,78 @@
+{
+ "description": "Pivotal choice between alternatives, an early quantity, a rename with ripple, and a new open question.",
+ "prompt": "Use the design-capture skill. The docs are in this folder (start at README.md). Decisions for Archery: (1) Bows come in three weights: light, medium and heavy. We weighed a continuous weight stat but picked three tiers so players can read the difference at a glance (VIS-P2). The heavier the bow, the slower the draw. (2) Rough draw times: light 0.8 s, medium 1.2 s, heavy 2 s. (3) Rename 'hunting bow' to 'shortbow' everywhere, because hunting bow is a bad name now that bows have weights. (4) Can a bow be fired while sprinting? No idea yet.",
+ "fixture": {
+  "builder": "design-project"
+ },
+ "assertions": [
+  {
+   "id": "ordering-rule",
+   "desc": "The archery spec states the weight/draw relation as an ordering rule.",
+   "check": "regex",
+   "target": "file:docs/design/combat/archery.md",
+   "pattern": "ARC-R\\d+\\*\\*[^\\n]*(light|medium|heav)[^\\n]*(slow|fast|quick)",
+   "expect": true,
+   "flags": "i"
+  },
+  {
+   "id": "no-raw-numbers",
+   "desc": "The archery spec carries none of the raw draw times (0.8, 1.2).",
+   "check": "regex",
+   "target": "file:docs/design/combat/archery.md",
+   "pattern": "\\b(0\\.8|1\\.2)\\b",
+   "expect": false,
+   "flags": "i"
+  },
+  {
+   "id": "numbers-parked",
+   "desc": "The raw draw times are parked for L3.",
+   "check": "regex",
+   "target": "file:docs/design/parking-lot.md",
+   "pattern": "0\\.8|1\\.2",
+   "expect": true,
+   "flags": "i"
+  },
+  {
+   "id": "history-entry",
+   "desc": "A decision-history entry D-ARC-002 exists and names the rejected continuous weight stat.",
+   "check": "regex",
+   "target": "file:docs/decisions/combat/archery.md",
+   "pattern": "D-ARC-002[\\s\\S]*continuous",
+   "expect": true,
+   "flags": "i"
+  },
+  {
+   "id": "rename-sweep",
+   "desc": "No file under docs/design still says 'hunting bow' after the rename.",
+   "check": "regex",
+   "target": "file:docs/design/*",
+   "pattern": "hunting bow",
+   "expect": false,
+   "flags": "i"
+  },
+  {
+   "id": "retired-name",
+   "desc": "The glossary's Retired names table lists 'Hunting bow'.",
+   "check": "regex",
+   "target": "file:docs/GLOSSARY.md",
+   "pattern": "Retired names[\\s\\S]*hunting bow",
+   "expect": true,
+   "flags": "i"
+  },
+  {
+   "id": "question-tagged",
+   "desc": "The sprint question is a new tagged open question with a fresh ID (ARC-Q2 or higher).",
+   "check": "regex",
+   "target": "file:docs/design/combat/archery.md",
+   "pattern": "ARC-Q[2-9]\\*\\*[^\\n]*sprint[^\\n]*`(major|minor|blocking|needs-build|deferred)`",
+   "expect": true,
+   "flags": "i"
+  },
+  {
+   "id": "lint-clean",
+   "desc": "tools/doclint.py ends with exit 0.",
+   "check": "lint",
+   "cmd": "python3 tools/doclint.py"
+  }
+ ]
+}

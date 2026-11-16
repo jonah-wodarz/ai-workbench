@@ -1,0 +1,29 @@
+{
+  "title": "Caching decisions",
+  "date": "2026-11-14",
+  "source": "docs/design/cache.md",
+  "bottom_line": "Two decisions block the cache layer; both have a recommended option.",
+  "decisions": [
+    {
+      "id": "D1", "tag": "blocking", "affects": ["API", "Worker"],
+      "question": "Where does the cache live?",
+      "context": "Reads dominate writes 20 to 1. The worker restarts daily, so process memory loses its content.",
+      "options": [
+        {"id": "a", "label": "In process memory", "pros": ["No new service"], "cons": ["Lost on every restart"]},
+        {"id": "b", "label": "Shared Redis", "pros": ["Survives restarts", "One cache for all workers"], "cons": ["New service to run"]}
+      ],
+      "recommended": "b",
+      "reason": "Restarts would otherwise empty the cache every day."
+    },
+    {
+      "id": "D2", "tag": "major",
+      "question": "How long do entries live?",
+      "context": "Staleness is tolerable for profile data and not for prices.",
+      "options": [
+        {"id": "a", "label": "One TTL for everything", "pros": ["Simple"], "cons": ["Wrong for prices or for profiles"]},
+        {"id": "b", "label": "A TTL per data type", "pros": ["Matches staleness needs"], "cons": ["More configuration"]},
+        {"id": "c", "label": "Explicit invalidation on write", "pros": ["Never stale"], "cons": ["Every write path must call it"]}
+      ]
+    }
+  ]
+}

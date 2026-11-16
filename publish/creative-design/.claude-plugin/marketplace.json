@@ -1,0 +1,14 @@
+{
+  "name": "creative-design",
+  "description": "The creative-design skill bundle",
+  "owner": {
+    "name": "Jonah Wodarz"
+  },
+  "plugins": [
+    {
+      "name": "creative-design",
+      "source": "./",
+      "description": "Five skills for open-ended design work: from loose ideas to a consistent, linted specification."
+    }
+  ]
+}

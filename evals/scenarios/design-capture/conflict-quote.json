@@ -1,0 +1,72 @@
+{
+ "description": "A decision conflicts with a recorded locked rule; another answers an open question; a number belongs to a lower layer of another system.",
+ "prompt": "Use the design-capture skill. The docs are in this folder (start at README.md). My decisions from tonight: (1) You can pick arrows back up after a fight, from the ground and from corpses, so ammo is less punishing. (2) Arrows break against heavy armour. (3) For stamina, a full bow draw should cost 12 stamina per second, I'm pretty sure about that number. Record what you can.",
+ "fixture": {
+  "builder": "design-project"
+ },
+ "assertions": [
+  {
+   "id": "quotes-rule",
+   "desc": "Quotes the conflicting rule ARC-R2 verbatim with its ID.",
+   "check": "regex",
+   "target": "final",
+   "pattern": "ARC-R2[\\s\\S]{0,300}Every arrow fired is consumed on impact|Every arrow fired is consumed on impact[\\s\\S]{0,300}ARC-R2",
+   "expect": true,
+   "flags": "i"
+  },
+  {
+   "id": "gives-date",
+   "desc": "Names the date the conflicting rule was decided (2026-10-02).",
+   "check": "regex",
+   "target": "final",
+   "pattern": "2026-10-02",
+   "expect": true,
+   "flags": "i"
+  },
+  {
+   "id": "asks-which-holds",
+   "desc": "The reply says the new statement reverses a past ruling and asks which holds: new supersedes, old stays, or both stay tagged conflicting with an open question.",
+   "check": "llm",
+   "negative": false
+  },
+  {
+   "id": "no-premature-record",
+   "desc": "The archery spec records nothing about picking arrows up again (and no conflicting tag) before the user answers.",
+   "check": "regex",
+   "target": "file:docs/design/combat/archery.md",
+   "pattern": "retriev|recover|pick(ed|s|ing)?\\b.{0,20}\\bup|conflicting",
+   "expect": false,
+   "flags": "i"
+  },
+  {
+   "id": "records-nonconflicting",
+   "desc": "The armour decision is written into the archery spec as a numbered rule.",
+   "check": "regex",
+   "target": "file:docs/design/combat/archery.md",
+   "pattern": "ARC-R[4-9]\\*\\*[^\\n]*(break|heavy armour)",
+   "expect": true,
+   "flags": "i"
+  },
+  {
+   "id": "parks-number",
+   "desc": "The raw stamina number (12) is parked in the parking lot for L3, not written as a spec rule.",
+   "check": "regex",
+   "target": "file:docs/design/parking-lot.md",
+   "pattern": "(stamina|draw)[^\\n]{0,120}\\b12\\b|\\b12\\b[^\\n]{0,120}(stamina|draw)",
+   "expect": true,
+   "flags": "i"
+  },
+  {
+   "id": "reply-shape",
+   "desc": "The reply has four parts in order: a one-line state (system, layer, status), the rules recorded by ID with their text, reversals and conflicts, and what is needed from the user as questions sized to one decision.",
+   "check": "llm",
+   "negative": false
+  },
+  {
+   "id": "lint-clean",
+   "desc": "tools/doclint.py ends with exit 0.",
+   "check": "lint",
+   "cmd": "python3 tools/doclint.py"
+  }
+ ]
+}

@@ -1,0 +1,26 @@
+{
+  "title": "How retries work",
+  "date": "2026-11-14",
+  "source": "docs/client.md",
+  "bottom_line": "A retry helps only when waits grow and the number of attempts is capped.",
+  "sections": [
+    {
+      "id": "idea", "heading": "Why retry",
+      "idea": "Most failures are brief, so a second try often succeeds.",
+      "blocks": [
+        {"type": "flow", "steps": [{"label": "Send"}, {"label": "Fail", "note": "timeout or 503"}, {"label": "Wait"}, {"label": "Send again"}], "loop": "Stop after the attempt cap"},
+        {"type": "callout", "kind": "pitfall", "text": "Retrying at once multiplies load on a server that is already struggling."}
+      ]
+    },
+    {
+      "id": "wait", "heading": "Growing waits",
+      "idea": "Each wait doubles, so a struggling server gets room to recover.",
+      "blocks": [
+        {"type": "chart", "kind": "line", "title": "Wait before each attempt", "unit": "s", "labels": ["1", "2", "3", "4", "5"],
+         "series": [{"name": "Fixed", "values": [1, 1, 1, 1, 1]}, {"name": "Doubling", "values": [1, 2, 4, 8, 16]}]},
+        {"type": "table", "columns": ["Strategy", "Load on server", "Time to give up"], "rows": [["Fixed wait", "Constant", "Short"], ["Doubling wait", "Falls", "Long"]]}
+      ],
+      "check": [{"q": "What is the wait before attempt 4 with doubling from 1 s?", "options": ["4 s", "8 s", "16 s"], "answer": 1, "explain": "The waits run 1, 2, 4, 8."}]
+    }
+  ]
+}

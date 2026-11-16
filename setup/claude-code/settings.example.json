@@ -1,0 +1,29 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python",
+            "args": ["/ABSOLUTE/PATH/TO/ai-workbench/setup/claude-code/hooks/skills-in-use.py"],
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python",
+            "args": ["/ABSOLUTE/PATH/TO/ai-workbench/setup/claude-code/hooks/skill-router.py"],
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

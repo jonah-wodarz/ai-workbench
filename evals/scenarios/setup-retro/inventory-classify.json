@@ -1,0 +1,70 @@
+{
+ "description": "A retro from files: skills, preferences, friction log, playbooks.",
+ "prompt": "Use the setup-retro skill. Review my Claude Code setup. The skills are in .claude/skills, my account preferences are in preferences.md, the friction log is friction-log.md and my playbooks are in docs/playbooks/. ListSkills and the memory store are not available here, so work from these files. Write the review as files under retro/ and give me the summary here.",
+ "fixture": {
+  "dir": "retro-setup"
+ },
+ "max_turns": 25,
+ "assertions": [
+  {
+   "id": "read-all-skills",
+   "desc": "At least 9 of the 10 skills' SKILL.md files were read.",
+   "check": "py",
+   "fn": "read_all_skills",
+   "min": 9
+  },
+  {
+   "id": "read-log",
+   "desc": "The friction log was read.",
+   "check": "tool_used",
+   "tools": [
+    "Read",
+    "Bash",
+    "Grep"
+   ],
+   "input_regex": "friction-log",
+   "min": 1
+  },
+  {
+   "id": "uses-categories",
+   "desc": "Findings are classified with the retro's categories (for example Negation-only rule, No-op, Trigger, Overlap, Steering bloat, Mechanical rule in prose) and each has a cheapest fix.",
+   "check": "llm",
+   "negative": false
+  },
+  {
+   "id": "evidence-from-corrections",
+   "desc": "Findings cite the user's corrections in the friction log (by date or quote) as the primary evidence.",
+   "check": "llm",
+   "negative": false
+  },
+  {
+   "id": "review-files",
+   "desc": "Review files were written under retro/.",
+   "check": "file_exists",
+   "path": "retro/*"
+  },
+  {
+   "id": "verdict-table",
+   "desc": "A decision table has at least 3 rows with a verdict (keep, amend, merge, remove, new, promote).",
+   "check": "count",
+   "target": "file:retro/*",
+   "pattern": "\\|\\s*(keep|amend|merge|remove|new|promote)\\b",
+   "min": 3,
+   "flags": "i"
+  },
+  {
+   "id": "no-edits",
+   "desc": "No skill or preference file was edited.",
+   "check": "file_unchanged",
+   "path": ".claude/skills/*"
+  },
+  {
+   "id": "closes-log",
+   "desc": "A dated 'retro done' line was appended to the friction log.",
+   "check": "count",
+   "target": "file:friction-log.md",
+   "pattern": "\\[\\d{4}-\\d{2}-\\d{2}\\] retro done",
+   "min": 2
+  }
+ ]
+}

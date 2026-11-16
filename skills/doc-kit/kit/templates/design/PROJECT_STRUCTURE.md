@@ -8,6 +8,7 @@ How the project is organized and where new work goes.
 ├─ PROJECT_STRUCTURE.md      ← this file
 ├─ docs/
 │  ├─ SYSTEM_MAP.md          ← START HERE: systems × layer × status (generated)
+│  ├─ system-map.html        ← the same state as an interactive page (generated)
 │  ├─ GLOSSARY.md            ← canonical names (check before naming anything)
 │  ├─ CONVENTIONS.md         ← how every doc is structured and written (binding)
 │  ├─ design/                ← current state: vision, parking lot, <domain>/ specs
@@ -15,6 +16,7 @@ How the project is organized and where new work goes.
 │  ├─ templates/             ← spec · decisions · data · playbook · run-log
 │  ├─ playbooks/             ← repeatable workflow guides; runs/ holds their run logs
 │  ├─ research/              ← sourced external knowledge
+│  ├─ handoff/               ← review pages built from the docs (overview, decision brief)
 │  ├─ planning/              ← OPEN_QUESTIONS, roadmaps, audits
 │  └─ archive/               ← finished point-in-time docs
 └─ tools/                    ← doclint.py, doclint.json, stale-terms.txt, hooks/

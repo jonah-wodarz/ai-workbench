@@ -1,0 +1,60 @@
+{
+ "description": "A plan with open branches and discoverable facts in the project folder.",
+ "prompt": "Use the interrogate skill. I want to move my study notes (the OneNote export is in onenote-export/) into a Markdown repo in git. Interrogate me until it is decided.",
+ "fixture": {
+  "dir": "notes-migration"
+ },
+ "assertions": [
+  {
+   "id": "names-mode",
+   "desc": "The first round names the mode (Decide).",
+   "check": "regex",
+   "target": "final",
+   "pattern": "\\bdecide\\b",
+   "expect": true,
+   "flags": "i"
+  },
+  {
+   "id": "looked-first",
+   "desc": "The assistant inspected the export before asking.",
+   "check": "tool_used",
+   "tools": [
+    "Read",
+    "Glob",
+    "Grep",
+    "Bash"
+   ],
+   "min": 1
+  },
+  {
+   "id": "max-four",
+   "desc": "The first round asks at most 4 questions, and none of them depends on the answer to another in the same round.",
+   "check": "llm",
+   "negative": false
+  },
+  {
+   "id": "recommendations",
+   "desc": "Each question carries a recommended answer, listed first, phrased so that 'yes' accepts it.",
+   "check": "llm",
+   "negative": false
+  },
+  {
+   "id": "no-discoverable-facts",
+   "desc": "No question asks for something visible in the export (number of notebooks, whether images exist, file format).",
+   "check": "llm",
+   "negative": true
+  },
+  {
+   "id": "judgments-only",
+   "desc": "The questions are judgments or preferences (for example sync, search, image handling, structure), not fact lookups.",
+   "check": "llm",
+   "negative": false
+  },
+  {
+   "id": "no-action",
+   "desc": "The assistant does not start migrating anything before the user confirms.",
+   "check": "py",
+   "fn": "no_changes"
+  }
+ ]
+}

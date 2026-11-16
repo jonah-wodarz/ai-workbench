@@ -1,0 +1,66 @@
+{
+ "description": "Set up documentation for a new thesis project in an empty folder.",
+ "prompt": "Use the structured-project-docs skill. Set up the documentation for my bachelor thesis project in this empty folder. It will contain literature notes (about 30 papers), chapter drafts, experiment logs and a bibliography, and I'll work on it with Claude over many sessions. Go ahead without waiting for my confirmation.",
+ "assertions": [
+  {
+   "id": "proposal-first",
+   "desc": "Before creating files, the assistant proposes the tree and says why it fits this project.",
+   "check": "llm",
+   "negative": false
+  },
+  {
+   "id": "readme-start-here",
+   "desc": "README.md has a 'Start here' list.",
+   "check": "regex",
+   "target": "file:README.md",
+   "pattern": "start here",
+   "expect": true,
+   "flags": "i"
+  },
+  {
+   "id": "where-does-x-go",
+   "desc": "PROJECT_STRUCTURE.md has a 'Where does X go?' list.",
+   "check": "regex",
+   "target": "file:PROJECT_STRUCTURE.md",
+   "pattern": "where does",
+   "expect": true,
+   "flags": "i"
+  },
+  {
+   "id": "conventions-skills",
+   "desc": "A CONVENTIONS.md exists and has a 'Skills in use' table.",
+   "check": "regex",
+   "target": "file:*CONVENTIONS.md",
+   "pattern": "skills in use",
+   "expect": true,
+   "flags": "i"
+  },
+  {
+   "id": "glossary",
+   "desc": "A GLOSSARY.md exists.",
+   "check": "file_exists",
+   "path": "*GLOSSARY.md"
+  },
+  {
+   "id": "sized",
+   "desc": "Every created folder holds real content (no empty folders or near-empty files).",
+   "check": "py",
+   "fn": "no_empty_dirs"
+  },
+  {
+   "id": "kebab",
+   "desc": "Added Markdown files use kebab-case names (entry files may be upper case).",
+   "check": "py",
+   "fn": "kebab_names"
+  },
+  {
+   "id": "offers-lint",
+   "desc": "The reply offers doc-kit's doclint for a project of this size.",
+   "check": "regex",
+   "target": "final",
+   "pattern": "doclint|doc-kit",
+   "expect": true,
+   "flags": "i"
+  }
+ ]
+}

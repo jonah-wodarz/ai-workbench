@@ -1,0 +1,51 @@
+{
+ "description": "Explicit /teach in an empty workspace: no mission yet, so the first job is to ask why.",
+ "prompt": "/teach Rust ownership and borrowing. I'm a CS student and know C++ well.",
+ "max_turns": 12,
+ "tools": "Bash,Read,Write,Edit,Glob,Grep,WebSearch,WebFetch",
+ "assertions": [
+  {
+   "id": "checks-workspace",
+   "desc": "The assistant looked for MISSION.md or the learning records before acting.",
+   "check": "tool_used",
+   "tools": [
+    "Read",
+    "Bash",
+    "Glob",
+    "Grep"
+   ],
+   "input_regex": "MISSION|learning-records|lessons",
+   "min": 1
+  },
+  {
+   "id": "asks-mission",
+   "desc": "The reply asks the user why they want to learn this (the mission or goal) before teaching.",
+   "check": "llm",
+   "negative": false
+  },
+  {
+   "id": "no-lesson-yet",
+   "desc": "No lesson or reference file was created before the mission is known.",
+   "check": "file_absent",
+   "path": "lessons/*"
+  },
+  {
+   "id": "no-reference-yet",
+   "desc": "No reference document was created.",
+   "check": "file_absent",
+   "path": "reference/*"
+  },
+  {
+   "id": "no-lecture",
+   "desc": "The reply does not lecture on ownership rules from the assistant's own knowledge.",
+   "check": "llm",
+   "negative": true
+  },
+  {
+   "id": "sets-expectations",
+   "desc": "The reply tells the user how the workspace will work over several sessions (mission, lessons, references, learning records or resources).",
+   "check": "llm",
+   "negative": false
+  }
+ ]
+}

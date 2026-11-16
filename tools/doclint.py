@@ -4,6 +4,8 @@
 Usage (from the repository root):
     python tools/doclint.py              # run all checks
     python tools/doclint.py --map        # print the generated index (map) table
+    python tools/doclint.py --coupling   # print fan-out, fan-in, foreign rule references, cycles
+    python tools/doclint.py --system-map [OUT.html]  # write the interactive system map page
     python tools/doclint.py --quiet      # errors only (used by the pre-commit hook)
     python tools/doclint.py --verbose    # also list files missing front matter, plugin details
     python tools/doclint.py --config PATH  # use another config (default: tools/doclint.json)
@@ -13,13 +15,15 @@ see the kit's CONFIG.md for every key. Files with front matter are "migrated" an
 checked strictly; files without it get only the link and stale-term checks.
 Project-specific checks are plugins: tools/doclint_plugins/<name>.py.
 """
+import datetime
+import html
 import importlib.util
 import json
 import os
 import re
 import sys
 
-__version__ = "0.3.0"
+__version__ = "0.5.0"
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DEFAULT_CONFIG = os.path.join(HERE, "doclint.json")
@@ -33,7 +37,7 @@ INLINE_CODE = re.compile(r"`[^`]*`")
 LINK_TARGET = re.compile(r"\]\([^)]*\)")
 SECTION_REF = re.compile(r"(?i)(?:§|\b(?:sections?|chapters?)\b)\s*\d+(?:\.\d+)*")
 # A quantity: a decimal number, or a number followed by a percent sign or a unit.
-# Rule IDs (ARC-R7), dates, version numbers and bare integers do not match.
+# Rule IDs (ORD-R7), dates, version numbers and bare integers do not match.
 QUANTITY = (r"(?i)(?<![\w.§-])(?:\d+\.\d+(?!\d|\.\d)"
             r"|\d+(?:\.\d+)?(?:\s?%|\s?(?:ms|s|secs?|seconds?|min|minutes?|h|hrs?|hours?|days?"
             r"|m|km|cm|mm|meters?|metres?|kg|g|hp|hz|px|pts?|points?|x)\b))")
@@ -44,7 +48,7 @@ DEFAULTS = {
     "codes": {"file": None, "pattern": r"`([A-Z]{3})`\s*\|\s*([^|]+?\.md)", "inline": {}},
     "code_path_prefixes": [""],
     "id_scheme": {"code": "[A-Z]{3}", "rule": "R", "question": "Q",
-                  "decision_prefix": "D", "decision_digits": 3},
+                  "decision_prefix": "D", "decision_digits": 3, "interface": "I"},
     "types": {},
     "enums": {},
     "date_fields": ["updated"],
@@ -56,6 +60,7 @@ DEFAULTS = {
     "word_budget": {},
     "mirror": {},
     "early_quantity": None,
+    "coupling": None,
     "decision_log_types": [],
     "history_line": r"^\s*-\s+\d{4}-\d{2}-\d{2}\s+—",
     "stale_terms": {"file": None, "retired_names": None,
@@ -64,6 +69,7 @@ DEFAULTS = {
     "index": {"file": None, "question_tags": []},
     "expect_front_matter": {"include": [], "exclude_regex": None},
     "map": {"columns": [], "sort": []},
+    "system_map": {"out": "docs/system-map.html", "title": "System map"},
     "plugins": [],
     "plugin_config": {},
 }
@@ -204,7 +210,12 @@ class Project:
         self.rx_rule_line = re.compile(r"^\s*[-*]\s+\*\*(" + code + ")-" + r + r"(\d+)\*\*")
         self.rx_question_line = re.compile(r"^\s*[-*]\s+\*\*(" + code + ")-" + q + r"(\d+)\*\*")
         self.rx_decision_head = re.compile(r"^###\s+" + d + "-(" + code + r")-(\d{" + str(dd) + r"})\b")
-        self.rx_ref = re.compile(r"\b(" + code + ")-([" + r + q + r"])(\d+)\b")
+        self.coupling = coupling_config(cfg)
+        # Interface items (ORD-I1) exist only when `coupling` is configured.
+        i = ids.get("interface", "I") if self.coupling else ""
+        self.rx_interface_line = (re.compile(r"^\s*[-*]\s+\*\*(" + code + ")-" + i + r"(\d+)\*\*")
+                                  if i else None)
+        self.rx_ref = re.compile(r"\b(" + code + ")-([" + r + q + i + r"])(\d+)\b")
         self.rx_dec_ref = re.compile(r"\b" + d + "-(" + code + r")-(\d{" + str(dd) + r"})\b")
         self.rx_history = re.compile(cfg["history_line"]) if cfg.get("history_line") else None
         self.fmt_rule = "{}-" + r + "{}"
@@ -273,6 +284,9 @@ class Project:
             m = self.rx_question_line.match(line)
             if m and m.group(1) == code:
                 ids.add(self.fmt_question.format(code, m.group(2)))
+            m = self.rx_interface_line and self.rx_interface_line.match(line)
+            if m and m.group(1) == code:
+                ids.add("{}-{}{}".format(code, self.cfg["id_scheme"]["interface"], m.group(2)))
             d = self.rx_decision_head.match(line)
             if d and d.group(1) == code:
                 ids.add(self.fmt_decision.format(code, d.group(2)))
@@ -389,8 +403,11 @@ def check_refs(project, doc, report):
             if not owner["migrated"]:
                 report.warn(doc.path, n, "{} points into unmigrated {}".format(ref, project.rel(owner["path"])))
             elif ref not in owner["ids"]:
-                report.error(doc.path, n, "dangling reference {}: not defined in {}".format(
-                    ref, project.rel(owner["path"])))
+                is_interface = project.coupling and ref.startswith(
+                    "{}-{}".format(code, project.cfg["id_scheme"]["interface"]))
+                (report.warn if is_interface else report.error)(
+                    doc.path, n, "dangling reference {}: not defined in {}".format(
+                        ref, project.rel(owner["path"])))
 
 
 def closing_tag(line, allowed):
@@ -481,6 +498,157 @@ def early_quantity(cfg, doc):
     tag = spec.get("exempt_tag", "placeholder")
     msg = "quantity in a rule below {}: state an ordering or tier, or tag it `{}`".format(limit, tag)
     return re.compile(spec.get("pattern", QUANTITY)), tag, msg
+
+def coupling_config(cfg):
+    """Return the coupling settings with defaults filled in, or None when not configured."""
+    spec = cfg.get("coupling")
+    if not isinstance(spec, dict):
+        return None
+    return {"types": spec.get("types", ["spec"]),
+            "max_fan_out": spec.get("max_fan_out", 5),
+            "parameter_section": spec.get("parameter_section", "## parameters").lower()}
+
+
+def dependencies(project, doc):
+    """The distinct codes a document lists in its `depends_field`, in order."""
+    value = doc.fm.get(project.cfg["depends_field"]) or []
+    if isinstance(value, str):
+        value = [value]
+    return list(dict.fromkeys(value))
+
+
+def coupling_docs(project):
+    """code -> Doc for the migrated documents of the configured coupling types."""
+    found = {}
+    for doc in project.files.values():
+        if doc.fm and doc.fm.get("type") in project.coupling["types"] and doc.fm.get("id"):
+            found.setdefault(doc.fm["id"], doc)
+    return dict(sorted(found.items()))
+
+
+def coupling_graph(project):
+    """code -> sorted codes it depends on, restricted to systems that have a document."""
+    docs = coupling_docs(project)
+    return {code: sorted(d for d in dependencies(project, doc) if d in docs) for code, doc in docs.items()}
+
+
+def shortest_path(graph, start, goal):
+    """Breadth-first path from start to goal as a list of nodes, or None."""
+    parent, queue = {start: None}, [start]
+    for node in queue:
+        if node == goal:
+            path = []
+            while node is not None:
+                path.append(node)
+                node = parent[node]
+            return path[::-1]
+        for nxt in graph.get(node, ()):
+            if nxt not in parent:
+                parent[nxt] = node
+                queue.append(nxt)
+    return None
+
+
+def find_cycles(graph):
+    """Cycles of a dependency graph, each listed once, shortest first.
+
+    Every edge that lies on a cycle is covered by the shortest cycle through it, which keeps the
+    search polynomial in dense graphs. A cycle starts at its smallest code.
+    """
+    cycles = set()
+    for u in sorted(graph):
+        for v in graph[u]:
+            path = shortest_path(graph, v, u)
+            if path:
+                i = path.index(min(path))
+                cycles.add(tuple(path[i:] + path[:i]))
+    return sorted(cycles, key=lambda c: (len(c), c))
+
+
+def scan_coupling(project, doc):
+    """Read the lines the coupling checks use.
+
+    Returns (foreign, items): foreign is [(line, kind, cited rule id)] for rule and parameter
+    lines citing a rule of another system; items is [(line, code, number)] for interface items.
+    Open questions, exempt sections (working notes), history lines and fences are skipped.
+    """
+    code, ids = doc.fm.get("id", ""), project.cfg["id_scheme"]
+    exempt = {s["heading"] for s in project.cfg["sections"].values() if s.get("exempt")}
+    foreign, items = [], []
+    for n, line, fence, section in doc.walk():
+        if fence or section in exempt or project.is_history_line(line):
+            continue
+        m = project.rx_interface_line.match(line)
+        if m:
+            items.append((n, m.group(1), m.group(2)))
+            continue
+        r = project.rx_rule_line.match(line)
+        if r:
+            kind, text = "rule", line[r.end():]
+        elif (section == project.coupling["parameter_section"] and line.strip()
+              and not line.startswith("#") and not project.rx_question_line.match(line)):
+            kind, text = "parameter", line
+        else:
+            continue
+        text = LINK_TARGET.sub("]", INLINE_CODE.sub("", text))
+        for c, letter, num in project.rx_ref.findall(text):
+            ref = "{}-{}{}".format(c, letter, num)
+            if letter == ids["rule"] and c != code and (n, kind, ref) not in foreign:
+                foreign.append((n, kind, ref))
+    return foreign, items
+
+
+def check_coupling(project, doc, report):
+    """Foreign rule references, interface item IDs and fan-out of one document (see CONFIG.md)."""
+    cfg = project.coupling
+    if not cfg or doc.fm.get("type") not in cfg["types"]:
+        return
+    code = doc.fm.get("id", "")
+    foreign, items = scan_coupling(project, doc)
+    for n, kind, ref in foreign:
+        report.warn(doc.path, n, "{} cites {} of another system: cite an interface item ({}-{}\u2026) or the "
+                    "system code".format(kind, ref, ref.split("-")[0], project.cfg["id_scheme"]["interface"]))
+    seen = {}
+    for n, c, num in items:
+        iid = "{}-{}{}".format(c, project.cfg["id_scheme"]["interface"], num)
+        if c != code:
+            report.error(doc.path, n, "interface item {} does not match file code {}".format(iid, code))
+        if iid in seen:
+            report.error(doc.path, n, "duplicate interface item id {} (first at line {})".format(iid, seen[iid]))
+        seen.setdefault(iid, n)
+    limit, deps = cfg["max_fan_out"], dependencies(project, doc)
+    if limit is not None and len(deps) > limit:
+        report.warn(doc.path, 1, "fan-out {} exceeds the limit of {}: depend on fewer systems, "
+                    "or through their interface items".format(len(deps), limit))
+
+
+def check_cycles(project, report):
+    """One warning per dependency cycle, on the file of the cycle's smallest code."""
+    if not project.coupling:
+        return
+    docs = coupling_docs(project)
+    for cycle in find_cycles(coupling_graph(project)):
+        report.warn(docs[cycle[0]].path, 1, "dependency cycle: " + " -> ".join(cycle + (cycle[0],)))
+
+
+def coupling_report(project):
+    """Plain-text table per system (fan-out, fan-in, foreign rule references, interface items) and cycles."""
+    project.load()
+    project.build_index()
+    docs, graph = coupling_docs(project), coupling_graph(project)
+    rows = []
+    for code, doc in docs.items():
+        foreign, items = scan_coupling(project, doc)
+        rows.append((code, str(len(dependencies(project, doc))), str(sum(code in d for d in graph.values())),
+                     str(len(foreign)), str(len(items))))
+    head = ("System", "Fan-out", "Fan-in", "Foreign rule refs", "Interface items")
+    widths = [max(len(r[i]) for r in rows + [head]) for i in range(len(head))]
+    fmt = lambda r: "  ".join(c.ljust(w) if i == 0 else c.rjust(w) for i, (c, w) in enumerate(zip(r, widths)))
+    out = [fmt(head), "  ".join("-" * w for w in widths)] + [fmt(r) for r in rows]
+    cycles = find_cycles(graph)
+    out += ["", "Cycles: " + (str(len(cycles)) if cycles else "none")]
+    out += ["  " + " -> ".join(c + (c[0],)) for c in cycles]
+    return "\n".join(out)
 
 
 def check_body(project, doc, report):
@@ -644,6 +812,94 @@ def _render_map(columns, sort_keys, rows):
     return "\n".join(out)
 
 
+# --------------------------------------------------------------------------- system map page
+
+SYSTEM_MAP_TEMPLATE = os.path.join(HERE, "doclint_assets", "system-map.html")
+STATUS_TONES = {"idea": "muted", "drafting": "warn", "settled": "good", "validated": "info",
+                "locked": "info", "deferred": "muted"}
+
+
+def _labels(known, used):
+    """Configured enum values first, then any other value the documents use."""
+    return [{"id": v, "label": v} for v in list(known) + sorted(set(used) - set(known))]
+
+
+def system_map_data(project, today=None):
+    """Data for the system map page: one node per coupling document, one edge per dependency.
+    Everything comes from front matter, the documents' open-question lines and the dependency graph."""
+    project.load()
+    project.build_index()
+    cfg, spec = project.cfg, project.cfg.get("system_map") or {}
+    docs, graph = coupling_docs(project), coupling_graph(project)
+    nodes, groups = [], []
+    for code, doc in docs.items():
+        group = os.path.basename(os.path.dirname(doc.rel))
+        summary = next((line[1:].strip() for _, line, fence in doc.body() if not fence and line.startswith(">")), "")
+        questions = sum(1 for _, line, fence in doc.body() if not fence
+                        for m in [project.rx_question_line.match(line)] if m and m.group(1) == code)
+        node = {"id": code, "label": str(doc.fm.get("title", code)), "layer": str(doc.fm.get("layer", "none")),
+                "status": str(doc.fm.get("status", "none")), "open": questions}
+        if summary:
+            node["summary"] = summary[:240]
+        if group:
+            node["group"] = group
+            if group not in groups:
+                groups.append(group)
+        nodes.append(node)
+    edges = [{"from": code, "to": dep} for code, deps in graph.items() for dep in deps if dep != code]
+    cycles = find_cycles(graph)
+    limit = project.coupling["max_fan_out"]
+    over = [code for code, doc in docs.items() if limit is not None and len(dependencies(project, doc)) > limit]
+    line = "{} systems, {} dependencies. ".format(len(nodes), len(edges))
+    line += "{} dependency cycle{}".format(len(cycles), "" if len(cycles) == 1 else "s") if cycles else "No dependency cycles"
+    if over:
+        line += "; above the fan-out limit of {}: {}".format(limit, ", ".join(over[:8]) + (" and more" if len(over) > 8 else ""))
+    data = {
+        "title": spec.get("title", "System map"),
+        "date": today or datetime.date.today().isoformat(),
+        "source": "front matter and depends_on, doclint " + __version__,
+        "bottom_line": line[:259] + ".",
+        "layers": _labels(cfg["enums"].get("layer", []), [n["layer"] for n in nodes]),
+        "statuses": [dict(s, tone=STATUS_TONES.get(s["id"], "muted"))
+                     for s in _labels(cfg["enums"].get("status", []), [n["status"] for n in nodes])],
+        "columns": "layer",
+        "fan_out_warn": limit if limit is not None else 99,
+        "nodes": nodes,
+        "edges": edges,
+    }
+    if len(groups) > 1 and all("group" in n for n in nodes):
+        data["groups"] = [{"id": g, "label": g.replace("-", " ").replace("_", " ").capitalize()} for g in sorted(groups)]
+    else:
+        for n in nodes:
+            n.pop("group", None)
+    if cycles or over:
+        data["ask"] = "Start with the flagged systems: cycles and high fan-out show where to decouple."
+    return data
+
+
+def write_system_map(project, out=None):
+    """Inject the data into the page template. Returns the exit code."""
+    if not os.path.isfile(SYSTEM_MAP_TEMPLATE):
+        print("system map template not found: copy the kit's tools/doclint_assets/ folder next to doclint.py")
+        return 2
+    data = system_map_data(project)
+    if not data["nodes"]:
+        print("no documents of the coupling types have front matter yet; nothing to map")
+        return 2
+    out = out or os.path.join(project.root, (project.cfg.get("system_map") or {}).get("out", "docs/system-map.html"))
+    payload = json.dumps(data, ensure_ascii=False, separators=(",", ":")).replace("<", "\\u003c")
+    page = read(SYSTEM_MAP_TEMPLATE)
+    page = re.sub(r'(<script type="application/json" id="handoff-data">).*?(</script>)',
+                  lambda m: m.group(1) + payload + m.group(2), page, count=1, flags=re.S)
+    page = re.sub(r"<title>.*?</title>", lambda m: "<title>" + html.escape(data["title"]) + "</title>", page, count=1)
+    os.makedirs(os.path.dirname(os.path.abspath(out)), exist_ok=True)
+    with open(out, "w", encoding="utf-8", newline="\n") as f:
+        f.write(page)
+    print("wrote {} ({} systems, {} dependencies)".format(os.path.relpath(out, project.root).replace(os.sep, "/"),
+                                                         len(data["nodes"]), len(data["edges"])))
+    return 0
+
+
 # --------------------------------------------------------------------------- plugins
 
 def load_plugins(project):
@@ -700,10 +956,12 @@ def run(project, report):
             check_decision_log(project, doc, report)
             continue
         check_mirror(project, doc, report)
+        check_coupling(project, doc, report)
         for n, qid, tag in check_body(project, doc, report):
             if tag in index_tags:
                 listed.append((doc.path, n, qid))
         call_plugins(project, "check_migrated", doc, report)
+    check_cycles(project, report)
     check_index(project, listed, report)
     call_plugins(project, "check_project", report)
     return migrated, missing
@@ -727,6 +985,18 @@ def main(argv):
     if "--map" in argv:
         print(build_map(project))
         return 0
+    if "--coupling" in argv:
+        if not project.coupling:
+            print("coupling is not configured: add a `coupling` key to the config (see CONFIG.md)")
+            return 2
+        print(coupling_report(project))
+        return 0
+    if "--system-map" in argv:
+        if not project.coupling:
+            print("the system map needs the dependency graph: add a `coupling` key to the config (see CONFIG.md)")
+            return 2
+        nxt = argv[argv.index("--system-map") + 1:][:1]
+        return write_system_map(project, nxt[0] if nxt and not nxt[0].startswith("--") else None)
     report = Report(root)
     migrated, missing = run(project, report)
     report.print(quiet="--quiet" in argv)

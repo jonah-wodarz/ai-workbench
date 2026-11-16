@@ -1,0 +1,3372 @@
+{
+ "trigger": {
+  "runs_per_query": 3,
+  "n_runs": 330,
+  "isolation_violations": 0,
+  "errors": 0,
+  "bundled_skills_visible": [
+   "artifact-capabilities",
+   "artifact-diagramming",
+   "batch",
+   "claude-api",
+   "code-review",
+   "dataviz",
+   "debug",
+   "design",
+   "design-sync",
+   "doctor",
+   "explain-usage",
+   "fewer-permission-prompts",
+   "loop",
+   "plugin-authoring",
+   "run",
+   "run-skill-generator",
+   "session-start-hook",
+   "setup-claude",
+   "simplify",
+   "slides",
+   "update-config",
+   "verify",
+   "whiteboard"
+  ],
+  "skills": {
+   "design-capture": {
+    "should": {
+     "n": 24,
+     "hits": 22,
+     "confusion": {
+      "tool:Bash": 2
+     }
+    },
+    "near_miss": {
+     "n": 9,
+     "false_hits": 0,
+     "instead_hits": 2,
+     "instead_n": 9,
+     "fired": {
+      "doc-kit": 2
+     }
+    }
+   },
+   "doc-kit": {
+    "should": {
+     "n": 24,
+     "hits": 24,
+     "confusion": {}
+    },
+    "near_miss": {
+     "n": 9,
+     "false_hits": 0,
+     "instead_hits": 0,
+     "instead_n": 3,
+     "fired": {}
+    }
+   },
+   "fair-practice-questions": {
+    "should": {
+     "n": 24,
+     "hits": 24,
+     "confusion": {}
+    },
+    "near_miss": {
+     "n": 9,
+     "false_hits": 0,
+     "instead_hits": 0,
+     "instead_n": 0,
+     "fired": {}
+    }
+   },
+   "interrogate": {
+    "should": {
+     "n": 24,
+     "hits": 24,
+     "confusion": {}
+    },
+    "near_miss": {
+     "n": 9,
+     "false_hits": 0,
+     "instead_hits": 3,
+     "instead_n": 3,
+     "fired": {
+      "fair-practice-questions": 3
+     }
+    }
+   },
+   "layered-design-facilitation": {
+    "should": {
+     "n": 24,
+     "hits": 24,
+     "confusion": {}
+    },
+    "near_miss": {
+     "n": 9,
+     "false_hits": 0,
+     "instead_hits": 3,
+     "instead_n": 3,
+     "fired": {
+      "design-capture": 3
+     }
+    }
+   },
+   "playbook": {
+    "should": {
+     "n": 24,
+     "hits": 24,
+     "confusion": {}
+    },
+    "near_miss": {
+     "n": 9,
+     "false_hits": 0,
+     "instead_hits": 0,
+     "instead_n": 0,
+     "fired": {}
+    }
+   },
+   "report-style": {
+    "should": {
+     "n": 24,
+     "hits": 6,
+     "confusion": {
+      "tool:Bash": 15,
+      "none": 3
+     }
+    },
+    "near_miss": {
+     "n": 9,
+     "false_hits": 0,
+     "instead_hits": 0,
+     "instead_n": 0,
+     "fired": {}
+    }
+   },
+   "setup-retro": {
+    "should": {
+     "n": 24,
+     "hits": 24,
+     "confusion": {}
+    },
+    "near_miss": {
+     "n": 9,
+     "false_hits": 0,
+     "instead_hits": 0,
+     "instead_n": 0,
+     "fired": {}
+    }
+   },
+   "structured-project-docs": {
+    "should": {
+     "n": 24,
+     "hits": 18,
+     "confusion": {
+      "tool:Bash": 3,
+      "doc-kit": 3
+     }
+    },
+    "near_miss": {
+     "n": 9,
+     "false_hits": 0,
+     "instead_hits": 1,
+     "instead_n": 6,
+     "fired": {
+      "doc-kit": 1
+     }
+    }
+   }
+  },
+  "unrelated": {
+   "n": 30,
+   "false_hits": 0,
+   "by_skill": {}
+  },
+  "explicit": {
+   "teach": {
+    "n": 3,
+    "hits": 3
+   }
+  },
+  "queries": [
+   {
+    "id": "b901baf9",
+    "kind": "should",
+    "skill": "design-capture",
+    "instead": null,
+    "query": "ok so for the stamina system I think sprinting should drain faster than swimming, bows can't be fired while sprinting anymore, and rename 'hunting bow' to 'shortbow' everywhere. also maybe a grapple hook someday. can you get all that into the design docs",
+    "outcomes": [
+     "design-capture",
+     "design-capture",
+     "design-capture"
+    ]
+   },
+   {
+    "id": "fcc93efd",
+    "kind": "should",
+    "skill": "design-capture",
+    "instead": null,
+    "query": "Here are my answers to your questions from last time: 1) yes, arrows are consumed on impact, 2) heavy armour slows the draw, 3) no crafting during combat. Please update the specs in docs/design accordingly.",
+    "outcomes": [
+     "design-capture",
+     "design-capture",
+     "design-capture"
+    ]
+   },
+   {
+    "id": "5b23637f",
+    "kind": "should",
+    "skill": "design-capture",
+    "instead": null,
+    "query": "I changed my mind on permadeath - death now costs your inventory but not the character. Put that in the design docs and fix whatever else it affects.",
+    "outcomes": [
+     "design-capture",
+     "design-capture",
+     "design-capture"
+    ]
+   },
+   {
+    "id": "821b5ff7",
+    "kind": "should",
+    "skill": "design-capture",
+    "instead": null,
+    "query": "Brain dump: faction reputation should decay over time but only for the minor factions, and vendor prices must depend on rep somehow. Add it to docs/design/factions.md, I'll refine later.",
+    "outcomes": [
+     "design-capture",
+     "design-capture",
+     "design-capture"
+    ]
+   },
+   {
+    "id": "c425df64",
+    "kind": "should",
+    "skill": "design-capture",
+    "instead": null,
+    "query": "Hier meine Entscheidungen zum Crafting-System: Rezepte werden durch Ausprobieren entdeckt, nicht gekauft, und Werkbänke gibt es in drei Stufen. Trag das bitte in die Design-Docs ein.",
+    "outcomes": [
+     "design-capture",
+     "design-capture",
+     "design-capture"
+    ]
+   },
+   {
+    "id": "d897236b",
+    "kind": "should",
+    "skill": "design-capture",
+    "instead": null,
+    "query": "Can you record these decisions in the project docs? We settled that quests never expire, the map starts fully fogged and companions can't die.",
+    "outcomes": [
+     "design-capture",
+     "design-capture",
+     "design-capture"
+    ]
+   },
+   {
+    "id": "feefaedb",
+    "kind": "should",
+    "skill": "design-capture",
+    "instead": null,
+    "query": "we talked about this yesterday: fall damage is out, climbing speed depends on gear weight, and the whole hunger thing goes to later. document it in the design tree please",
+    "outcomes": [
+     "design-capture",
+     "design-capture",
+     "design-capture"
+    ]
+   },
+   {
+    "id": "77e5681e",
+    "kind": "should",
+    "skill": "design-capture",
+    "instead": null,
+    "query": "Answers to your open questions in ARC-Q2 and ARC-Q3: no to both, bow durability is its own system. Update the spec and whatever else changes.",
+    "outcomes": [
+     "tool:Bash",
+     "design-capture",
+     "tool:Bash"
+    ]
+   },
+   {
+    "id": "036788a2",
+    "kind": "near_miss",
+    "skill": "design-capture",
+    "instead": "layered-design-facilitation",
+    "query": "What's a good way to think about balancing a stamina system in a survival game? Just brainstorming, nothing needs writing down.",
+    "outcomes": [
+     "none",
+     "none",
+     "none"
+    ]
+   },
+   {
+    "id": "6486940d",
+    "kind": "near_miss",
+    "skill": "design-capture",
+    "instead": "doc-kit",
+    "query": "The doc linter complains about broken links in docs/design/combat.md, can you fix those?",
+    "outcomes": [
+     "doc-kit",
+     "doc-kit",
+     "tool:Bash"
+    ]
+   },
+   {
+    "id": "a09687c1",
+    "kind": "near_miss",
+    "skill": "design-capture",
+    "instead": "report-style",
+    "query": "Give my supervisor a one-page overview of the design decisions in docs/design so far.",
+    "outcomes": [
+     "tool:Bash",
+     "tool:Bash",
+     "tool:Bash"
+    ]
+   },
+   {
+    "id": "189c2c62",
+    "kind": "should",
+    "skill": "doc-kit",
+    "instead": null,
+    "query": "Set up doclint in my docs repo with a pre-commit hook.",
+    "outcomes": [
+     "doc-kit",
+     "doc-kit",
+     "doc-kit"
+    ]
+   },
+   {
+    "id": "47f03e78",
+    "kind": "should",
+    "skill": "doc-kit",
+    "instead": null,
+    "query": "I want a linter for my Markdown design docs that checks front matter, broken links and retired names. Can you set that up?",
+    "outcomes": [
+     "doc-kit",
+     "doc-kit",
+     "doc-kit"
+    ]
+   },
+   {
+    "id": "efb5de17",
+    "kind": "should",
+    "skill": "doc-kit",
+    "instead": null,
+    "query": "Add a pre-commit hook so my docs get checked before every commit.",
+    "outcomes": [
+     "doc-kit",
+     "doc-kit",
+     "doc-kit"
+    ]
+   },
+   {
+    "id": "598f7c51",
+    "kind": "should",
+    "skill": "doc-kit",
+    "instead": null,
+    "query": "Run the docs lint and tell me what is failing.",
+    "outcomes": [
+     "doc-kit",
+     "doc-kit",
+     "doc-kit"
+    ]
+   },
+   {
+    "id": "86aa123e",
+    "kind": "should",
+    "skill": "doc-kit",
+    "instead": null,
+    "query": "Can you migrate my existing doc tree onto checked conventions, with a config file for the checker?",
+    "outcomes": [
+     "doc-kit",
+     "doc-kit",
+     "doc-kit"
+    ]
+   },
+   {
+    "id": "c99857e0",
+    "kind": "should",
+    "skill": "doc-kit",
+    "instead": null,
+    "query": "Richte mir ein neues Doku-Projekt ein, mit Lint und Vorlagen für die Einstiegsdateien.",
+    "outcomes": [
+     "doc-kit",
+     "doc-kit",
+     "doc-kit"
+    ]
+   },
+   {
+    "id": "87678ed3",
+    "kind": "should",
+    "skill": "doc-kit",
+    "instead": null,
+    "query": "I need a new check in doclint that flags first person in specs. How do I extend it?",
+    "outcomes": [
+     "doc-kit",
+     "doc-kit",
+     "doc-kit"
+    ]
+   },
+   {
+    "id": "d7cb6086",
+    "kind": "should",
+    "skill": "doc-kit",
+    "instead": null,
+    "query": "Bootstrap a design docs project with a glossary, a conventions file, a system map and an automatic checker.",
+    "outcomes": [
+     "doc-kit",
+     "doc-kit",
+     "doc-kit"
+    ]
+   },
+   {
+    "id": "fe823d93",
+    "kind": "near_miss",
+    "skill": "doc-kit",
+    "instead": "structured-project-docs",
+    "query": "How should I organize my docs folder? It's grown organically and I can't find anything.",
+    "outcomes": [
+     "tool:Bash",
+     "tool:Bash",
+     "tool:Bash"
+    ]
+   },
+   {
+    "id": "b19cab87",
+    "kind": "near_miss",
+    "skill": "doc-kit",
+    "instead": null,
+    "query": "Run ruff on src/ and fix the warnings.",
+    "outcomes": [
+     "tool:Bash",
+     "tool:Bash",
+     "tool:Bash"
+    ]
+   },
+   {
+    "id": "6698bf66",
+    "kind": "near_miss",
+    "skill": "doc-kit",
+    "instead": null,
+    "query": "Check this paragraph for spelling and grammar mistakes.",
+    "outcomes": [
+     "none",
+     "none",
+     "none"
+    ]
+   },
+   {
+    "id": "4b5db770",
+    "kind": "should",
+    "skill": "fair-practice-questions",
+    "instead": null,
+    "query": "Make me 10 multiple choice questions on TCP congestion control for my networks exam.",
+    "outcomes": [
+     "fair-practice-questions",
+     "fair-practice-questions",
+     "fair-practice-questions"
+    ]
+   },
+   {
+    "id": "7d9fab43",
+    "kind": "should",
+    "skill": "fair-practice-questions",
+    "instead": null,
+    "query": "Erstelle mir eine Probeklausur zu Datenbanken mit Normalformen und Transaktionen.",
+    "outcomes": [
+     "fair-practice-questions",
+     "fair-practice-questions",
+     "fair-practice-questions"
+    ]
+   },
+   {
+    "id": "59c7d09e",
+    "kind": "should",
+    "skill": "fair-practice-questions",
+    "instead": null,
+    "query": "quiz me on the OSI model",
+    "outcomes": [
+     "fair-practice-questions",
+     "fair-practice-questions",
+     "fair-practice-questions"
+    ]
+   },
+   {
+    "id": "615fc68f",
+    "kind": "should",
+    "skill": "fair-practice-questions",
+    "instead": null,
+    "query": "Can you write practice questions for my algorithms exam? A mix of MC and 'name the three conditions' style.",
+    "outcomes": [
+     "fair-practice-questions",
+     "fair-practice-questions",
+     "fair-practice-questions"
+    ]
+   },
+   {
+    "id": "feb99c4c",
+    "kind": "should",
+    "skill": "fair-practice-questions",
+    "instead": null,
+    "query": "I need a mock exam for IT security, around 12 questions with an answer key.",
+    "outcomes": [
+     "fair-practice-questions",
+     "fair-practice-questions",
+     "fair-practice-questions"
+    ]
+   },
+   {
+    "id": "6e1bf619",
+    "kind": "should",
+    "skill": "fair-practice-questions",
+    "instead": null,
+    "query": "Gib mir bitte 8 MC-Fragen zu Kryptographie, symmetrisch vs. asymmetrisch.",
+    "outcomes": [
+     "fair-practice-questions",
+     "fair-practice-questions",
+     "fair-practice-questions"
+    ]
+   },
+   {
+    "id": "324a8ae8",
+    "kind": "should",
+    "skill": "fair-practice-questions",
+    "instead": null,
+    "query": "Turn my notes on B-trees (nodes hold up to m children, all leaves share a depth, splits propagate upwards) into a quiz I can use to test myself.",
+    "outcomes": [
+     "fair-practice-questions",
+     "fair-practice-questions",
+     "fair-practice-questions"
+    ]
+   },
+   {
+    "id": "b881a0c7",
+    "kind": "should",
+    "skill": "fair-practice-questions",
+    "instead": null,
+    "query": "Build me a self-test about hash tables as a small quiz page I can reuse before the exam.",
+    "outcomes": [
+     "fair-practice-questions",
+     "fair-practice-questions",
+     "fair-practice-questions"
+    ]
+   },
+   {
+    "id": "7734136c",
+    "kind": "near_miss",
+    "skill": "fair-practice-questions",
+    "instead": null,
+    "query": "Explain how B-trees work. I don't get why the height stays small.",
+    "outcomes": [
+     "none",
+     "none",
+     "none"
+    ]
+   },
+   {
+    "id": "41048db2",
+    "kind": "near_miss",
+    "skill": "fair-practice-questions",
+    "instead": null,
+    "query": "Write a user survey with 5 multiple choice questions about how students use our campus app.",
+    "outcomes": [
+     "none",
+     "none",
+     "none"
+    ]
+   },
+   {
+    "id": "4477c058",
+    "kind": "near_miss",
+    "skill": "fair-practice-questions",
+    "instead": null,
+    "query": "Here are my exam answers from last week; tell me where I lost points.",
+    "outcomes": [
+     "tool:Bash",
+     "tool:Bash",
+     "tool:Bash"
+    ]
+   },
+   {
+    "id": "f4e8f3ed",
+    "kind": "should",
+    "skill": "interrogate",
+    "instead": null,
+    "query": "Grill me on my plan to switch my thesis topic. I need to figure out whether it makes sense.",
+    "outcomes": [
+     "interrogate",
+     "interrogate",
+     "interrogate"
+    ]
+   },
+   {
+    "id": "914de168",
+    "kind": "should",
+    "skill": "interrogate",
+    "instead": null,
+    "query": "Interrogate me about this project idea until it is actually decided: a mod that reworks progression.",
+    "outcomes": [
+     "interrogate",
+     "interrogate",
+     "interrogate"
+    ]
+   },
+   {
+    "id": "b3f87520",
+    "kind": "should",
+    "skill": "interrogate",
+    "instead": null,
+    "query": "I need to write an email to my professor but I don't know what I actually want to say. Help me figure it out.",
+    "outcomes": [
+     "interrogate",
+     "interrogate",
+     "interrogate"
+    ]
+   },
+   {
+    "id": "ada62fe8",
+    "kind": "should",
+    "skill": "interrogate",
+    "instead": null,
+    "query": "Frag mich aus, ich muss mich zwischen zwei Praktikumsangeboten entscheiden.",
+    "outcomes": [
+     "interrogate",
+     "interrogate",
+     "interrogate"
+    ]
+   },
+   {
+    "id": "a4e21f0a",
+    "kind": "should",
+    "skill": "interrogate",
+    "instead": null,
+    "query": "Stress-test my plan: I want to move all my notes to Markdown in git and drop OneNote.",
+    "outcomes": [
+     "interrogate",
+     "interrogate",
+     "interrogate"
+    ]
+   },
+   {
+    "id": "dac1457f",
+    "kind": "should",
+    "skill": "interrogate",
+    "instead": null,
+    "query": "Ask me questions until my architecture for the lab project is fully decided.",
+    "outcomes": [
+     "interrogate",
+     "interrogate",
+     "interrogate"
+    ]
+   },
+   {
+    "id": "d741e74f",
+    "kind": "should",
+    "skill": "interrogate",
+    "instead": null,
+    "query": "Can you question me about what I want from this skill redesign before we start? I only have a vague idea.",
+    "outcomes": [
+     "interrogate",
+     "interrogate",
+     "interrogate"
+    ]
+   },
+   {
+    "id": "039a0150",
+    "kind": "should",
+    "skill": "interrogate",
+    "instead": null,
+    "query": "Hilf mir herauszufinden, was ich in meiner Bewerbung eigentlich sagen will. Stell mir Fragen.",
+    "outcomes": [
+     "interrogate",
+     "interrogate",
+     "interrogate"
+    ]
+   },
+   {
+    "id": "ede5e84b",
+    "kind": "near_miss",
+    "skill": "interrogate",
+    "instead": "fair-practice-questions",
+    "query": "Quiz me on TCP so I can practice for the exam.",
+    "outcomes": [
+     "fair-practice-questions",
+     "fair-practice-questions",
+     "fair-practice-questions"
+    ]
+   },
+   {
+    "id": "c1e73191",
+    "kind": "near_miss",
+    "skill": "interrogate",
+    "instead": null,
+    "query": "Give me feedback on this plan: learn Rust in March, build a CLI in April, apply for internships in May.",
+    "outcomes": [
+     "none",
+     "none",
+     "none"
+    ]
+   },
+   {
+    "id": "17a5c031",
+    "kind": "near_miss",
+    "skill": "interrogate",
+    "instead": null,
+    "query": "Which questions should I ask in a job interview at a startup?",
+    "outcomes": [
+     "none",
+     "none",
+     "none"
+    ]
+   },
+   {
+    "id": "1268dfd4",
+    "kind": "should",
+    "skill": "layered-design-facilitation",
+    "instead": null,
+    "query": "I'm starting to design a cozy farming sim with a twist: the crops react to the player's mood. No idea where to begin, help me think it through.",
+    "outcomes": [
+     "layered-design-facilitation",
+     "layered-design-facilitation",
+     "layered-design-facilitation"
+    ]
+   },
+   {
+    "id": "384527df",
+    "kind": "should",
+    "skill": "layered-design-facilitation",
+    "instead": null,
+    "query": "Let's brainstorm the progression for my mod. All I know is players should feel weak at the start and powerful by the end.",
+    "outcomes": [
+     "layered-design-facilitation",
+     "layered-design-facilitation",
+     "layered-design-facilitation"
+    ]
+   },
+   {
+    "id": "da6b8e59",
+    "kind": "should",
+    "skill": "layered-design-facilitation",
+    "instead": null,
+    "query": "I want to design the economy of a multiplayer extraction shooter from scratch. Where do we even start?",
+    "outcomes": [
+     "layered-design-facilitation",
+     "layered-design-facilitation",
+     "layered-design-facilitation"
+    ]
+   },
+   {
+    "id": "c6d1b459",
+    "kind": "should",
+    "skill": "layered-design-facilitation",
+    "instead": null,
+    "query": "My thesis topic on LLM harnesses is still very fuzzy. Can we explore possible directions together and narrow it down?",
+    "outcomes": [
+     "layered-design-facilitation",
+     "layered-design-facilitation",
+     "layered-design-facilitation"
+    ]
+   },
+   {
+    "id": "e2feaa5e",
+    "kind": "should",
+    "skill": "layered-design-facilitation",
+    "instead": null,
+    "query": "Ich möchte ein Kampfsystem für mein Spiel entwerfen, habe aber erst eine vage Idee. Lass uns das gemeinsam durchdenken.",
+    "outcomes": [
+     "layered-design-facilitation",
+     "layered-design-facilitation",
+     "layered-design-facilitation"
+    ]
+   },
+   {
+    "id": "61c8c03c",
+    "kind": "should",
+    "skill": "layered-design-facilitation",
+    "instead": null,
+    "query": "My idea is a roguelike where death is the main resource. Let's flesh out what the game is actually about before I touch any code.",
+    "outcomes": [
+     "layered-design-facilitation",
+     "layered-design-facilitation",
+     "layered-design-facilitation"
+    ]
+   },
+   {
+    "id": "c21607a9",
+    "kind": "should",
+    "skill": "layered-design-facilitation",
+    "instead": null,
+    "query": "brainstorm with me: what systems would a space trading game need and how should they interact?",
+    "outcomes": [
+     "layered-design-facilitation",
+     "layered-design-facilitation",
+     "layered-design-facilitation"
+    ]
+   },
+   {
+    "id": "2d0cee18",
+    "kind": "should",
+    "skill": "layered-design-facilitation",
+    "instead": null,
+    "query": "Every time I design my crafting system I get lost in details. Can you guide me through it in a sensible order?",
+    "outcomes": [
+     "layered-design-facilitation",
+     "layered-design-facilitation",
+     "layered-design-facilitation"
+    ]
+   },
+   {
+    "id": "ce6daca3",
+    "kind": "near_miss",
+    "skill": "layered-design-facilitation",
+    "instead": null,
+    "query": "Write a Python function that computes damage with armor reduction: dmg * (1 - armor / (armor + 100)).",
+    "outcomes": [
+     "tool:Write",
+     "tool:Write",
+     "none"
+    ]
+   },
+   {
+    "id": "2670d5c0",
+    "kind": "near_miss",
+    "skill": "layered-design-facilitation",
+    "instead": null,
+    "query": "Explain how event sourcing works and when it is a good idea.",
+    "outcomes": [
+     "none",
+     "none",
+     "none"
+    ]
+   },
+   {
+    "id": "cd7f1cba",
+    "kind": "near_miss",
+    "skill": "layered-design-facilitation",
+    "instead": "design-capture",
+    "query": "Record these decisions in docs/design/crafting.md: recipes are discovered, not bought, and benches have three tiers.",
+    "outcomes": [
+     "design-capture",
+     "design-capture",
+     "design-capture"
+    ]
+   },
+   {
+    "id": "f6d075df",
+    "kind": "should",
+    "skill": "playbook",
+    "instead": null,
+    "query": "I need my LaTeX thesis template building on the university cluster. It will be a lot of trial and error and I'll redo it every semester. Can you figure it out and keep notes so next time is easy?",
+    "outcomes": [
+     "playbook",
+     "playbook",
+     "playbook"
+    ]
+   },
+   {
+    "id": "b5a35403",
+    "kind": "should",
+    "skill": "playbook",
+    "instead": null,
+    "query": "Document how you got this working so I can repeat it next semester.",
+    "outcomes": [
+     "playbook",
+     "playbook",
+     "playbook"
+    ]
+   },
+   {
+    "id": "89a1f0c7",
+    "kind": "should",
+    "skill": "playbook",
+    "instead": null,
+    "query": "How did we set up the Docker environment for the networking lab last time?",
+    "outcomes": [
+     "playbook",
+     "playbook",
+     "playbook"
+    ]
+   },
+   {
+    "id": "eb21e1e2",
+    "kind": "should",
+    "skill": "playbook",
+    "instead": null,
+    "query": "Let's figure out how to export my Moodle quizzes to Markdown. It will take some fiddling and I'd do it every term, so write down the steps once it works.",
+    "outcomes": [
+     "playbook",
+     "playbook",
+     "playbook"
+    ]
+   },
+   {
+    "id": "2ab5f89f",
+    "kind": "should",
+    "skill": "playbook",
+    "instead": null,
+    "query": "Wir müssen herausfinden, wie man das Ubuntu-VM-Image für das Security-Praktikum aufsetzt. Das mache ich jedes Semester wieder, halte die Schritte fest.",
+    "outcomes": [
+     "playbook",
+     "playbook",
+     "playbook"
+    ]
+   },
+   {
+    "id": "6130aecc",
+    "kind": "should",
+    "skill": "playbook",
+    "instead": null,
+    "query": "Getting CI to cache the Gradle build is fiddly. Work it out and write a repeatable guide, including what you tried.",
+    "outcomes": [
+     "playbook",
+     "playbook",
+     "playbook"
+    ]
+   },
+   {
+    "id": "d2a19806",
+    "kind": "should",
+    "skill": "playbook",
+    "instead": null,
+    "query": "I want a repeatable procedure for publishing my notes to GitLab Pages. We'll have to experiment, so keep a log of the attempts.",
+    "outcomes": [
+     "playbook",
+     "playbook",
+     "playbook"
+    ]
+   },
+   {
+    "id": "d5cd7a45",
+    "kind": "should",
+    "skill": "playbook",
+    "instead": null,
+    "query": "Set up my Cyberpunk modpack testing workflow. It needs research and I'll repeat it for each update, so make the next run easier.",
+    "outcomes": [
+     "playbook",
+     "playbook",
+     "playbook"
+    ]
+   },
+   {
+    "id": "e243812f",
+    "kind": "near_miss",
+    "skill": "playbook",
+    "instead": null,
+    "query": "Give me a one-off bash command that renames all .jpeg files in this folder to .jpg.",
+    "outcomes": [
+     "none",
+     "none",
+     "none"
+    ]
+   },
+   {
+    "id": "a115337d",
+    "kind": "near_miss",
+    "skill": "playbook",
+    "instead": null,
+    "query": "Turn this idea into a proper Claude skill for me: it formats my meeting notes.",
+    "outcomes": [
+     "tool:Write",
+     "tool:Write",
+     "tool:Write"
+    ]
+   },
+   {
+    "id": "ac8c6d1f",
+    "kind": "near_miss",
+    "skill": "playbook",
+    "instead": null,
+    "query": "Summarize the folder structure of this repo.",
+    "outcomes": [
+     "tool:Bash",
+     "tool:Bash",
+     "tool:Bash"
+    ]
+   },
+   {
+    "id": "2eaa5d19",
+    "kind": "should",
+    "skill": "report-style",
+    "instead": null,
+    "query": "Write a short report on the results of our load tests for the team.",
+    "outcomes": [
+     "tool:Bash",
+     "tool:Bash",
+     "tool:Bash"
+    ]
+   },
+   {
+    "id": "54b924f1",
+    "kind": "should",
+    "skill": "report-style",
+    "instead": null,
+    "query": "Summarize what you just did in this refactor for me.",
+    "outcomes": [
+     "none",
+     "none",
+     "none"
+    ]
+   },
+   {
+    "id": "712d1ea5",
+    "kind": "should",
+    "skill": "report-style",
+    "instead": null,
+    "query": "Schreib mir einen Bericht über die Ergebnisse meines Praktikumsversuchs, für meinen Betreuer.",
+    "outcomes": [
+     "tool:Bash",
+     "tool:Bash",
+     "tool:Bash"
+    ]
+   },
+   {
+    "id": "16532410",
+    "kind": "should",
+    "skill": "report-style",
+    "instead": null,
+    "query": "Draft the README for this repo. It's a CLI tool that renames photos by EXIF date.",
+    "outcomes": [
+     "report-style",
+     "report-style",
+     "report-style"
+    ]
+   },
+   {
+    "id": "66c9465a",
+    "kind": "should",
+    "skill": "report-style",
+    "instead": null,
+    "query": "Write up the review of the three candidate databases we looked at, comparing latency, cost and ops effort.",
+    "outcomes": [
+     "tool:Bash",
+     "tool:Bash",
+     "tool:Bash"
+    ]
+   },
+   {
+    "id": "a7df4915",
+    "kind": "should",
+    "skill": "report-style",
+    "instead": null,
+    "query": "Can you write a proposal document for adopting trunk-based development in our student project?",
+    "outcomes": [
+     "report-style",
+     "report-style",
+     "report-style"
+    ]
+   },
+   {
+    "id": "6965b831",
+    "kind": "should",
+    "skill": "report-style",
+    "instead": null,
+    "query": "I need a one-pager for my supervisor on where the thesis stands.",
+    "outcomes": [
+     "tool:Bash",
+     "tool:Bash",
+     "tool:Bash"
+    ]
+   },
+   {
+    "id": "96deb1f6",
+    "kind": "should",
+    "skill": "report-style",
+    "instead": null,
+    "query": "Create a write-up of the security lab findings: 4 vulnerabilities, severity and fix for each.",
+    "outcomes": [
+     "tool:Bash",
+     "tool:Bash",
+     "tool:Bash"
+    ]
+   },
+   {
+    "id": "e3c3ffa1",
+    "kind": "near_miss",
+    "skill": "report-style",
+    "instead": null,
+    "query": "Quick question: what's the difference between a mutex and a semaphore?",
+    "outcomes": [
+     "none",
+     "none",
+     "none"
+    ]
+   },
+   {
+    "id": "67843180",
+    "kind": "near_miss",
+    "skill": "report-style",
+    "instead": null,
+    "query": "Fix the typo in line 12 of README.md.",
+    "outcomes": [
+     "tool:Read",
+     "tool:Read",
+     "tool:Read"
+    ]
+   },
+   {
+    "id": "08c7ef26",
+    "kind": "near_miss",
+    "skill": "report-style",
+    "instead": null,
+    "query": "Reply to my landlord's email and tell him I can't make it on Friday.",
+    "outcomes": [
+     "tool:ToolSearch",
+     "tool:ToolSearch",
+     "tool:ToolSearch"
+    ]
+   },
+   {
+    "id": "d34fdd35",
+    "kind": "should",
+    "skill": "setup-retro",
+    "instead": null,
+    "query": "Review my Claude setup: which of my skills are actually worth keeping?",
+    "outcomes": [
+     "setup-retro",
+     "setup-retro",
+     "setup-retro"
+    ]
+   },
+   {
+    "id": "29936197",
+    "kind": "should",
+    "skill": "setup-retro",
+    "instead": null,
+    "query": "Audit my skills and instructions. I feel like some of them add friction.",
+    "outcomes": [
+     "setup-retro",
+     "setup-retro",
+     "setup-retro"
+    ]
+   },
+   {
+    "id": "c6c63a73",
+    "kind": "should",
+    "skill": "setup-retro",
+    "instead": null,
+    "query": "Do a retro on my setup. The friction log has a few entries by now.",
+    "outcomes": [
+     "setup-retro",
+     "setup-retro",
+     "setup-retro"
+    ]
+   },
+   {
+    "id": "80df1a62",
+    "kind": "should",
+    "skill": "setup-retro",
+    "instead": null,
+    "query": "Mach bitte mal eine Bestandsaufnahme meiner Skills und Einstellungen: Was kann weg, was muss besser werden?",
+    "outcomes": [
+     "setup-retro",
+     "setup-retro",
+     "setup-retro"
+    ]
+   },
+   {
+    "id": "c3483056",
+    "kind": "should",
+    "skill": "setup-retro",
+    "instead": null,
+    "query": "Clean up my skills. Some overlap and I suspect a few never trigger.",
+    "outcomes": [
+     "setup-retro",
+     "setup-retro",
+     "setup-retro"
+    ]
+   },
+   {
+    "id": "df2a9cd6",
+    "kind": "should",
+    "skill": "setup-retro",
+    "instead": null,
+    "query": "Which skills should I merge, delete or sharpen? Look at my corrections from the last months.",
+    "outcomes": [
+     "setup-retro",
+     "setup-retro",
+     "setup-retro"
+    ]
+   },
+   {
+    "id": "6a8e906a",
+    "kind": "should",
+    "skill": "setup-retro",
+    "instead": null,
+    "query": "I want to review my Claude Code and Cowork setup: preferences, plugins, skills.",
+    "outcomes": [
+     "setup-retro",
+     "setup-retro",
+     "setup-retro"
+    ]
+   },
+   {
+    "id": "b4061f43",
+    "kind": "should",
+    "skill": "setup-retro",
+    "instead": null,
+    "query": "Check whether any of my playbooks are ready to become skills and whether my instructions have gone stale.",
+    "outcomes": [
+     "setup-retro",
+     "setup-retro",
+     "setup-retro"
+    ]
+   },
+   {
+    "id": "f5ba734b",
+    "kind": "near_miss",
+    "skill": "setup-retro",
+    "instead": null,
+    "query": "Help me write a new skill that formats my meeting notes.",
+    "outcomes": [
+     "tool:Write",
+     "tool:Write",
+     "tool:Write"
+    ]
+   },
+   {
+    "id": "b506f90a",
+    "kind": "near_miss",
+    "skill": "setup-retro",
+    "instead": null,
+    "query": "How do I install a plugin in Claude Code?",
+    "outcomes": [
+     "none",
+     "none",
+     "none"
+    ]
+   },
+   {
+    "id": "c3a3dad3",
+    "kind": "near_miss",
+    "skill": "setup-retro",
+    "instead": null,
+    "query": "Review my pull request for code quality and naming.",
+    "outcomes": [
+     "tool:Bash",
+     "tool:Bash",
+     "tool:Bash"
+    ]
+   },
+   {
+    "id": "f8144775",
+    "kind": "should",
+    "skill": "structured-project-docs",
+    "instead": null,
+    "query": "My notes folder is a mess: one 4000-word notes.md with meeting minutes, API docs and todo lists mixed together. Can you reorganize it into something sane?",
+    "outcomes": [
+     "structured-project-docs",
+     "structured-project-docs",
+     "tool:Bash"
+    ]
+   },
+   {
+    "id": "da0786c6",
+    "kind": "should",
+    "skill": "structured-project-docs",
+    "instead": null,
+    "query": "Set up the documentation structure for my new repo. It will have architecture docs, ADRs and some how-tos.",
+    "outcomes": [
+     "doc-kit",
+     "doc-kit",
+     "doc-kit"
+    ]
+   },
+   {
+    "id": "fd06ad5c",
+    "kind": "should",
+    "skill": "structured-project-docs",
+    "instead": null,
+    "query": "docs/overview.md has grown to 3000 words and covers install, config and troubleshooting. Split it up.",
+    "outcomes": [
+     "structured-project-docs",
+     "structured-project-docs",
+     "structured-project-docs"
+    ]
+   },
+   {
+    "id": "c8f2a146",
+    "kind": "should",
+    "skill": "structured-project-docs",
+    "instead": null,
+    "query": "Where should research notes go versus design specs in my project folder? The layout is ad hoc and I keep losing stuff.",
+    "outcomes": [
+     "structured-project-docs",
+     "structured-project-docs",
+     "structured-project-docs"
+    ]
+   },
+   {
+    "id": "a3d18a72",
+    "kind": "should",
+    "skill": "structured-project-docs",
+    "instead": null,
+    "query": "Mein docs-Ordner ist ein Chaos. Kannst du eine sinnvolle Ordnerstruktur für die Projektdokumentation vorschlagen und umsetzen?",
+    "outcomes": [
+     "structured-project-docs",
+     "tool:Bash",
+     "structured-project-docs"
+    ]
+   },
+   {
+    "id": "1650bb03",
+    "kind": "should",
+    "skill": "structured-project-docs",
+    "instead": null,
+    "query": "I'm starting a new Cowork project for my bachelor thesis with literature notes, drafts and experiment logs. How should I organize the files?",
+    "outcomes": [
+     "structured-project-docs",
+     "structured-project-docs",
+     "structured-project-docs"
+    ]
+   },
+   {
+    "id": "398635e5",
+    "kind": "should",
+    "skill": "structured-project-docs",
+    "instead": null,
+    "query": "Restructure the wiki folder into small topic files with an index. Right now everything is in one giant README.",
+    "outcomes": [
+     "tool:Bash",
+     "structured-project-docs",
+     "structured-project-docs"
+    ]
+   },
+   {
+    "id": "983ccd56",
+    "kind": "should",
+    "skill": "structured-project-docs",
+    "instead": null,
+    "query": "Create a docs folder layout for my side project. I want it navigable, not one big monolith.",
+    "outcomes": [
+     "structured-project-docs",
+     "structured-project-docs",
+     "structured-project-docs"
+    ]
+   },
+   {
+    "id": "79825372",
+    "kind": "near_miss",
+    "skill": "structured-project-docs",
+    "instead": "report-style",
+    "query": "Write a README for my CLI tool that renames photos by EXIF date.",
+    "outcomes": [
+     "tool:Bash",
+     "tool:Bash",
+     "tool:Bash"
+    ]
+   },
+   {
+    "id": "8a7c5dac",
+    "kind": "near_miss",
+    "skill": "structured-project-docs",
+    "instead": "doc-kit",
+    "query": "Add a check that fails the build when docs contain broken links.",
+    "outcomes": [
+     "tool:Bash",
+     "doc-kit",
+     "tool:Bash"
+    ]
+   },
+   {
+    "id": "156d8f83",
+    "kind": "near_miss",
+    "skill": "structured-project-docs",
+    "instead": null,
+    "query": "Create one Docs artifact with my resume, nothing else.",
+    "outcomes": [
+     "tool:Artifact",
+     "tool:Artifact",
+     "tool:Bash"
+    ]
+   },
+   {
+    "id": "e9c79a2e",
+    "kind": "unrelated",
+    "skill": null,
+    "instead": null,
+    "query": "What is the time complexity of heapsort and why?",
+    "outcomes": [
+     "none",
+     "none",
+     "none"
+    ]
+   },
+   {
+    "id": "78626d97",
+    "kind": "unrelated",
+    "skill": null,
+    "instead": null,
+    "query": "Write a Rust function that reverses a singly linked list.",
+    "outcomes": [
+     "tool:Write",
+     "tool:Write",
+     "tool:Write"
+    ]
+   },
+   {
+    "id": "18b0be2c",
+    "kind": "unrelated",
+    "skill": null,
+    "instead": null,
+    "query": "Translate to German: Where is the nearest train station?",
+    "outcomes": [
+     "none",
+     "none",
+     "none"
+    ]
+   },
+   {
+    "id": "b6e94b70",
+    "kind": "unrelated",
+    "skill": null,
+    "instead": null,
+    "query": "My parser crashes with TypeError: 'NoneType' object is not subscriptable. Here is the line: tok = tokens[i].value. What is wrong?",
+    "outcomes": [
+     "none",
+     "none",
+     "none"
+    ]
+   },
+   {
+    "id": "55cef020",
+    "kind": "unrelated",
+    "skill": null,
+    "instead": null,
+    "query": "Give me a simple recipe for lentil soup for four people.",
+    "outcomes": [
+     "none",
+     "none",
+     "none"
+    ]
+   },
+   {
+    "id": "65bc36b9",
+    "kind": "unrelated",
+    "skill": null,
+    "instead": null,
+    "query": "What does the TCP three-way handshake do?",
+    "outcomes": [
+     "none",
+     "none",
+     "none"
+    ]
+   },
+   {
+    "id": "7561c127",
+    "kind": "unrelated",
+    "skill": null,
+    "instead": null,
+    "query": "What is the difference between a subnet and a VLAN?",
+    "outcomes": [
+     "none",
+     "none",
+     "none"
+    ]
+   },
+   {
+    "id": "3908587a",
+    "kind": "unrelated",
+    "skill": null,
+    "instead": null,
+    "query": "Calculate the compound interest on 2000 euros at 5% over 10 years.",
+    "outcomes": [
+     "none",
+     "none",
+     "none"
+    ]
+   },
+   {
+    "id": "91e112df",
+    "kind": "unrelated",
+    "skill": null,
+    "instead": null,
+    "query": "Refactor this to a list comprehension: result = []\nfor x in xs:\n    if x > 0:\n        result.append(x * 2)",
+    "outcomes": [
+     "none",
+     "none",
+     "none"
+    ]
+   },
+   {
+    "id": "b2cc3ae7",
+    "kind": "unrelated",
+    "skill": null,
+    "instead": null,
+    "query": "Suggest three names for a hiking club in Munich.",
+    "outcomes": [
+     "none",
+     "none",
+     "none"
+    ]
+   },
+   {
+    "id": "c9775788",
+    "kind": "explicit",
+    "skill": "teach",
+    "instead": null,
+    "query": "/teach Rust ownership and borrowing",
+    "outcomes": [
+     "none",
+     "none",
+     "none"
+    ]
+   }
+  ],
+  "seconds": 203
+ },
+ "meta": {
+  "label": "before",
+  "ref": "662e096",
+  "sha": "662e096c880c1c8a5d35b5dd8bc979977301f5d5",
+  "trigger_model": "sonnet",
+  "scenario_model": "sonnet"
+ },
+ "scenarios": {
+  "runs_per_scenario": 2,
+  "n_runs": 36,
+  "isolation_violations": 0,
+  "errors": 4,
+  "cost_usd_reported": 4.27,
+  "seconds": 385,
+  "skills": {
+   "design-capture": {
+    "passed": 28,
+    "total": 32,
+    "scenarios": {
+     "conflict-quote": {
+      "passed": 14,
+      "total": 16,
+      "errored_runs": 0,
+      "assertions": [
+       {
+        "id": "quotes-rule",
+        "desc": "Quotes the conflicting rule ARC-R2 verbatim with its ID.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "gives-date",
+        "desc": "Names the date the conflicting rule was decided (2026-10-02).",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "asks-which-holds",
+        "desc": "The reply says the new statement reverses a past ruling and asks which holds: new supersedes, old stays, or both stay tagged conflicting with an open question.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "no-premature-record",
+        "desc": "The archery spec records nothing about picking arrows up again (and no conflicting tag) before the user answers.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "records-nonconflicting",
+        "desc": "The armour decision is written into the archery spec as a numbered rule.",
+        "runs": 2,
+        "fails": 1,
+        "skips": 0,
+        "failure_evidence": [
+         {
+          "run": 1,
+          "why": "pattern 'ARC-R[4-9]\\\\*\\\\*[^\\\\n]*(break|heavy armour)' not found"
+         }
+        ]
+       },
+       {
+        "id": "parks-number",
+        "desc": "The raw stamina number (12) is parked in the parking lot for L3, not written as a spec rule.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "reply-shape",
+        "desc": "The reply has four parts in order: a one-line state (system, layer, status), the rules recorded by ID with their text, reversals and conflicts, and what is needed from the user as questions sized to one decision.",
+        "runs": 2,
+        "fails": 1,
+        "skips": 0,
+        "failure_evidence": [
+         {
+          "run": 2,
+          "why": "**State:** Archery · L2 · drafting. Stamina · L1 · idea. The lint is clean."
+         }
+        ]
+       },
+       {
+        "id": "lint-clean",
+        "desc": "tools/doclint.py ends with exit 0.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       }
+      ],
+      "runs": [
+       {
+        "run": 1,
+        "seconds": 29,
+        "turns": 10,
+        "subtype": "success",
+        "error": null,
+        "passed": 7,
+        "total": 8
+       },
+       {
+        "run": 2,
+        "seconds": 32,
+        "turns": 14,
+        "subtype": "success",
+        "error": null,
+        "passed": 7,
+        "total": 8
+       }
+      ]
+     },
+     "tiers-history-rename": {
+      "passed": 14,
+      "total": 16,
+      "errored_runs": 0,
+      "assertions": [
+       {
+        "id": "ordering-rule",
+        "desc": "The archery spec states the weight/draw relation as an ordering rule.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "no-raw-numbers",
+        "desc": "The archery spec carries none of the raw draw times (0.8, 1.2).",
+        "runs": 2,
+        "fails": 1,
+        "skips": 0,
+        "failure_evidence": [
+         {
+          "run": 2,
+          "why": "unwanted text present: '0.8'"
+         }
+        ]
+       },
+       {
+        "id": "numbers-parked",
+        "desc": "The raw draw times are parked for L3.",
+        "runs": 2,
+        "fails": 1,
+        "skips": 0,
+        "failure_evidence": [
+         {
+          "run": 2,
+          "why": "pattern '0\\\\.8|1\\\\.2' not found"
+         }
+        ]
+       },
+       {
+        "id": "history-entry",
+        "desc": "A decision-history entry D-ARC-002 exists and names the rejected continuous weight stat.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "rename-sweep",
+        "desc": "No file under docs/design still says 'hunting bow' after the rename.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "retired-name",
+        "desc": "The glossary's Retired names table lists 'Hunting bow'.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "question-tagged",
+        "desc": "The sprint question is a new tagged open question with a fresh ID (ARC-Q2 or higher).",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "lint-clean",
+        "desc": "tools/doclint.py ends with exit 0.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       }
+      ],
+      "runs": [
+       {
+        "run": 1,
+        "seconds": 29,
+        "turns": 9,
+        "subtype": "success",
+        "error": null,
+        "passed": 8,
+        "total": 8
+       },
+       {
+        "run": 2,
+        "seconds": 33,
+        "turns": 11,
+        "subtype": "success",
+        "error": null,
+        "passed": 6,
+        "total": 8
+       }
+      ]
+     }
+    }
+   },
+   "doc-kit": {
+    "passed": 16,
+    "total": 16,
+    "scenarios": {
+     "new-design-project": {
+      "passed": 16,
+      "total": 16,
+      "errored_runs": 0,
+      "assertions": [
+       {
+        "id": "core-files",
+        "desc": "README.md, docs/CONVENTIONS.md, docs/SYSTEM_MAP.md, docs/GLOSSARY.md, tools/doclint.py, tools/doclint.json and tools/hooks/pre-commit exist.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "preset-copied",
+        "desc": "tools/doclint.json equals the design preset.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "no-placeholders",
+        "desc": "No YYYY-MM-DD, <OWNER>, <Project name> or <generated table> placeholder is left outside docs/templates.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "lint-clean",
+        "desc": "python3 tools/doclint.py ends with exit 0.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "codes-registered",
+        "desc": "ARC and STA are in the code table of CONVENTIONS.md.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "spec-files",
+        "desc": "Both specs exist with matching front matter ids.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "map-generated",
+        "desc": "The system map lists ARC and STA in a generated table.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "owner-filled",
+        "desc": "The owner placeholder in CONVENTIONS.md is replaced by Jonah.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       }
+      ],
+      "runs": [
+       {
+        "run": 1,
+        "seconds": 25,
+        "turns": 10,
+        "subtype": "success",
+        "error": null,
+        "passed": 8,
+        "total": 8
+       },
+       {
+        "run": 2,
+        "seconds": 24,
+        "turns": 9,
+        "subtype": "success",
+        "error": null,
+        "passed": 8,
+        "total": 8
+       }
+      ]
+     }
+    }
+   },
+   "fair-practice-questions": {
+    "passed": 26,
+    "total": 30,
+    "scenarios": {
+     "list-n-chain": {
+      "passed": 10,
+      "total": 14,
+      "errored_runs": 0,
+      "assertions": [
+       {
+        "id": "equal-counts",
+        "desc": "In every list-style multiple-choice task, all options contain the same number of items.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "swapped-members",
+        "desc": "Distractor lists are built by swapping plausible-but-wrong members (for example real isolation levels or ACID letters), not by dropping or padding items.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "no-leak",
+        "desc": "No task, option, hint or visible explanation reveals the answer to another task.",
+        "runs": 2,
+        "fails": 2,
+        "skips": 0,
+        "failure_evidence": [
+         {
+          "run": 1,
+          "why": "Nur SERIALIZABLE verhindert Phantom Reads. Alle drei schwächeren Levels erlauben sie nach der Standarddefinition."
+         },
+         {
+          "run": 2,
+          "why": "Task 2 solution c) says 'Strict 2PL garantiert Serialisierbarkeit und Kaskadenfreiheit', and Task 4 stem mentions 'Wait-for-Graph' and 'Deadlock-Erkennung' hints; Task 3 option D is thus revealed."
+         }
+        ]
+       },
+       {
+        "id": "chain-self-contained",
+        "desc": "Task 4 builds on task 2 without stating task 2's answer in its stem; it is self-contained or applies the mechanism to a new case.",
+        "runs": 2,
+        "fails": 1,
+        "skips": 0,
+        "failure_evidence": [
+         {
+          "run": 2,
+          "why": "a) ... begründen Sie, ob sich der Wait-for-Graph hier zyklisch verhalten kann. (5 Punkte)"
+         }
+        ]
+       },
+       {
+        "id": "solutions-last",
+        "desc": "A solutions section follows the last task.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "positions",
+        "desc": "The correct answers of the multiple-choice tasks do not all sit in the same position.",
+        "runs": 0,
+        "fails": 0,
+        "skips": 2,
+        "failure_evidence": []
+       },
+       {
+        "id": "german",
+        "desc": "The output is in German.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "hint-safe",
+        "desc": "Any hint narrows the reasoning without naming the answer or ruling out all but one option by form.",
+        "runs": 2,
+        "fails": 1,
+        "skips": 0,
+        "failure_evidence": [
+         {
+          "run": 1,
+          "why": "judge gave no evidence quote; verdict rejected"
+         }
+        ]
+       }
+      ],
+      "runs": [
+       {
+        "run": 1,
+        "seconds": 68,
+        "turns": 4,
+        "subtype": "success",
+        "error": null,
+        "passed": 5,
+        "total": 7
+       },
+       {
+        "run": 2,
+        "seconds": 62,
+        "turns": 4,
+        "subtype": "success",
+        "error": null,
+        "passed": 5,
+        "total": 7
+       }
+      ]
+     },
+     "mc-set-german": {
+      "passed": 16,
+      "total": 16,
+      "errored_runs": 0,
+      "assertions": [
+       {
+        "id": "shape",
+        "desc": "Six questions with four options each can be parsed.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "length-parity",
+        "desc": "The correct option is not systematically the longest or most detailed.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "positions",
+        "desc": "Correct answers are spread over at least 3 positions, none used more than 3 times.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "plausible-distractors",
+        "desc": "Every distractor is on-topic and plausible for a partial learner (real misconceptions or adjacent concepts); no joke or off-topic options.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "no-spoilers",
+        "desc": "No question stem, option or visible hint reveals the answer to another question.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "no-verbal-echo",
+        "desc": "No distinctive word from a stem appears only in the correct option, and no stem agrees grammatically with only one option.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "key-separate",
+        "desc": "A separate answer-key section follows the questions.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "german",
+        "desc": "The output is in German.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       }
+      ],
+      "runs": [
+       {
+        "run": 1,
+        "seconds": 24,
+        "turns": 3,
+        "subtype": "success",
+        "error": null,
+        "passed": 8,
+        "total": 8
+       },
+       {
+        "run": 2,
+        "seconds": 27,
+        "turns": 3,
+        "subtype": "success",
+        "error": null,
+        "passed": 8,
+        "total": 8
+       }
+      ]
+     }
+    }
+   },
+   "interrogate": {
+    "passed": 21,
+    "total": 28,
+    "scenarios": {
+     "articulate-mode": {
+      "passed": 11,
+      "total": 14,
+      "errored_runs": 0,
+      "assertions": [
+       {
+        "id": "names-mode",
+        "desc": "The first round names the mode (Articulate).",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "no-recommendation",
+        "desc": "No question carries a recommended answer or a pick; the assistant does not favour one framing.",
+        "runs": 2,
+        "fails": 1,
+        "skips": 0,
+        "failure_evidence": [
+         {
+          "run": 1,
+          "why": "Examples might be reply with a yes or no, book a meeting, or give feedback on the idea. Which is closest, or is it something else?"
+         }
+        ]
+       },
+       {
+        "id": "contrasting-options",
+        "desc": "Options are contrasting, or the user's own words are reflected back, without favouring a phrasing.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "maps-the-tree",
+        "desc": "The questions cover at least three of: intent, audience, the one key point, what the reader should do or think afterwards, constraints (tone, length, channel).",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "max-four",
+        "desc": "At most 4 questions in the round, one concept per question, none depending on another in the same round.",
+        "runs": 2,
+        "fails": 2,
+        "skips": 0,
+        "failure_evidence": [
+         {
+          "run": 1,
+          "why": "Is there a deadline, such as a registration date, the semester or an exam office rule? Do you know if she's the right person for this topic, or is that part of what you're unsure about?"
+         },
+         {
+          "run": 2,
+          "why": "**Constraints:** Please tell me any that apply.\n   - Language (German or English)\n   - Deadline, such as when you need to register the thesis or start writing"
+         }
+        ]
+       },
+       {
+        "id": "no-draft",
+        "desc": "No email draft is written yet.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "asks",
+        "desc": "The reply ends with questions for the user.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       }
+      ],
+      "runs": [
+       {
+        "run": 1,
+        "seconds": 7,
+        "turns": 3,
+        "subtype": "success",
+        "error": null,
+        "passed": 5,
+        "total": 7
+       },
+       {
+        "run": 2,
+        "seconds": 8,
+        "turns": 3,
+        "subtype": "success",
+        "error": null,
+        "passed": 6,
+        "total": 7
+       }
+      ]
+     },
+     "decide-mode": {
+      "passed": 10,
+      "total": 14,
+      "errored_runs": 0,
+      "assertions": [
+       {
+        "id": "names-mode",
+        "desc": "The first round names the mode (Decide).",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "looked-first",
+        "desc": "The assistant inspected the export before asking.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "max-four",
+        "desc": "The first round asks at most 4 questions, and none of them depends on the answer to another in the same round.",
+        "runs": 2,
+        "fails": 2,
+        "skips": 0,
+        "failure_evidence": [
+         {
+          "run": 1,
+          "why": "If you pick b, I'll need to ask about a repeatable import. If you pick a, I'll skip it."
+         },
+         {
+          "run": 2,
+          "why": "Where will you read the notes?\n   - Options: VS Code or Obsidian locally, the GitHub web view, or a generated site."
+         }
+        ]
+       },
+       {
+        "id": "recommendations",
+        "desc": "Each question carries a recommended answer, listed first, phrased so that 'yes' accepts it.",
+        "runs": 2,
+        "fails": 2,
+        "skips": 0,
+        "failure_evidence": [
+         {
+          "run": 1,
+          "why": "a) A new git repo in this folder, with the export moved into a clean structure (recommended)"
+         },
+         {
+          "run": 2,
+          "why": "Rendering: Where will you read the notes? - Options: VS Code or Obsidian locally, the GitHub web view, or a generated site."
+         }
+        ]
+       },
+       {
+        "id": "no-discoverable-facts",
+        "desc": "No question asks for something visible in the export (number of notebooks, whether images exist, file format).",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "judgments-only",
+        "desc": "The questions are judgments or preferences (for example sync, search, image handling, structure), not fact lookups.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "no-action",
+        "desc": "The assistant does not start migrating anything before the user confirms.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       }
+      ],
+      "runs": [
+       {
+        "run": 1,
+        "seconds": 8,
+        "turns": 5,
+        "subtype": "success",
+        "error": null,
+        "passed": 5,
+        "total": 7
+       },
+       {
+        "run": 2,
+        "seconds": 9,
+        "turns": 5,
+        "subtype": "success",
+        "error": null,
+        "passed": 5,
+        "total": 7
+       }
+      ]
+     }
+    }
+   },
+   "layered-design-facilitation": {
+    "passed": 20,
+    "total": 30,
+    "scenarios": {
+     "jump-ahead": {
+      "passed": 10,
+      "total": 16,
+      "errored_runs": 0,
+      "assertions": [
+       {
+        "id": "states-layer",
+        "desc": "The reply names the current layer (L0 to L4).",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "offers-moves",
+        "desc": "The reply offers both park and probe.",
+        "runs": 2,
+        "fails": 1,
+        "skips": 0,
+        "failure_evidence": [
+         {
+          "run": 2,
+          "why": "pattern '(?=[\\\\s\\\\S]*\\\\bpark)(?=[\\\\s\\\\S]*\\\\bprobe)' not found"
+         }
+        ]
+       },
+       {
+        "id": "flags-lower-layer",
+        "desc": "The reply says briefly that the numbers and ratings are lower-layer detail (L3) than where the work is.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "ordering",
+        "desc": "The tool ratings are restated as an ordering (crowbar above picks above bump key above drill, or equivalent) and the user is asked to confirm, with the raw ratings parked for L3.",
+        "runs": 2,
+        "fails": 1,
+        "skips": 0,
+        "failure_evidence": [
+         {
+          "run": 2,
+          "why": "**Ordering:** crowbar above picks, above bump key, above drill. \"Higher is better\" didn't say better at what"
+         }
+        ]
+       },
+       {
+        "id": "parks-numbers",
+        "desc": "3.5 seconds and the 20% fail chance are parked for later, not accepted as design rules.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "ideas-first",
+        "desc": "The reply asks for the user's ideas about the system before offering any proposals of its own, and offers no design proposals itself.",
+        "runs": 2,
+        "fails": 2,
+        "skips": 0,
+        "failure_evidence": [
+         {
+          "run": 1,
+          "why": "a crowbar ranking best at lockpicking is unusual. It might fit a loud, brute-force pillar, or it might mean the crowbar is a different kind of tool."
+         },
+         {
+          "run": 2,
+          "why": "For example, a lock might exist to create a tense moment when the plan fails, or to be a puzzle in the plan itself."
+         }
+        ]
+       },
+       {
+        "id": "no-new-numbers",
+        "desc": "The reply introduces no numbers beyond the user's own.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "one-decision-questions",
+        "desc": "Every question in the reply asks for a single decision answerable in a sentence or by choosing among named options.",
+        "runs": 2,
+        "fails": 2,
+        "skips": 0,
+        "failure_evidence": [
+         {
+          "run": 1,
+          "why": "Park the numbers, or probe them now as trial values to see how they feel?"
+         },
+         {
+          "run": 2,
+          "why": "Does the layer model above work for you, or would you change it? If you'd rather skip the scene and settle the layers first, say so."
+         }
+        ]
+       }
+      ],
+      "runs": [
+       {
+        "run": 1,
+        "seconds": 12,
+        "turns": 3,
+        "subtype": "success",
+        "error": null,
+        "passed": 6,
+        "total": 8
+       },
+       {
+        "run": 2,
+        "seconds": 12,
+        "turns": 3,
+        "subtype": "success",
+        "error": null,
+        "passed": 4,
+        "total": 8
+       }
+      ]
+     },
+     "open-new-system": {
+      "passed": 10,
+      "total": 14,
+      "errored_runs": 0,
+      "assertions": [
+       {
+        "id": "layer-model",
+        "desc": "The reply sketches the layer stack (L0 to L2 at least).",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "states-heat-layer",
+        "desc": "The reply states that Heat starts at L0 or L1.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "ideas-first",
+        "desc": "The reply asks the user for their own ideas first and offers no design proposals of its own for how Heat works.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "few-questions",
+        "desc": "At most 4 question marks in the reply.",
+        "runs": 2,
+        "fails": 2,
+        "skips": 0,
+        "failure_evidence": [
+         {
+          "run": 1,
+          "why": "count of '\\\\?' = 6 (allowed 0..4)"
+         },
+         {
+          "run": 2,
+          "why": "count of '\\\\?' = 5 (allowed 0..4)"
+         }
+        ]
+       },
+       {
+        "id": "open-questions",
+        "desc": "Questions at this layer are open (about intent or feeling), not multiple-choice numeric options, and each asks for one decision.",
+        "runs": 2,
+        "fails": 1,
+        "skips": 0,
+        "failure_evidence": [
+         {
+          "run": 1,
+          "why": "For example: tension, panic, a decision about whether to push on or bail, or something else."
+         }
+        ]
+       },
+       {
+        "id": "no-numbers",
+        "desc": "The reply contains no numbers other than layer labels.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "confirms-shape",
+        "desc": "The reply asks the user to confirm or adjust the proposed layer shape before going on.",
+        "runs": 2,
+        "fails": 1,
+        "skips": 0,
+        "failure_evidence": [
+         {
+          "run": 2,
+          "why": "That's the standard five-layer stack. Heat is small enough to use all five without merging any. We'll go top-down and announce every layer change"
+         }
+        ]
+       }
+      ],
+      "runs": [
+       {
+        "run": 1,
+        "seconds": 8,
+        "turns": 4,
+        "subtype": "success",
+        "error": null,
+        "passed": 5,
+        "total": 7
+       },
+       {
+        "run": 2,
+        "seconds": 9,
+        "turns": 4,
+        "subtype": "success",
+        "error": null,
+        "passed": 5,
+        "total": 7
+       }
+      ]
+     }
+    }
+   },
+   "playbook": {
+    "passed": 0,
+    "total": 0,
+    "scenarios": {
+     "follow-existing": {
+      "passed": 0,
+      "total": 0,
+      "errored_runs": 2,
+      "assertions": [
+       {
+        "id": "reads-first",
+        "desc": "The existing playbook was read before convert.py was first run.",
+        "runs": 0,
+        "fails": 0,
+        "skips": 2,
+        "failure_evidence": []
+       },
+       {
+        "id": "first-try-right",
+        "desc": "The first convert.py call already has OUT_DIR and the encoding flag.",
+        "runs": 0,
+        "fails": 0,
+        "skips": 2,
+        "failure_evidence": []
+       },
+       {
+        "id": "says-follows",
+        "desc": "The assistant says it found and is following the existing playbook.",
+        "runs": 0,
+        "fails": 0,
+        "skips": 2,
+        "failure_evidence": []
+       },
+       {
+        "id": "runs-2",
+        "desc": "Front matter now says runs: 2 and status: current.",
+        "runs": 0,
+        "fails": 0,
+        "skips": 2,
+        "failure_evidence": []
+       },
+       {
+        "id": "no-new-playbook",
+        "desc": "No second playbook file was created.",
+        "runs": 0,
+        "fails": 0,
+        "skips": 2,
+        "failure_evidence": []
+       },
+       {
+        "id": "runlog-appended",
+        "desc": "The run log has a Run 2 entry and still holds Run 1.",
+        "runs": 0,
+        "fails": 0,
+        "skips": 2,
+        "failure_evidence": []
+       },
+       {
+        "id": "report-line",
+        "desc": "The reply ends with 'Playbook updated: <name> (run 2).'",
+        "runs": 0,
+        "fails": 0,
+        "skips": 2,
+        "failure_evidence": []
+       },
+       {
+        "id": "output-exists",
+        "desc": "out/export.md was produced.",
+        "runs": 0,
+        "fails": 0,
+        "skips": 2,
+        "failure_evidence": []
+       }
+      ],
+      "runs": [
+       {
+        "run": 1,
+        "seconds": 4,
+        "turns": 4,
+        "subtype": "success",
+        "error": "API Error: Sonnet 5.5's safeguards flagged this message (https://www.anthropic.com/legal/aup). This sometimes happens with safe, normal conversations. Claude Code can't respond to this message with Sonnet 5.5.\n\nTry rephrasing the request in a new session or change your model.\n\nLearn more: https://su",
+        "passed": 0,
+        "total": 0
+       },
+       {
+        "run": 2,
+        "seconds": 4,
+        "turns": 4,
+        "subtype": "success",
+        "error": "API Error: Sonnet 5.5's safeguards flagged this message (https://www.anthropic.com/legal/aup). This sometimes happens with safe, normal conversations. Claude Code can't respond to this message with Sonnet 5.5.\n\nTry rephrasing the request in a new session or change your model.\n\nLearn more: https://su",
+        "passed": 0,
+        "total": 0
+       }
+      ]
+     },
+     "new-workflow": {
+      "passed": 0,
+      "total": 0,
+      "errored_runs": 2,
+      "assertions": [
+       {
+        "id": "announces",
+        "desc": "The assistant announces the playbook in one line ('Keeping a playbook for this').",
+        "runs": 0,
+        "fails": 0,
+        "skips": 2,
+        "failure_evidence": []
+       },
+       {
+        "id": "runlog-attempts",
+        "desc": "The run log records the attempts, including the encoding and OUT_DIR failures.",
+        "runs": 0,
+        "fails": 0,
+        "skips": 2,
+        "failure_evidence": []
+       },
+       {
+        "id": "done-when",
+        "desc": "The playbook has at least 2 steps ending in 'Done when'.",
+        "runs": 0,
+        "fails": 0,
+        "skips": 2,
+        "failure_evidence": []
+       },
+       {
+        "id": "gotchas",
+        "desc": "The playbook's gotchas cover both the encoding and the OUT_DIR failures.",
+        "runs": 0,
+        "fails": 0,
+        "skips": 2,
+        "failure_evidence": []
+       },
+       {
+        "id": "generalized",
+        "desc": "The playbook uses placeholders instead of this run's file name.",
+        "runs": 0,
+        "fails": 0,
+        "skips": 2,
+        "failure_evidence": []
+       },
+       {
+        "id": "front-matter",
+        "desc": "Front matter has runs: 1 and status: draft.",
+        "runs": 0,
+        "fails": 0,
+        "skips": 2,
+        "failure_evidence": []
+       },
+       {
+        "id": "report-line",
+        "desc": "The reply ends with 'Playbook updated: <name> (run 1).'",
+        "runs": 0,
+        "fails": 0,
+        "skips": 2,
+        "failure_evidence": []
+       },
+       {
+        "id": "output-exists",
+        "desc": "out/export.md was produced.",
+        "runs": 0,
+        "fails": 0,
+        "skips": 2,
+        "failure_evidence": []
+       }
+      ],
+      "runs": [
+       {
+        "run": 1,
+        "seconds": 4,
+        "turns": 4,
+        "subtype": "success",
+        "error": "API Error: Sonnet 5.5's safeguards flagged this message (https://www.anthropic.com/legal/aup). This sometimes happens with safe, normal conversations. Claude Code can't respond to this message with Sonnet 5.5.\n\nTry rephrasing the request in a new session or change your model.\n\nLearn more: https://su",
+        "passed": 0,
+        "total": 0
+       },
+       {
+        "run": 2,
+        "seconds": 4,
+        "turns": 4,
+        "subtype": "success",
+        "error": "API Error: Sonnet 5.5's safeguards flagged this message (https://www.anthropic.com/legal/aup). This sometimes happens with safe, normal conversations. Claude Code can't respond to this message with Sonnet 5.5.\n\nTry rephrasing the request in a new session or change your model.\n\nLearn more: https://su",
+        "passed": 0,
+        "total": 0
+       }
+      ]
+     }
+    }
+   },
+   "report-style": {
+    "passed": 26,
+    "total": 32,
+    "scenarios": {
+     "bluf-summary": {
+      "passed": 12,
+      "total": 16,
+      "errored_runs": 0,
+      "assertions": [
+       {
+        "id": "file",
+        "desc": "docs/summary.md exists.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "bluf",
+        "desc": "The first three lines give the result and the decision needed (which policy to ship), before any support.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "table",
+        "desc": "The three policies are compared in a Markdown table with at least 3 data rows.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "defines-p95",
+        "desc": "p95 is defined by what it does where it first appears.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "short-sentences",
+        "desc": "At least 85% of the sentences have at most 25 words.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "one-term",
+        "desc": "Each concept has one term throughout (for example the same word for the cache policies, for the delay measure and for memory use).",
+        "runs": 2,
+        "fails": 2,
+        "skips": 0,
+        "failure_evidence": [
+         {
+          "run": 1,
+          "why": "Memory is taken as the per-node figure in `results.csv` (unverified: the file does not state the unit's scope)."
+         },
+         {
+          "run": 2,
+          "why": "Memory budget / \"Memory (MB)\" column vs \"needs 768 MB\"; \"p95 latency\" vs \"fastest (42 ms)\"; also \"policy\" vs \"policies\" fine, but \"the slowest of the three\" and \"fastest\" shift away from latency term."
+         }
+        ]
+       },
+       {
+        "id": "no-narration",
+        "desc": "The report does not narrate the work chronologically.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "takeaway",
+        "desc": "After the table, one sentence states its takeaway without repeating the table's rows.",
+        "runs": 2,
+        "fails": 2,
+        "skips": 0,
+        "failure_evidence": [
+         {
+          "run": 1,
+          "why": "arc has the best hit rate and a better p95 than lfu, but it needs 68 MB more than the budget allows. That rules it out at 700 MB."
+         },
+         {
+          "run": 2,
+          "why": "| arc | 86.2 | 44 | 768 | **no** (68 MB over) |\n\n## Reasoning"
+         }
+        ]
+       }
+      ],
+      "runs": [
+       {
+        "run": 1,
+        "seconds": 11,
+        "turns": 6,
+        "subtype": "success",
+        "error": null,
+        "passed": 6,
+        "total": 8
+       },
+       {
+        "run": 2,
+        "seconds": 11,
+        "turns": 6,
+        "subtype": "success",
+        "error": null,
+        "passed": 6,
+        "total": 8
+       }
+      ]
+     },
+     "work-summary": {
+      "passed": 14,
+      "total": 16,
+      "errored_runs": 0,
+      "assertions": [
+       {
+        "id": "tests-pass",
+        "desc": "python3 test_calc.py passes.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "outcome-first",
+        "desc": "The first lines state the outcome (what works now or what was found), not the steps taken.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "no-narration",
+        "desc": "The summary does not narrate steps chronologically ('First I', 'Then I', 'I ran').",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "next-steps",
+        "desc": "The summary ends with next steps.",
+        "runs": 2,
+        "fails": 2,
+        "skips": 0,
+        "failure_evidence": [
+         {
+          "run": 1,
+          "why": "pattern 'next steps?' not found"
+         },
+         {
+          "run": 2,
+          "why": "pattern 'next steps?' not found"
+         }
+        ]
+       },
+       {
+        "id": "table",
+        "desc": "The details appear as a Markdown table.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "short-sentences",
+        "desc": "At least 85% of the sentences have at most 25 words.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "one-term",
+        "desc": "Each concept has one term throughout (for example 'bug' is not also called 'defect' or 'issue', 'test' not also 'check').",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "no-empty-decisions",
+        "desc": "No empty 'Decisions needed: none' filler.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       }
+      ],
+      "runs": [
+       {
+        "run": 1,
+        "seconds": 7,
+        "turns": 6,
+        "subtype": "success",
+        "error": null,
+        "passed": 7,
+        "total": 8
+       },
+       {
+        "run": 2,
+        "seconds": 8,
+        "turns": 9,
+        "subtype": "success",
+        "error": null,
+        "passed": 7,
+        "total": 8
+       }
+      ]
+     }
+    }
+   },
+   "setup-retro": {
+    "passed": 25,
+    "total": 28,
+    "scenarios": {
+     "inventory-classify": {
+      "passed": 15,
+      "total": 16,
+      "errored_runs": 0,
+      "assertions": [
+       {
+        "id": "read-all-skills",
+        "desc": "At least 9 of the 10 skills' SKILL.md files were read.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "read-log",
+        "desc": "The friction log was read.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "uses-categories",
+        "desc": "Findings are classified with the retro's categories (for example Negation-only rule, No-op, Trigger, Overlap, Steering bloat, Mechanical rule in prose) and each has a cheapest fix.",
+        "runs": 2,
+        "fails": 1,
+        "skips": 0,
+        "failure_evidence": [
+         {
+          "run": 2,
+          "why": "| 2026-10-08 | doc-kit | \"run the lint\" again | Mechanical rule in prose | Three skills say \"run the lint\" (doc-kit, design-capture 0, structured-project-docs)."
+         }
+        ]
+       },
+       {
+        "id": "evidence-from-corrections",
+        "desc": "Findings cite the user's corrections in the friction log (by date or quote) as the primary evidence.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "review-files",
+        "desc": "Review files were written under retro/.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "verdict-table",
+        "desc": "A decision table has at least 3 rows with a verdict (keep, amend, merge, remove, new, promote).",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "no-edits",
+        "desc": "No skill or preference file was edited.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "closes-log",
+        "desc": "A dated 'retro done' line was appended to the friction log.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       }
+      ],
+      "runs": [
+       {
+        "run": 1,
+        "seconds": 88,
+        "turns": 16,
+        "subtype": "success",
+        "error": null,
+        "passed": 8,
+        "total": 8
+       },
+       {
+        "run": 2,
+        "seconds": 92,
+        "turns": 11,
+        "subtype": "success",
+        "error": null,
+        "passed": 7,
+        "total": 8
+       }
+      ]
+     },
+     "playbooks-and-stale": {
+      "passed": 10,
+      "total": 12,
+      "errored_runs": 0,
+      "assertions": [
+       {
+        "id": "lists-all",
+        "desc": "Every playbook is listed with its status, runs and last_run.",
+        "runs": 2,
+        "fails": 1,
+        "skips": 0,
+        "failure_evidence": [
+         {
+          "run": 2,
+          "why": "Playbook `ocr-scans` | promote | medium | It is `current` with 4 runs, and its steps have been unchanged since run 2."
+         }
+        ]
+       },
+       {
+        "id": "ripe",
+        "desc": "The OCR playbook (current, 4 runs, steps unchanged) is classified as ripe for promotion to a skill.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "stale",
+        "desc": "The VM-image playbook (draft, one run, last run 2026-02-01) is classified as stale, with re-verify or deprecate as the fix.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "promotion-path",
+        "desc": "The promotion path is stated: the skill is drafted from the playbook's steps and the run log's gotchas after the user agrees, and the playbook then becomes deprecated with a link to the skill. The assistant does not promote on its own.",
+        "runs": 2,
+        "fails": 1,
+        "skips": 0,
+        "failure_evidence": [
+         {
+          "run": 2,
+          "why": "Promote `ocr-scans` to a skill, or turn it into a script?"
+         }
+        ]
+       },
+       {
+        "id": "no-edits",
+        "desc": "No playbook or skill file was changed.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "owner-split",
+        "desc": "The action plan separates what the user does from what Claude does.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       }
+      ],
+      "runs": [
+       {
+        "run": 1,
+        "seconds": 27,
+        "turns": 11,
+        "subtype": "success",
+        "error": null,
+        "passed": 6,
+        "total": 6
+       },
+       {
+        "run": 2,
+        "seconds": 101,
+        "turns": 10,
+        "subtype": "success",
+        "error": null,
+        "passed": 4,
+        "total": 6
+       }
+      ]
+     }
+    }
+   },
+   "structured-project-docs": {
+    "passed": 23,
+    "total": 32,
+    "scenarios": {
+     "new-tree": {
+      "passed": 12,
+      "total": 16,
+      "errored_runs": 0,
+      "assertions": [
+       {
+        "id": "proposal-first",
+        "desc": "Before creating files, the assistant proposes the tree and says why it fits this project.",
+        "runs": 2,
+        "fails": 2,
+        "skips": 0,
+        "failure_evidence": [
+         {
+          "run": 1,
+          "why": "Scaffold and lint config are in place. Next I'm writing the thesis-specific entry files and folder indexes."
+         },
+         {
+          "run": 2,
+          "why": "Setting up the thesis docs tree. I'm restoring two templates I removed by mistake, then filling in the map and running the lint."
+         }
+        ]
+       },
+       {
+        "id": "readme-start-here",
+        "desc": "README.md has a 'Start here' list.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "where-does-x-go",
+        "desc": "PROJECT_STRUCTURE.md has a 'Where does X go?' list.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "conventions-skills",
+        "desc": "A CONVENTIONS.md exists and has a 'Skills in use' table.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "glossary",
+        "desc": "A GLOSSARY.md exists.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "sized",
+        "desc": "Every created folder holds real content (no empty folders or near-empty files).",
+        "runs": 2,
+        "fails": 1,
+        "skips": 0,
+        "failure_evidence": [
+         {
+          "run": 2,
+          "why": "empty dirs: ['docs/chapters', 'docs/experiments', 'docs/literature', 'docs/playbooks', 'docs/playbooks/runs']; near-empty files: []"
+         }
+        ]
+       },
+       {
+        "id": "kebab",
+        "desc": "Added Markdown files use kebab-case names (entry files may be upper case).",
+        "runs": 2,
+        "fails": 1,
+        "skips": 0,
+        "failure_evidence": [
+         {
+          "run": 1,
+          "why": "15 added; not kebab-case: ['docs/chapters/INDEX.md', 'docs/experiments/INDEX.md', 'docs/literature/INDEX.md']"
+         }
+        ]
+       },
+       {
+        "id": "offers-lint",
+        "desc": "The reply offers doc-kit's doclint for a project of this size.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       }
+      ],
+      "runs": [
+       {
+        "run": 1,
+        "seconds": 48,
+        "turns": 10,
+        "subtype": "success",
+        "error": null,
+        "passed": 6,
+        "total": 8
+       },
+       {
+        "run": 2,
+        "seconds": 38,
+        "turns": 10,
+        "subtype": "success",
+        "error": null,
+        "passed": 6,
+        "total": 8
+       }
+      ]
+     },
+     "split-monolith": {
+      "passed": 11,
+      "total": 16,
+      "errored_runs": 0,
+      "assertions": [
+       {
+        "id": "proposal-first",
+        "desc": "Before moving any content, the assistant states the target file tree and the reasoning for it in its text.",
+        "runs": 2,
+        "fails": 2,
+        "skips": 0,
+        "failure_evidence": [
+         {
+          "run": 1,
+          "why": "Notes.md is small (22 lines), so I'm using a light tree. The two release rules contradict each other, and the 2026-10-07 ruling is newer, so it wins. I'm writing the files now."
+         },
+         {
+          "run": 2,
+          "why": "Reorganizing is nearly done: the lint reports 0 errors. I'm removing the old `notes.md` (everything in it now lives in the new files), then generating the map and re-running the lint."
+         }
+        ]
+       },
+       {
+        "id": "contradiction",
+        "desc": "The assistant reports the contradiction between the two release rules (Fridays vs no Fridays) and keeps the newer ruling (no Friday releases) or asks the user.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "kebab",
+        "desc": "Added Markdown files use kebab-case names (entry files like README may be upper case).",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "links-resolve",
+        "desc": "Every relative Markdown link in the tree resolves to an existing file.",
+        "runs": 2,
+        "fails": 1,
+        "skips": 0,
+        "failure_evidence": [
+         {
+          "run": 2,
+          "why": "28 links, broken: ['docs/templates/playbook.md -> runs/<file>.md', 'docs/templates/run-log.md -> ../<file>.md']"
+         }
+        ]
+       },
+       {
+        "id": "monolith-gone",
+        "desc": "notes.md is gone or a short pointer, and no new file exceeds 600 words.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "readme-links",
+        "desc": "README.md links to at least 3 documents.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "single-topic",
+        "desc": "Each resulting file covers one distinct topic with a descriptive name.",
+        "runs": 2,
+        "fails": 2,
+        "skips": 0,
+        "failure_evidence": [
+         {
+          "run": 1,
+          "why": "judge evidence quote not found in transcript; verdict rejected `docs/setup.md`, `docs/architecture.md`, `docs/troubleshooting.md`, `docs/release-process.md`, `docs/decisions/` one record per meeting decision"
+         },
+         {
+          "run": 2,
+          "why": "judge evidence quote not found in transcript; verdict rejected `docs/guides/setup.md` | Setup steps; `docs/guides/troubleshooting.md` | Expired session and stalled downloads; `docs/product/release-process.md` | No releases on Fridays"
+         }
+        ]
+       },
+       {
+        "id": "where-does-x-go",
+        "desc": "PROJECT_STRUCTURE.md has a 'Where does X go?' list.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       }
+      ],
+      "runs": [
+       {
+        "run": 1,
+        "seconds": 31,
+        "turns": 6,
+        "subtype": "success",
+        "error": null,
+        "passed": 6,
+        "total": 8
+       },
+       {
+        "run": 2,
+        "seconds": 40,
+        "turns": 13,
+        "subtype": "success",
+        "error": null,
+        "passed": 5,
+        "total": 8
+       }
+      ]
+     }
+    }
+   },
+   "teach": {
+    "passed": 12,
+    "total": 12,
+    "scenarios": {
+     "first-session": {
+      "passed": 12,
+      "total": 12,
+      "errored_runs": 0,
+      "assertions": [
+       {
+        "id": "checks-workspace",
+        "desc": "The assistant looked for MISSION.md or the learning records before acting.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "asks-mission",
+        "desc": "The reply asks the user why they want to learn this (the mission or goal) before teaching.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "no-lesson-yet",
+        "desc": "No lesson or reference file was created before the mission is known.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "no-reference-yet",
+        "desc": "No reference document was created.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "no-lecture",
+        "desc": "The reply does not lecture on ownership rules from the assistant's own knowledge.",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       },
+       {
+        "id": "sets-expectations",
+        "desc": "The reply tells the user how the workspace will work over several sessions (mission, lessons, references, learning records or resources).",
+        "runs": 2,
+        "fails": 0,
+        "skips": 0,
+        "failure_evidence": []
+       }
+      ],
+      "runs": [
+       {
+        "run": 1,
+        "seconds": 10,
+        "turns": 3,
+        "subtype": "success",
+        "error": null,
+        "passed": 6,
+        "total": 6
+       },
+       {
+        "run": 2,
+        "seconds": 10,
+        "turns": 3,
+        "subtype": "success",
+        "error": null,
+        "passed": 6,
+        "total": 6
+       }
+      ]
+     }
+    }
+   }
+  }
+ }
+}

@@ -1,0 +1,65 @@
+{
+ "description": "The user jumps to L3 numbers while only the vibe exists.",
+ "prompt": "Use the layered-design-facilitation skill. I'm designing a co-op heist game, no docs yet, just chat. So far all I have is the vibe: friends improvising under pressure when the plan falls apart. Let's start with lockpicking. Picking a lock should take 3.5 seconds with a 20% fail chance, and the tools should rank like this: crowbar 9, picks 6, bump key 3, drill 1 (higher is better).",
+ "assertions": [
+  {
+   "id": "states-layer",
+   "desc": "The reply names the current layer (L0 to L4).",
+   "check": "regex",
+   "target": "final",
+   "pattern": "\\bL[0-4]\\b",
+   "expect": true,
+   "flags": "i"
+  },
+  {
+   "id": "offers-moves",
+   "desc": "The reply offers both park and probe.",
+   "check": "regex",
+   "target": "final",
+   "pattern": "(?=[\\s\\S]*\\bpark)(?=[\\s\\S]*\\bprobe)",
+   "flags": "i"
+  },
+  {
+   "id": "flags-lower-layer",
+   "desc": "The reply says briefly that the numbers and ratings are lower-layer detail (L3) than where the work is.",
+   "check": "llm",
+   "negative": false
+  },
+  {
+   "id": "ordering",
+   "desc": "The tool ratings are restated as an ordering (crowbar above picks above bump key above drill, or equivalent) and the user is asked to confirm, with the raw ratings parked for L3.",
+   "check": "llm",
+   "negative": false
+  },
+  {
+   "id": "parks-numbers",
+   "desc": "3.5 seconds and the 20% fail chance are parked for later, not accepted as design rules.",
+   "check": "llm",
+   "negative": false
+  },
+  {
+   "id": "ideas-first",
+   "desc": "The reply asks for the user's ideas about the system before offering any proposals of its own, and offers no design proposals itself.",
+   "check": "llm",
+   "negative": false
+  },
+  {
+   "id": "no-new-numbers",
+   "desc": "The reply introduces no numbers beyond the user's own.",
+   "check": "py",
+   "fn": "no_new_numbers",
+   "allowed": [
+    "3.5",
+    "20",
+    "9",
+    "6"
+   ]
+  },
+  {
+   "id": "one-decision-questions",
+   "desc": "Every question in the reply asks for a single decision answerable in a sentence or by choosing among named options.",
+   "check": "llm",
+   "negative": false
+  }
+ ]
+}

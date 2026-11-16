@@ -1,0 +1,55 @@
+{
+ "description": "A new system opens with no ideas yet; the assistant should set the layer model and ask for the user's ideas first.",
+ "prompt": "Use the layered-design-facilitation skill. Let's design the 'Heat' system for my co-op heist game: how much police attention the crew attracts while they work. I have no concrete ideas written down yet. Let's start.",
+ "assertions": [
+  {
+   "id": "layer-model",
+   "desc": "The reply sketches the layer stack (L0 to L2 at least).",
+   "check": "regex",
+   "target": "final",
+   "pattern": "L0[\\s\\S]*L1[\\s\\S]*L2",
+   "flags": ""
+  },
+  {
+   "id": "states-heat-layer",
+   "desc": "The reply states that Heat starts at L0 or L1.",
+   "check": "regex",
+   "target": "final",
+   "pattern": "Heat[^\\n]{0,200}\\bL[01]\\b|\\bL[01]\\b[^\\n]{0,200}Heat",
+   "flags": "i"
+  },
+  {
+   "id": "ideas-first",
+   "desc": "The reply asks the user for their own ideas first and offers no design proposals of its own for how Heat works.",
+   "check": "llm",
+   "negative": false
+  },
+  {
+   "id": "few-questions",
+   "desc": "At most 4 question marks in the reply.",
+   "check": "count",
+   "target": "final",
+   "pattern": "\\?",
+   "max": 4
+  },
+  {
+   "id": "open-questions",
+   "desc": "Questions at this layer are open (about intent or feeling), not multiple-choice numeric options, and each asks for one decision.",
+   "check": "llm",
+   "negative": false
+  },
+  {
+   "id": "no-numbers",
+   "desc": "The reply contains no numbers other than layer labels.",
+   "check": "py",
+   "fn": "no_new_numbers",
+   "allowed": []
+  },
+  {
+   "id": "confirms-shape",
+   "desc": "The reply asks the user to confirm or adjust the proposed layer shape before going on.",
+   "check": "llm",
+   "negative": false
+  }
+ ]
+}

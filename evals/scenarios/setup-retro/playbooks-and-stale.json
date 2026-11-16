@@ -1,0 +1,45 @@
+{
+ "description": "Playbook triage: one ripe, one stale; no edits without the user.",
+ "prompt": "Use the setup-retro skill. Focus on my playbooks in docs/playbooks/ (the skills are in .claude/skills). Report in chat only and do not write files.",
+ "fixture": {
+  "dir": "retro-setup"
+ },
+ "assertions": [
+  {
+   "id": "lists-all",
+   "desc": "Every playbook is listed with its status, runs and last_run.",
+   "check": "llm",
+   "negative": false
+  },
+  {
+   "id": "ripe",
+   "desc": "The OCR playbook (current, 4 runs, steps unchanged) is classified as ripe for promotion to a skill.",
+   "check": "llm",
+   "negative": false
+  },
+  {
+   "id": "stale",
+   "desc": "The VM-image playbook (draft, one run, last run 2026-02-01) is classified as stale, with re-verify or deprecate as the fix.",
+   "check": "llm",
+   "negative": false
+  },
+  {
+   "id": "promotion-path",
+   "desc": "The promotion path is stated: the skill is drafted from the playbook's steps and the run log's gotchas after the user agrees, and the playbook then becomes deprecated with a link to the skill. The assistant does not promote on its own.",
+   "check": "llm",
+   "negative": false
+  },
+  {
+   "id": "no-edits",
+   "desc": "No playbook or skill file was changed.",
+   "check": "file_unchanged",
+   "path": "*"
+  },
+  {
+   "id": "owner-split",
+   "desc": "The action plan separates what the user does from what Claude does.",
+   "check": "llm",
+   "negative": false
+  }
+ ]
+}

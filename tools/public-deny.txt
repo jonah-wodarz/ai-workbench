@@ -1,0 +1,15 @@
+# Terms that must not appear in a published skill folder. One regex per line.
+# Used by tools/export_public.py through check_skills.py --deny.
+
+# the owner and private places
+(?i)jonah|wodarz
+(?i)harness-private|ai-workbench|RebalancedMC
+(?i)\b[A-Z]:\\(jonah|Users)
+[\w.+-]+@[\w-]+\.[a-z]{2,}
+
+# projects the skills grew out of
+(?i)wayfarer|minecraft|chinesisch
+
+# German trigger phrases and German text belong in the hook router's pattern file
+[äöüÄÖÜß]
+(?i)\b(für|oder|nicht|bitte|mach mir|trag das|halt das fest|frag mich|befrag mich|ordnerstruktur|doku|entscheidung(en)?|probeklausur|karteikarten|fass zusammen|als interaktive seite)\b

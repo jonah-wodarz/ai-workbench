@@ -1,0 +1,56 @@
+{
+ "description": "The user does not know how to say what they want; recommendations would plant the assistant's framing.",
+ "prompt": "Use the interrogate skill. Help me figure out what I want to say in an email to Prof. Weber. I'd like her to supervise my bachelor thesis about frameworks for AI-assisted design work, but I'm not sure how to frame it or what to ask for.",
+ "assertions": [
+  {
+   "id": "names-mode",
+   "desc": "The first round names the mode (Articulate).",
+   "check": "regex",
+   "target": "final",
+   "pattern": "articulate",
+   "expect": true,
+   "flags": "i"
+  },
+  {
+   "id": "no-recommendation",
+   "desc": "No question carries a recommended answer or a pick; the assistant does not favour one framing.",
+   "check": "llm",
+   "negative": true
+  },
+  {
+   "id": "contrasting-options",
+   "desc": "Options are contrasting, or the user's own words are reflected back, without favouring a phrasing.",
+   "check": "llm",
+   "negative": false
+  },
+  {
+   "id": "maps-the-tree",
+   "desc": "The questions cover at least three of: intent, audience, the one key point, what the reader should do or think afterwards, constraints (tone, length, channel).",
+   "check": "llm",
+   "negative": false
+  },
+  {
+   "id": "max-four",
+   "desc": "At most 4 questions in the round, one concept per question, none depending on another in the same round.",
+   "check": "llm",
+   "negative": false
+  },
+  {
+   "id": "no-draft",
+   "desc": "No email draft is written yet.",
+   "check": "regex",
+   "target": "final",
+   "pattern": "^\\s*(subject|betreff)\\s*:|dear prof|sehr geehrte",
+   "expect": false,
+   "flags": "im"
+  },
+  {
+   "id": "asks",
+   "desc": "The reply ends with questions for the user.",
+   "check": "count",
+   "target": "final",
+   "pattern": "\\?",
+   "min": 1
+  }
+ ]
+}

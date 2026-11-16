@@ -1,0 +1,46 @@
+{
+  "title": "Checkout rewrite",
+  "date": "2026-11-14",
+  "source": "git diff v2.3..HEAD, test report ci/run-812",
+  "task": "Move the checkout from the session store to signed tokens and keep every existing integration working.",
+  "bottom_line": "The rewrite is complete and all tests pass. One behaviour changed on purpose and needs your sign-off before release.",
+  "ask": "Review the two flagged changes and answer D1; the release waits for both.",
+  "actions": [
+    {"id": "A1", "kind": "review", "text": "Check the reversed session rule.", "ref": "C3"},
+    {"id": "A2", "kind": "decide", "text": "Choose how long a guest cart is kept.", "ref": "D1"},
+    {"id": "A3", "kind": "do", "text": "Rotate the signing key in the staging vault before the release."}
+  ],
+  "changes": {
+    "checkpoint": "release v2.3",
+    "areas": [{"id": "api", "label": "API"}, {"id": "auth", "label": "Sessions"}],
+    "items": [
+      {"id": "C1", "area": "api", "kind": "changed", "title": "Request timeout raised", "why": "Token checks call the key service once per cold start.", "before": "Requests time out after 10 seconds.", "after": "Requests time out after 30 seconds."},
+      {"id": "C2", "area": "api", "kind": "added", "title": "Retry on 503", "after": "A request that returns 503 is retried twice."},
+      {"id": "C3", "area": "auth", "kind": "reversed", "review": true, "title": "Sessions no longer expire on idle", "why": "A signed token cannot be revoked by the server between requests.", "before": "A session ends after 15 idle minutes.", "after": "A session lasts until the token expires after 12 hours."},
+      {"id": "C4", "area": "auth", "kind": "conflict", "review": true, "title": "Token lifetime contradicts the audit rule", "before_label": "New rule", "after_label": "Audit rule", "before": "A token is valid for 12 hours.", "after": "Every session must end within 8 hours."}
+    ]
+  },
+  "results": [
+    {"id": "R1", "heading": "Tests and load", "summary": "Median latency dropped because the session lookup is gone; the slowest requests are unchanged.",
+     "blocks": [
+       {"type": "stats", "items": [
+         {"label": "Tests passing", "value": "412 / 412", "tone": "good"},
+         {"label": "Median latency", "value": "84 ms", "note": "was 131 ms", "tone": "good"},
+         {"label": "p99 latency", "value": "910 ms", "note": "was 905 ms"},
+         {"label": "Open defects", "value": "1", "note": "see C4", "tone": "warn"}]},
+       {"type": "chart", "kind": "bar", "title": "Median latency by endpoint", "unit": "ms", "labels": ["Cart", "Pay", "Confirm"],
+        "series": [{"name": "v2.3", "values": [120, 160, 113]}, {"name": "Rewrite", "values": [70, 118, 64]}]}
+     ]},
+    {"id": "R2", "heading": "Integrations", "blocks": [
+       {"type": "table", "columns": ["Integration", "Status", "Note"], "rows": [
+         ["Payment provider", "Works unchanged", "Contract tests pass"],
+         ["Warehouse export", "Works unchanged", "Nightly run verified"],
+         ["Partner API v1", "Needs a header", "Clients send the token as `Authorization`"]]}
+     ]}
+  ],
+  "decisions": [
+    {"id": "D1", "question": "How long is a guest cart kept?", "context": "Carts used to live in the session. They now need a lifetime of their own.",
+     "options": ["24 hours", "7 days", "Until the browser is closed"], "recommended": 1}
+  ],
+  "next_steps": ["Resolve C4 with the audit owner.", "Release to staging once A1 to A3 are done.", "Remove the session store one release later."]
+}

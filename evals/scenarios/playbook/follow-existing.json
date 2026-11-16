@@ -1,0 +1,84 @@
+{
+ "description": "The same task again with a draft playbook present: follow and refine it.",
+ "prompt": "Use the playbook skill. The new month's export is in data/export.csv. Convert it to a Markdown table with tools/convert.py, output to out/.",
+ "fixture": {
+  "dir": [
+   "convert-task",
+   "convert-task-existing"
+  ]
+ },
+ "max_turns": 20,
+ "assertions": [
+  {
+   "id": "reads-first",
+   "desc": "The existing playbook was read before convert.py was first run.",
+   "check": "order",
+   "first": {
+    "tools": [
+     "Read",
+     "Bash",
+     "Grep"
+    ],
+    "input_regex": "csv-to-markdown|docs/playbooks"
+   },
+   "then": {
+    "tools": [
+     "Bash"
+    ],
+    "input_regex": "convert\\.py"
+   }
+  },
+  {
+   "id": "first-try-right",
+   "desc": "The first convert.py call already has OUT_DIR and the encoding flag.",
+   "check": "py",
+   "fn": "first_convert_ok"
+  },
+  {
+   "id": "says-follows",
+   "desc": "The assistant says it found and is following the existing playbook.",
+   "check": "llm",
+   "negative": false
+  },
+  {
+   "id": "runs-2",
+   "desc": "Front matter now says runs: 2 and status: current.",
+   "check": "regex",
+   "target": "playbook",
+   "pattern": "^---[\\s\\S]*?runs:\\s*2[\\s\\S]*?status:\\s*current[\\s\\S]*?---|^---[\\s\\S]*?status:\\s*current[\\s\\S]*?runs:\\s*2[\\s\\S]*?---",
+   "expect": true,
+   "flags": "i"
+  },
+  {
+   "id": "no-new-playbook",
+   "desc": "No second playbook file was created.",
+   "check": "py",
+   "fn": "no_added",
+   "path": "docs/playbooks/*.md"
+  },
+  {
+   "id": "runlog-appended",
+   "desc": "The run log has a Run 2 entry and still holds Run 1.",
+   "check": "regex",
+   "target": "runlog",
+   "pattern": "(?=[\\s\\S]*Run 1)(?=[\\s\\S]*Run 2)",
+   "expect": true,
+   "flags": "i"
+  },
+  {
+   "id": "report-line",
+   "desc": "The reply ends with 'Playbook updated: <name> (run 2).'",
+   "check": "regex",
+   "target": "final",
+   "pattern": "Playbook updated:[^\\n]*\\(run 2\\)",
+   "expect": true,
+   "flags": "i"
+  },
+  {
+   "id": "output-exists",
+   "desc": "out/export.md was produced.",
+   "check": "file_exists",
+   "path": "out/export.md"
+  }
+ ]
+}

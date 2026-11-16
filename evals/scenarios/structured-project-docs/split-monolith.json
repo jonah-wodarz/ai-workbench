@@ -1,0 +1,62 @@
+{
+ "description": "A 350-word notes.md covers six topics and contains two contradictory release rules.",
+ "prompt": "Use the structured-project-docs skill. Everything about my project is in notes.md and it has become a mess. Reorganize the documentation properly. I'm offline, so go ahead without waiting for my confirmation.",
+ "fixture": {
+  "dir": "messy-notes"
+ },
+ "assertions": [
+  {
+   "id": "proposal-first",
+   "desc": "Before moving any content, the assistant states the target file tree and the reasoning for it in its text.",
+   "check": "llm",
+   "negative": false
+  },
+  {
+   "id": "contradiction",
+   "desc": "The assistant reports the contradiction between the two release rules (Fridays vs no Fridays) and keeps the newer ruling (no Friday releases) or asks the user.",
+   "check": "llm",
+   "negative": false
+  },
+  {
+   "id": "kebab",
+   "desc": "Added Markdown files use kebab-case names (entry files like README may be upper case).",
+   "check": "py",
+   "fn": "kebab_names"
+  },
+  {
+   "id": "links-resolve",
+   "desc": "Every relative Markdown link in the tree resolves to an existing file.",
+   "check": "py",
+   "fn": "links_resolve"
+  },
+  {
+   "id": "monolith-gone",
+   "desc": "notes.md is gone or a short pointer, and no new file exceeds 600 words.",
+   "check": "py",
+   "fn": "monolith_gone"
+  },
+  {
+   "id": "readme-links",
+   "desc": "README.md links to at least 3 documents.",
+   "check": "count",
+   "target": "file:README.md",
+   "pattern": "\\]\\((?!https?:)[^)]+\\.md",
+   "min": 3
+  },
+  {
+   "id": "single-topic",
+   "desc": "Each resulting file covers one distinct topic with a descriptive name.",
+   "check": "llm",
+   "negative": false
+  },
+  {
+   "id": "where-does-x-go",
+   "desc": "PROJECT_STRUCTURE.md has a 'Where does X go?' list.",
+   "check": "regex",
+   "target": "file:PROJECT_STRUCTURE.md",
+   "pattern": "where does",
+   "expect": true,
+   "flags": "i"
+  }
+ ]
+}

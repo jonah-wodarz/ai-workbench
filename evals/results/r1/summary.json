@@ -1,0 +1,1340 @@
+{
+ "trigger": {
+  "runs_per_query": 2,
+  "window": 4,
+  "sets": [
+   "train"
+  ],
+  "n_runs": 108,
+  "isolation_violations": 0,
+  "errors": 0,
+  "bundled_skills_visible": [
+   "artifact-capabilities",
+   "artifact-diagramming",
+   "batch",
+   "claude-api",
+   "code-review",
+   "dataviz",
+   "debug",
+   "design",
+   "design-sync",
+   "doctor",
+   "explain-usage",
+   "fewer-permission-prompts",
+   "loop",
+   "plugin-authoring",
+   "run",
+   "run-skill-generator",
+   "session-start-hook",
+   "setup-claude",
+   "simplify",
+   "slides",
+   "update-config",
+   "verify",
+   "whiteboard"
+  ],
+  "skills": {
+   "design-capture": {
+    "should": {
+     "n": 16,
+     "hits": 16,
+     "confusion": {},
+     "win_hits": 16,
+     "win_confusion": {},
+     "skill_at": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    "near_miss": {
+     "n": 6,
+     "false_hits": 0,
+     "instead_hits": 4,
+     "instead_n": 6,
+     "fired": {
+      "layered-design-facilitation": 1,
+      "doc-kit": 2,
+      "report-style": 1
+     },
+     "win_false_hits": 0,
+     "win_fired": {
+      "layered-design-facilitation": 1,
+      "doc-kit": 2,
+      "report-style": 2
+     }
+    }
+   },
+   "doc-kit": {
+    "should": {
+     "n": 16,
+     "hits": 16,
+     "confusion": {},
+     "win_hits": 16,
+     "win_confusion": {},
+     "skill_at": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    "near_miss": {
+     "n": 6,
+     "false_hits": 0,
+     "instead_hits": 2,
+     "instead_n": 2,
+     "fired": {
+      "structured-project-docs": 2
+     },
+     "win_false_hits": 0,
+     "win_fired": {
+      "structured-project-docs": 2
+     }
+    }
+   },
+   "handoff": {
+    "should": {
+     "n": 16,
+     "hits": 14,
+     "confusion": {
+      "tool:Bash": 2
+     },
+     "win_hits": 16,
+     "win_confusion": {},
+     "skill_at": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      2,
+      2,
+      1,
+      1
+     ]
+    },
+    "near_miss": {
+     "n": 6,
+     "false_hits": 0,
+     "instead_hits": 0,
+     "instead_n": 2,
+     "fired": {},
+     "win_false_hits": 0,
+     "win_fired": {
+      "report-style": 1
+     }
+    }
+   },
+   "report-style": {
+    "should": {
+     "n": 16,
+     "hits": 8,
+     "confusion": {
+      "tool:Bash": 6,
+      "none": 2
+     },
+     "win_hits": 10,
+     "win_confusion": {
+      "none": 2,
+      "tool:Bash": 4
+     },
+     "skill_at": [
+      2,
+      2,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    "near_miss": {
+     "n": 6,
+     "false_hits": 0,
+     "instead_hits": 0,
+     "instead_n": 0,
+     "fired": {},
+     "win_false_hits": 0,
+     "win_fired": {}
+    }
+   },
+   "structured-project-docs": {
+    "should": {
+     "n": 16,
+     "hits": 14,
+     "confusion": {
+      "doc-kit": 2
+     },
+     "win_hits": 14,
+     "win_confusion": {
+      "doc-kit": 2
+     },
+     "skill_at": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    "near_miss": {
+     "n": 4,
+     "false_hits": 0,
+     "instead_hits": 1,
+     "instead_n": 4,
+     "fired": {
+      "report-style": 1
+     },
+     "win_false_hits": 0,
+     "win_fired": {
+      "report-style": 2
+     }
+    }
+   }
+  },
+  "holdout_skills": {},
+  "not_in_ref": [],
+  "aborted": "usage limit reached; partial results",
+  "unrelated": {
+   "n": 0,
+   "false_hits": 0,
+   "win_false_hits": 0,
+   "by_skill": {}
+  },
+  "explicit": {},
+  "queries": [
+   {
+    "id": "b901baf9",
+    "set": "train",
+    "kind": "should",
+    "skill": "design-capture",
+    "instead": null,
+    "query": "ok so for the stamina system I think sprinting should drain faster than swimming, bows can't be fired while sprinting anymore, and rename 'hunting bow' to 'shortbow' everywhere. also maybe a grapple hook someday. can you get all that into the design docs",
+    "outcomes": [
+     "design-capture",
+     "design-capture"
+    ],
+    "window_outcomes": [
+     "design-capture",
+     "design-capture"
+    ],
+    "skill_at": [
+     1,
+     1
+    ]
+   },
+   {
+    "id": "fcc93efd",
+    "set": "train",
+    "kind": "should",
+    "skill": "design-capture",
+    "instead": null,
+    "query": "Here are my answers to your questions from last time: 1) yes, arrows are consumed on impact, 2) heavy armour slows the draw, 3) no crafting during combat. Please update the specs in docs/design accordingly.",
+    "outcomes": [
+     "design-capture",
+     "design-capture"
+    ],
+    "window_outcomes": [
+     "design-capture",
+     "design-capture"
+    ],
+    "skill_at": [
+     1,
+     1
+    ]
+   },
+   {
+    "id": "5b23637f",
+    "set": "train",
+    "kind": "should",
+    "skill": "design-capture",
+    "instead": null,
+    "query": "I changed my mind on permadeath - death now costs your inventory but not the character. Put that in the design docs and fix whatever else it affects.",
+    "outcomes": [
+     "design-capture",
+     "design-capture"
+    ],
+    "window_outcomes": [
+     "design-capture",
+     "design-capture"
+    ],
+    "skill_at": [
+     1,
+     1
+    ]
+   },
+   {
+    "id": "821b5ff7",
+    "set": "train",
+    "kind": "should",
+    "skill": "design-capture",
+    "instead": null,
+    "query": "Brain dump: faction reputation should decay over time but only for the minor factions, and vendor prices must depend on rep somehow. Add it to docs/design/factions.md, I'll refine later.",
+    "outcomes": [
+     "design-capture",
+     "design-capture"
+    ],
+    "window_outcomes": [
+     "design-capture",
+     "design-capture"
+    ],
+    "skill_at": [
+     1,
+     1
+    ]
+   },
+   {
+    "id": "c425df64",
+    "set": "train",
+    "kind": "should",
+    "skill": "design-capture",
+    "instead": null,
+    "query": "Hier meine Entscheidungen zum Crafting-System: Rezepte werden durch Ausprobieren entdeckt, nicht gekauft, und Werkbänke gibt es in drei Stufen. Trag das bitte in die Design-Docs ein.",
+    "outcomes": [
+     "design-capture",
+     "design-capture"
+    ],
+    "window_outcomes": [
+     "design-capture",
+     "design-capture"
+    ],
+    "skill_at": [
+     1,
+     1
+    ]
+   },
+   {
+    "id": "d897236b",
+    "set": "train",
+    "kind": "should",
+    "skill": "design-capture",
+    "instead": null,
+    "query": "Can you record these decisions in the project docs? We settled that quests never expire, the map starts fully fogged and companions can't die.",
+    "outcomes": [
+     "design-capture",
+     "design-capture"
+    ],
+    "window_outcomes": [
+     "design-capture",
+     "design-capture"
+    ],
+    "skill_at": [
+     1,
+     1
+    ]
+   },
+   {
+    "id": "feefaedb",
+    "set": "train",
+    "kind": "should",
+    "skill": "design-capture",
+    "instead": null,
+    "query": "we talked about this yesterday: fall damage is out, climbing speed depends on gear weight, and the whole hunger thing goes to later. document it in the design tree please",
+    "outcomes": [
+     "design-capture",
+     "design-capture"
+    ],
+    "window_outcomes": [
+     "design-capture",
+     "design-capture"
+    ],
+    "skill_at": [
+     1,
+     1
+    ]
+   },
+   {
+    "id": "77e5681e",
+    "set": "train",
+    "kind": "should",
+    "skill": "design-capture",
+    "instead": null,
+    "query": "Answers to your open questions in ARC-Q2 and ARC-Q3: no to both, bow durability is its own system. Update the spec and whatever else changes.",
+    "outcomes": [
+     "design-capture",
+     "design-capture"
+    ],
+    "window_outcomes": [
+     "design-capture",
+     "design-capture"
+    ],
+    "skill_at": [
+     1,
+     1
+    ]
+   },
+   {
+    "id": "036788a2",
+    "set": "train",
+    "kind": "near_miss",
+    "skill": "design-capture",
+    "instead": "layered-design-facilitation",
+    "query": "What's a good way to think about balancing a stamina system in a survival game? Just brainstorming, nothing needs writing down.",
+    "outcomes": [
+     "layered-design-facilitation",
+     "none"
+    ],
+    "window_outcomes": [
+     "layered-design-facilitation",
+     "none"
+    ],
+    "skill_at": [
+     1,
+     null
+    ]
+   },
+   {
+    "id": "6486940d",
+    "set": "train",
+    "kind": "near_miss",
+    "skill": "design-capture",
+    "instead": "doc-kit",
+    "query": "The doc linter complains about broken links in docs/design/combat.md, can you fix those?",
+    "outcomes": [
+     "doc-kit",
+     "doc-kit"
+    ],
+    "window_outcomes": [
+     "doc-kit",
+     "doc-kit"
+    ],
+    "skill_at": [
+     1,
+     1
+    ]
+   },
+   {
+    "id": "a09687c1",
+    "set": "train",
+    "kind": "near_miss",
+    "skill": "design-capture",
+    "instead": "report-style",
+    "query": "Give my supervisor a one-page overview of the design decisions in docs/design so far.",
+    "outcomes": [
+     "tool:Bash",
+     "report-style"
+    ],
+    "window_outcomes": [
+     "report-style",
+     "report-style"
+    ],
+    "skill_at": [
+     2,
+     1
+    ]
+   },
+   {
+    "id": "189c2c62",
+    "set": "train",
+    "kind": "should",
+    "skill": "doc-kit",
+    "instead": null,
+    "query": "Set up doclint in my docs repo with a pre-commit hook.",
+    "outcomes": [
+     "doc-kit",
+     "doc-kit"
+    ],
+    "window_outcomes": [
+     "doc-kit",
+     "doc-kit"
+    ],
+    "skill_at": [
+     1,
+     1
+    ]
+   },
+   {
+    "id": "47f03e78",
+    "set": "train",
+    "kind": "should",
+    "skill": "doc-kit",
+    "instead": null,
+    "query": "I want a linter for my Markdown design docs that checks front matter, broken links and retired names. Can you set that up?",
+    "outcomes": [
+     "doc-kit",
+     "doc-kit"
+    ],
+    "window_outcomes": [
+     "doc-kit",
+     "doc-kit"
+    ],
+    "skill_at": [
+     1,
+     1
+    ]
+   },
+   {
+    "id": "efb5de17",
+    "set": "train",
+    "kind": "should",
+    "skill": "doc-kit",
+    "instead": null,
+    "query": "Add a pre-commit hook so my docs get checked before every commit.",
+    "outcomes": [
+     "doc-kit",
+     "doc-kit"
+    ],
+    "window_outcomes": [
+     "doc-kit",
+     "doc-kit"
+    ],
+    "skill_at": [
+     1,
+     1
+    ]
+   },
+   {
+    "id": "598f7c51",
+    "set": "train",
+    "kind": "should",
+    "skill": "doc-kit",
+    "instead": null,
+    "query": "Run the docs lint and tell me what is failing.",
+    "outcomes": [
+     "doc-kit",
+     "doc-kit"
+    ],
+    "window_outcomes": [
+     "doc-kit",
+     "doc-kit"
+    ],
+    "skill_at": [
+     1,
+     1
+    ]
+   },
+   {
+    "id": "86aa123e",
+    "set": "train",
+    "kind": "should",
+    "skill": "doc-kit",
+    "instead": null,
+    "query": "Can you migrate my existing doc tree onto checked conventions, with a config file for the checker?",
+    "outcomes": [
+     "doc-kit",
+     "doc-kit"
+    ],
+    "window_outcomes": [
+     "doc-kit",
+     "doc-kit"
+    ],
+    "skill_at": [
+     1,
+     1
+    ]
+   },
+   {
+    "id": "c99857e0",
+    "set": "train",
+    "kind": "should",
+    "skill": "doc-kit",
+    "instead": null,
+    "query": "Richte mir ein neues Doku-Projekt ein, mit Lint und Vorlagen für die Einstiegsdateien.",
+    "outcomes": [
+     "doc-kit",
+     "doc-kit"
+    ],
+    "window_outcomes": [
+     "doc-kit",
+     "doc-kit"
+    ],
+    "skill_at": [
+     1,
+     1
+    ]
+   },
+   {
+    "id": "87678ed3",
+    "set": "train",
+    "kind": "should",
+    "skill": "doc-kit",
+    "instead": null,
+    "query": "I need a new check in doclint that flags first person in specs. How do I extend it?",
+    "outcomes": [
+     "doc-kit",
+     "doc-kit"
+    ],
+    "window_outcomes": [
+     "doc-kit",
+     "doc-kit"
+    ],
+    "skill_at": [
+     1,
+     1
+    ]
+   },
+   {
+    "id": "d7cb6086",
+    "set": "train",
+    "kind": "should",
+    "skill": "doc-kit",
+    "instead": null,
+    "query": "Bootstrap a design docs project with a glossary, a conventions file, a system map and an automatic checker.",
+    "outcomes": [
+     "doc-kit",
+     "doc-kit"
+    ],
+    "window_outcomes": [
+     "doc-kit",
+     "doc-kit"
+    ],
+    "skill_at": [
+     1,
+     1
+    ]
+   },
+   {
+    "id": "fe823d93",
+    "set": "train",
+    "kind": "near_miss",
+    "skill": "doc-kit",
+    "instead": "structured-project-docs",
+    "query": "How should I organize my docs folder? It's grown organically and I can't find anything.",
+    "outcomes": [
+     "structured-project-docs",
+     "structured-project-docs"
+    ],
+    "window_outcomes": [
+     "structured-project-docs",
+     "structured-project-docs"
+    ],
+    "skill_at": [
+     1,
+     1
+    ]
+   },
+   {
+    "id": "b19cab87",
+    "set": "train",
+    "kind": "near_miss",
+    "skill": "doc-kit",
+    "instead": null,
+    "query": "Run ruff on src/ and fix the warnings.",
+    "outcomes": [
+     "tool:Bash",
+     "tool:Bash"
+    ],
+    "window_outcomes": [
+     "tool:Bash",
+     "tool:Bash"
+    ],
+    "skill_at": [
+     null,
+     null
+    ]
+   },
+   {
+    "id": "6698bf66",
+    "set": "train",
+    "kind": "near_miss",
+    "skill": "doc-kit",
+    "instead": null,
+    "query": "Check this paragraph for spelling and grammar mistakes.",
+    "outcomes": [
+     "none",
+     "none"
+    ],
+    "window_outcomes": [
+     "none",
+     "none"
+    ],
+    "skill_at": [
+     null,
+     null
+    ]
+   },
+   {
+    "id": "8f8ec46a",
+    "set": "train",
+    "kind": "should",
+    "skill": "handoff",
+    "instead": null,
+    "query": "Give me a handoff page for what we decided today so I can review it tomorrow.",
+    "outcomes": [
+     "handoff",
+     "handoff"
+    ],
+    "window_outcomes": [
+     "handoff",
+     "handoff"
+    ],
+    "skill_at": [
+     1,
+     1
+    ]
+   },
+   {
+    "id": "68558900",
+    "set": "train",
+    "kind": "should",
+    "skill": "handoff",
+    "instead": null,
+    "query": "Show me the state of this project visually instead of a wall of text.",
+    "outcomes": [
+     "handoff",
+     "handoff"
+    ],
+    "window_outcomes": [
+     "handoff",
+     "handoff"
+    ],
+    "skill_at": [
+     1,
+     1
+    ]
+   },
+   {
+    "id": "4362028e",
+    "set": "train",
+    "kind": "should",
+    "skill": "handoff",
+    "instead": null,
+    "query": "I have six open decisions on the caching design. Put them on a page where I can pick options and copy my answers back.",
+    "outcomes": [
+     "handoff",
+     "handoff"
+    ],
+    "window_outcomes": [
+     "handoff",
+     "handoff"
+    ],
+    "skill_at": [
+     1,
+     1
+    ]
+   },
+   {
+    "id": "ce70eabf",
+    "set": "train",
+    "kind": "should",
+    "skill": "handoff",
+    "instead": null,
+    "query": "Make a visual summary of what changed in the spec since last week, with before and after.",
+    "outcomes": [
+     "handoff",
+     "handoff"
+    ],
+    "window_outcomes": [
+     "handoff",
+     "handoff"
+    ],
+    "skill_at": [
+     1,
+     1
+    ]
+   },
+   {
+    "id": "bf60f3fe",
+    "set": "train",
+    "kind": "should",
+    "skill": "handoff",
+    "instead": null,
+    "query": "Erklär mir das Zwei-Phasen-Commit-Protokoll visuell, Schritt für Schritt, als interaktive Seite.",
+    "outcomes": [
+     "handoff",
+     "handoff"
+    ],
+    "window_outcomes": [
+     "handoff",
+     "handoff"
+    ],
+    "skill_at": [
+     1,
+     1
+    ]
+   },
+   {
+    "id": "d8aa3325",
+    "set": "train",
+    "kind": "should",
+    "skill": "handoff",
+    "instead": null,
+    "query": "Build a checkpoint page for this session: what changed, what needs my decision.",
+    "outcomes": [
+     "handoff",
+     "handoff"
+    ],
+    "window_outcomes": [
+     "handoff",
+     "handoff"
+    ],
+    "skill_at": [
+     1,
+     1
+    ]
+   },
+   {
+    "id": "938c9f06",
+    "set": "train",
+    "kind": "should",
+    "skill": "handoff",
+    "instead": null,
+    "query": "Can you turn this dependency list into a map I can click through to see what depends on what?",
+    "outcomes": [
+     "tool:Bash",
+     "tool:Bash"
+    ],
+    "window_outcomes": [
+     "handoff",
+     "handoff"
+    ],
+    "skill_at": [
+     2,
+     2
+    ]
+   },
+   {
+    "id": "689daa3d",
+    "set": "train",
+    "kind": "should",
+    "skill": "handoff",
+    "instead": null,
+    "query": "Explain how our build pipeline works as a visual explainer with diagrams, not Markdown.",
+    "outcomes": [
+     "handoff",
+     "handoff"
+    ],
+    "window_outcomes": [
+     "handoff",
+     "handoff"
+    ],
+    "skill_at": [
+     1,
+     1
+    ]
+   },
+   {
+    "id": "56cd3c9e",
+    "set": "train",
+    "kind": "near_miss",
+    "skill": "handoff",
+    "instead": null,
+    "query": "Summarize the last commit in two sentences.",
+    "outcomes": [
+     "tool:Bash",
+     "tool:Bash"
+    ],
+    "window_outcomes": [
+     "tool:Bash",
+     "tool:Bash"
+    ],
+    "skill_at": [
+     null,
+     null
+    ]
+   },
+   {
+    "id": "f60f0646",
+    "set": "train",
+    "kind": "near_miss",
+    "skill": "handoff",
+    "instead": "report-style",
+    "query": "Write a short report on the load test results for the team.",
+    "outcomes": [
+     "tool:Bash",
+     "tool:Bash"
+    ],
+    "window_outcomes": [
+     "report-style",
+     "tool:Bash"
+    ],
+    "skill_at": [
+     2,
+     null
+    ]
+   },
+   {
+    "id": "34e93781",
+    "set": "train",
+    "kind": "near_miss",
+    "skill": "handoff",
+    "instead": null,
+    "query": "What does a two-phase commit do? Short answer please.",
+    "outcomes": [
+     "none",
+     "none"
+    ],
+    "window_outcomes": [
+     "none",
+     "none"
+    ],
+    "skill_at": [
+     null,
+     null
+    ]
+   },
+   {
+    "id": "2eaa5d19",
+    "set": "train",
+    "kind": "should",
+    "skill": "report-style",
+    "instead": null,
+    "query": "Write a short report on the results of our load tests for the team.",
+    "outcomes": [
+     "tool:Bash",
+     "tool:Bash"
+    ],
+    "window_outcomes": [
+     "report-style",
+     "report-style"
+    ],
+    "skill_at": [
+     2,
+     2
+    ]
+   },
+   {
+    "id": "54b924f1",
+    "set": "train",
+    "kind": "should",
+    "skill": "report-style",
+    "instead": null,
+    "query": "Summarize what you just did in this refactor for me.",
+    "outcomes": [
+     "none",
+     "none"
+    ],
+    "window_outcomes": [
+     "none",
+     "none"
+    ],
+    "skill_at": [
+     null,
+     null
+    ]
+   },
+   {
+    "id": "712d1ea5",
+    "set": "train",
+    "kind": "should",
+    "skill": "report-style",
+    "instead": null,
+    "query": "Schreib mir einen Bericht über die Ergebnisse meines Praktikumsversuchs, für meinen Betreuer.",
+    "outcomes": [
+     "report-style",
+     "report-style"
+    ],
+    "window_outcomes": [
+     "report-style",
+     "report-style"
+    ],
+    "skill_at": [
+     1,
+     1
+    ]
+   },
+   {
+    "id": "16532410",
+    "set": "train",
+    "kind": "should",
+    "skill": "report-style",
+    "instead": null,
+    "query": "Draft the README for this repo. It's a CLI tool that renames photos by EXIF date.",
+    "outcomes": [
+     "report-style",
+     "report-style"
+    ],
+    "window_outcomes": [
+     "report-style",
+     "report-style"
+    ],
+    "skill_at": [
+     1,
+     1
+    ]
+   },
+   {
+    "id": "66c9465a",
+    "set": "train",
+    "kind": "should",
+    "skill": "report-style",
+    "instead": null,
+    "query": "Write up the review of the three candidate databases we looked at, comparing latency, cost and ops effort.",
+    "outcomes": [
+     "tool:Bash",
+     "tool:Bash"
+    ],
+    "window_outcomes": [
+     "tool:Bash",
+     "tool:Bash"
+    ],
+    "skill_at": [
+     null,
+     null
+    ]
+   },
+   {
+    "id": "a7df4915",
+    "set": "train",
+    "kind": "should",
+    "skill": "report-style",
+    "instead": null,
+    "query": "Can you write a proposal document for adopting trunk-based development in our student project?",
+    "outcomes": [
+     "report-style",
+     "report-style"
+    ],
+    "window_outcomes": [
+     "report-style",
+     "report-style"
+    ],
+    "skill_at": [
+     1,
+     1
+    ]
+   },
+   {
+    "id": "6965b831",
+    "set": "train",
+    "kind": "should",
+    "skill": "report-style",
+    "instead": null,
+    "query": "I need a one-pager for my supervisor on where the thesis stands.",
+    "outcomes": [
+     "report-style",
+     "report-style"
+    ],
+    "window_outcomes": [
+     "report-style",
+     "report-style"
+    ],
+    "skill_at": [
+     1,
+     1
+    ]
+   },
+   {
+    "id": "96deb1f6",
+    "set": "train",
+    "kind": "should",
+    "skill": "report-style",
+    "instead": null,
+    "query": "Create a write-up of the security lab findings: 4 vulnerabilities, severity and fix for each.",
+    "outcomes": [
+     "tool:Bash",
+     "tool:Bash"
+    ],
+    "window_outcomes": [
+     "tool:Bash",
+     "tool:Bash"
+    ],
+    "skill_at": [
+     null,
+     null
+    ]
+   },
+   {
+    "id": "e3c3ffa1",
+    "set": "train",
+    "kind": "near_miss",
+    "skill": "report-style",
+    "instead": null,
+    "query": "Quick question: what's the difference between a mutex and a semaphore?",
+    "outcomes": [
+     "none",
+     "none"
+    ],
+    "window_outcomes": [
+     "none",
+     "none"
+    ],
+    "skill_at": [
+     null,
+     null
+    ]
+   },
+   {
+    "id": "67843180",
+    "set": "train",
+    "kind": "near_miss",
+    "skill": "report-style",
+    "instead": null,
+    "query": "Fix the typo in line 12 of README.md.",
+    "outcomes": [
+     "tool:Read",
+     "tool:Read"
+    ],
+    "window_outcomes": [
+     "tool:Read",
+     "tool:Read"
+    ],
+    "skill_at": [
+     null,
+     null
+    ]
+   },
+   {
+    "id": "08c7ef26",
+    "set": "train",
+    "kind": "near_miss",
+    "skill": "report-style",
+    "instead": null,
+    "query": "Reply to my landlord's email and tell him I can't make it on Friday.",
+    "outcomes": [
+     "tool:ToolSearch",
+     "tool:ListConnectors"
+    ],
+    "window_outcomes": [
+     "tool:ToolSearch",
+     "tool:ListConnectors"
+    ],
+    "skill_at": [
+     null,
+     null
+    ]
+   },
+   {
+    "id": "f8144775",
+    "set": "train",
+    "kind": "should",
+    "skill": "structured-project-docs",
+    "instead": null,
+    "query": "My notes folder is a mess: one 4000-word notes.md with meeting minutes, API docs and todo lists mixed together. Can you reorganize it into something sane?",
+    "outcomes": [
+     "structured-project-docs",
+     "structured-project-docs"
+    ],
+    "window_outcomes": [
+     "structured-project-docs",
+     "structured-project-docs"
+    ],
+    "skill_at": [
+     1,
+     1
+    ]
+   },
+   {
+    "id": "da0786c6",
+    "set": "train",
+    "kind": "should",
+    "skill": "structured-project-docs",
+    "instead": null,
+    "query": "Set up the documentation structure for my new repo. It will have architecture docs, ADRs and some how-tos.",
+    "outcomes": [
+     "doc-kit",
+     "doc-kit"
+    ],
+    "window_outcomes": [
+     "doc-kit",
+     "doc-kit"
+    ],
+    "skill_at": [
+     1,
+     1
+    ]
+   },
+   {
+    "id": "fd06ad5c",
+    "set": "train",
+    "kind": "should",
+    "skill": "structured-project-docs",
+    "instead": null,
+    "query": "docs/overview.md has grown to 3000 words and covers install, config and troubleshooting. Split it up.",
+    "outcomes": [
+     "structured-project-docs",
+     "structured-project-docs"
+    ],
+    "window_outcomes": [
+     "structured-project-docs",
+     "structured-project-docs"
+    ],
+    "skill_at": [
+     1,
+     1
+    ]
+   },
+   {
+    "id": "c8f2a146",
+    "set": "train",
+    "kind": "should",
+    "skill": "structured-project-docs",
+    "instead": null,
+    "query": "Where should research notes go versus design specs in my project folder? The layout is ad hoc and I keep losing stuff.",
+    "outcomes": [
+     "structured-project-docs",
+     "structured-project-docs"
+    ],
+    "window_outcomes": [
+     "structured-project-docs",
+     "structured-project-docs"
+    ],
+    "skill_at": [
+     1,
+     1
+    ]
+   },
+   {
+    "id": "a3d18a72",
+    "set": "train",
+    "kind": "should",
+    "skill": "structured-project-docs",
+    "instead": null,
+    "query": "Mein docs-Ordner ist ein Chaos. Kannst du eine sinnvolle Ordnerstruktur für die Projektdokumentation vorschlagen und umsetzen?",
+    "outcomes": [
+     "structured-project-docs",
+     "structured-project-docs"
+    ],
+    "window_outcomes": [
+     "structured-project-docs",
+     "structured-project-docs"
+    ],
+    "skill_at": [
+     1,
+     1
+    ]
+   },
+   {
+    "id": "1650bb03",
+    "set": "train",
+    "kind": "should",
+    "skill": "structured-project-docs",
+    "instead": null,
+    "query": "I'm starting a new Cowork project for my bachelor thesis with literature notes, drafts and experiment logs. How should I organize the files?",
+    "outcomes": [
+     "structured-project-docs",
+     "structured-project-docs"
+    ],
+    "window_outcomes": [
+     "structured-project-docs",
+     "structured-project-docs"
+    ],
+    "skill_at": [
+     1,
+     1
+    ]
+   },
+   {
+    "id": "398635e5",
+    "set": "train",
+    "kind": "should",
+    "skill": "structured-project-docs",
+    "instead": null,
+    "query": "Restructure the wiki folder into small topic files with an index. Right now everything is in one giant README.",
+    "outcomes": [
+     "structured-project-docs",
+     "structured-project-docs"
+    ],
+    "window_outcomes": [
+     "structured-project-docs",
+     "structured-project-docs"
+    ],
+    "skill_at": [
+     1,
+     1
+    ]
+   },
+   {
+    "id": "983ccd56",
+    "set": "train",
+    "kind": "should",
+    "skill": "structured-project-docs",
+    "instead": null,
+    "query": "Create a docs folder layout for my side project. I want it navigable, not one big monolith.",
+    "outcomes": [
+     "structured-project-docs",
+     "structured-project-docs"
+    ],
+    "window_outcomes": [
+     "structured-project-docs",
+     "structured-project-docs"
+    ],
+    "skill_at": [
+     1,
+     1
+    ]
+   },
+   {
+    "id": "79825372",
+    "set": "train",
+    "kind": "near_miss",
+    "skill": "structured-project-docs",
+    "instead": "report-style",
+    "query": "Write a README for my CLI tool that renames photos by EXIF date.",
+    "outcomes": [
+     "tool:Bash",
+     "report-style"
+    ],
+    "window_outcomes": [
+     "report-style",
+     "report-style"
+    ],
+    "skill_at": [
+     2,
+     1
+    ]
+   },
+   {
+    "id": "8a7c5dac",
+    "set": "train",
+    "kind": "near_miss",
+    "skill": "structured-project-docs",
+    "instead": "doc-kit",
+    "query": "Add a check that fails the build when docs contain broken links.",
+    "outcomes": [
+     "tool:Bash",
+     "tool:Bash"
+    ],
+    "window_outcomes": [
+     "tool:Bash",
+     "tool:Bash"
+    ],
+    "skill_at": [
+     null,
+     null
+    ]
+   }
+  ],
+  "seconds": 94
+ },
+ "meta": {
+  "label": "r1",
+  "ref": "WORKTREE",
+  "sha": "WORKTREE",
+  "trigger_model": "sonnet"
+ }
+}

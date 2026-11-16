@@ -1,0 +1,56 @@
+{
+ "description": "A mock exam with list-style options and a task that builds on another.",
+ "prompt": "Use the fair-practice-questions skill. Probeklausur zu Datenbank-Transaktionen (ACID, Isolation Levels, Locking), 4 Aufgaben, als Markdown. Mindestens zwei Aufgaben sollen Multiple-Choice sein, bei denen jede Option eine Aufzählung ist ('Welche drei ... gehören zu ...?'). Aufgabe 4 soll auf Aufgabe 2 aufbauen. Lösungen am Ende, getrennt von den Aufgaben.",
+ "assertions": [
+  {
+   "id": "equal-counts",
+   "desc": "In every list-style multiple-choice task, all options contain the same number of items.",
+   "check": "llm",
+   "negative": false
+  },
+  {
+   "id": "swapped-members",
+   "desc": "Distractor lists are built by swapping plausible-but-wrong members (for example real isolation levels or ACID letters), not by dropping or padding items.",
+   "check": "llm",
+   "negative": false
+  },
+  {
+   "id": "no-leak",
+   "desc": "No task, option, hint or visible explanation reveals the answer to another task.",
+   "check": "llm",
+   "negative": false
+  },
+  {
+   "id": "chain-self-contained",
+   "desc": "Task 4 builds on task 2 without stating task 2's answer in its stem; it is self-contained or applies the mechanism to a new case.",
+   "check": "llm",
+   "negative": false
+  },
+  {
+   "id": "solutions-last",
+   "desc": "A solutions section follows the last task.",
+   "check": "py",
+   "fn": "solutions_after_tasks"
+  },
+  {
+   "id": "positions",
+   "desc": "The correct answers of the multiple-choice tasks do not all sit in the same position.",
+   "check": "py",
+   "fn": "mc_positions",
+   "min_distinct": 2,
+   "max_same": 3
+  },
+  {
+   "id": "german",
+   "desc": "The output is in German.",
+   "check": "py",
+   "fn": "german"
+  },
+  {
+   "id": "hint-safe",
+   "desc": "Any hint narrows the reasoning without naming the answer or ruling out all but one option by form.",
+   "check": "llm",
+   "negative": false
+  }
+ ]
+}
